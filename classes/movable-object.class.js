@@ -25,13 +25,11 @@ class MovableObject {
             this.x += speed;
         }, 1000 / 60);
     }
-
     moveLeft(speed) {
         setInterval(() => {
             this.x -= speed;
         }, 1000/60 );
     }
-
     moveUp(speed) {
         setInterval(() => {
             this.y -= speed;
@@ -41,5 +39,12 @@ class MovableObject {
         setInterval(() => {
             this.y += speed;
         }, 1000 / 60);
+    }
+
+    animateImages(images) {
+        let i = this.currentImage % images.length;
+        let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
     }
 }
