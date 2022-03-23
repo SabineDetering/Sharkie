@@ -42,15 +42,13 @@ class World {
 
     addToCanvas(mo) {
         if (mo.otherDirection) {
-            this.ctx.save();
-            this.ctx.translate(mo.width, 0);// moves the origin of the canvas to the right to take width of object into account when canvas is flipped
-            this.ctx.scale(-1, 1);//flips canvas across y-axis
-            mo.x = mo.x * -1;
+            mo.flipImage(ctx);
         }
-        this.ctx.drawImage(mo.img, mo.x, mo.y, mo.width, mo.height);
+        mo.draw(this.ctx);
+        mo.drawFrame(this.ctx);
+
         if (mo.otherDirection) {
-            this.ctx.restore();
-            mo.x = mo.x * -1;
+            mo.flipImageBack(ctx);
         }
     }
 }

@@ -51,6 +51,16 @@ class Character extends MovableObject {
         './img/1.Sharkie/3.Swim/5.png',
         './img/1.Sharkie/3.Swim/6.png',
     ];
+
+    IMAGES_ATTACK_BUBBLE = [
+        './img/1.Sharkie/3.Swim/1.png',
+        './img/1.Sharkie/3.Swim/2.png',
+        './img/1.Sharkie/3.Swim/3.png',
+        './img/1.Sharkie/3.Swim/1.png',
+        './img/1.Sharkie/3.Swim/4.png',
+        './img/1.Sharkie/3.Swim/5.png',
+        './img/1.Sharkie/3.Swim/6.png',
+    ];
     world; // to get access to keyboard
     swim_sound = new Audio('./audio/silent_swim.mp3');
 

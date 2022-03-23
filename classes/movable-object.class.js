@@ -20,6 +20,30 @@ class MovableObject {
         });
     }
 
+    draw(ctx) {
+        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+    }
+
+    drawFrame(ctx) {
+        ctx.beginPath();
+        ctx.lineWidth = "5";
+        ctx.strokeStyle = "blue";
+        ctx.rect(this.x, this.y, this.width, this.height);
+        ctx.stroke();
+    }
+    
+    flipImage(ctx) {
+        ctx.save();
+        ctx.translate(this.width, 0);// moves the origin of the canvas to the right to take width of object into account when canvas is flipped
+        ctx.scale(-1, 1);//flips canvas across y-axis
+        this.x = this.x * -1;
+    }
+
+    flipImageBack(ctx) {
+        ctx.restore();
+        this.x = this.x * -1;
+    }
+
     moveRight(speed) {
         setInterval(() => {
             this.x += speed;
@@ -28,7 +52,7 @@ class MovableObject {
     moveLeft(speed) {
         setInterval(() => {
             this.x -= speed;
-        }, 1000/60 );
+        }, 1000 / 60);
     }
     moveUp(speed) {
         setInterval(() => {
