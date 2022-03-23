@@ -1,6 +1,16 @@
 class MovableObject {
-    height = 100;
-    width = 150;
+    height;
+    width;
+
+    collisionOffsetX = 0;
+    collisionOffsetY = 0;
+    collisionWidth = this.width;
+    collisionHeight = this.height;
+    collisionMinX;
+    collisionMaxX;
+    collisionMinY;
+    collisionMaxY;
+
     img;
     speed;
     otherDirection = false;
@@ -25,13 +35,31 @@ class MovableObject {
     }
 
     drawFrame(ctx) {
-        ctx.beginPath();
-        ctx.lineWidth = "5";
-        ctx.strokeStyle = "blue";
-        ctx.rect(this.x, this.y, this.width, this.height);
-        ctx.stroke();
+        if (this instanceof Character || this instanceof Pufferfish || this instanceof Endboss) {
+            ctx.beginPath();
+            ctx.lineWidth = "2";
+            ctx.strokeStyle = "blue";
+            ctx.rect(this.x + this.collisionOffsetX, this.y + this.collisionOffsetY, this.collisionWidth, this.collisionHeight);
+            ctx.stroke();
+        }
     }
-    
+
+    calculateCollisionCoordinates() {
+            this.collisionMinX = this.x + this.collisionOffsetX;
+            this.collisionMaxX = this.x + this.collisionOffsetX + this.collisionWidth;
+            this.collisionMinY = this.y + this.collisionOffsetY;
+            this.collisionMaxY = this.y + this.collisionOffsetY + this.collisionHeight;
+    }
+        
+
+    isColliding(mo) {
+        return (this.collisionMaxX > mo.collisionMinX && this.collisionMaxX < mo.collisionMaxX
+            || mo.collisionMaxX > this.collisionMinX && mo.collisionMaxX < this.collisionMaxX)
+            &&
+            (this.collisionMaxY > mo.collisionMinY && this.collisionMaxY < mo.collisionMaxY
+                || mo.collisionMaxY > this.collisionMinY && mo.collisionMaxY < this.collisionMaxY);
+    }
+
     flipImage(ctx) {
         ctx.save();
         ctx.translate(this.width, 0);// moves the origin of the canvas to the right to take width of object into account when canvas is flipped

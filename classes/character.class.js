@@ -3,6 +3,11 @@ class Character extends MovableObject {
     width = 360;
     x = 0;
     y = 100;
+    collisionOffsetX = 75;
+    collisionOffsetY = 160;
+    collisionWidth = 210;
+    collisionHeight = 90;
+
     speed = 1;
     IMAGES_IDLE = [
         './img/1.Sharkie/1.IDLE/1.png',
@@ -65,7 +70,8 @@ class Character extends MovableObject {
     swim_sound = new Audio('./audio/silent_swim.mp3');
 
     constructor() {
-        super().loadImage('./img/1.Sharkie/3.Swim/1.png');
+        super();
+        this.loadImage('./img/1.Sharkie/3.Swim/1.png');
         this.loadImages(this.IMAGES_SWIM);
         this.animate();
     }

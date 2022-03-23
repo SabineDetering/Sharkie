@@ -2,7 +2,11 @@ class Endboss extends MovableObject{
     height = 440;
     width = 380;
     x = 500;
-    y=0;
+    y = 0;
+    collisionOffsetX = 30;
+    collisionOffsetY = 210;
+    collisionWidth = 300;
+    collisionHeight = 150;
 
     IMAGES_INTRODUCE = [
         './img/2.Enemy/3 Final Enemy/1.Introduce/1.png',

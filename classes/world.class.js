@@ -12,11 +12,25 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
+        this.checkCollisions();
     }
 
     setWorld() {
         this.character.world = this;//allows character to use all variables of world
     }
+
+    checkCollisions() {
+        setInterval(() => {
+            this.character.calculateCollisionCoordinates();
+            this.level.enemies.forEach((enemy) => {
+                enemy.calculateCollisionCoordinates();
+                if (this.character.isColliding(enemy)) {
+                    console.log('collision');
+                }
+            })
+        }, 1000/60);
+    }
+
     draw() {
         //clear canvas completely to enable redrawing
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
