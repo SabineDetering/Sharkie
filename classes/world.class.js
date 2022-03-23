@@ -25,10 +25,11 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 enemy.calculateCollisionCoordinates();
                 if (this.character.isColliding(enemy)) {
-                    console.log('collision');
+                    console.log('collision',enemy,this.character.energy);
+                    this.character.hit();
                 }
             })
-        }, 1000/60);
+        }, 1000/10);
     }
 
     draw() {

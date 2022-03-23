@@ -16,6 +16,7 @@ class MovableObject {
     otherDirection = false;
     imageCache = {};
     currentImage = 0;
+    energy = 100;
 
     loadImage(path) {
         this.img = new Image();
@@ -45,12 +46,12 @@ class MovableObject {
     }
 
     calculateCollisionCoordinates() {
-            this.collisionMinX = this.x + this.collisionOffsetX;
-            this.collisionMaxX = this.x + this.collisionOffsetX + this.collisionWidth;
-            this.collisionMinY = this.y + this.collisionOffsetY;
-            this.collisionMaxY = this.y + this.collisionOffsetY + this.collisionHeight;
+        this.collisionMinX = this.x + this.collisionOffsetX;
+        this.collisionMaxX = this.x + this.collisionOffsetX + this.collisionWidth;
+        this.collisionMinY = this.y + this.collisionOffsetY;
+        this.collisionMaxY = this.y + this.collisionOffsetY + this.collisionHeight;
     }
-        
+
 
     isColliding(mo) {
         return (this.collisionMaxX > mo.collisionMinX && this.collisionMaxX < mo.collisionMaxX
@@ -58,6 +59,17 @@ class MovableObject {
             &&
             (this.collisionMaxY > mo.collisionMinY && this.collisionMaxY < mo.collisionMaxY
                 || mo.collisionMaxY > this.collisionMinY && mo.collisionMaxY < this.collisionMaxY);
+    }
+
+    hit() {
+        this.energy -= 5;
+        if (
+            this.energy < 0) {
+            this.energy = 0;
+        }
+    }
+    isDead() {
+        return this.energy == 0;
     }
 
     flipImage(ctx) {

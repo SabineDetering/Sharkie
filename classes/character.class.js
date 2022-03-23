@@ -58,21 +58,39 @@ class Character extends MovableObject {
     ];
 
     IMAGES_ATTACK_BUBBLE = [
-        './img/1.Sharkie/3.Swim/1.png',
-        './img/1.Sharkie/3.Swim/2.png',
-        './img/1.Sharkie/3.Swim/3.png',
-        './img/1.Sharkie/3.Swim/1.png',
-        './img/1.Sharkie/3.Swim/4.png',
-        './img/1.Sharkie/3.Swim/5.png',
-        './img/1.Sharkie/3.Swim/6.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/2.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/3.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/4.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/5.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/6.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png'
     ];
+    IMAGES_DEAD_POISONED = [
+        './img/1.Sharkie/6.dead/1.Poisoned/1.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/2.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/3.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/4.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/5.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/6.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/7.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/8.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/9.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/10.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/11.png',
+        './img/1.Sharkie/6.dead/1.Poisoned/12.png'
+    ]
     world; // to get access to keyboard
     swim_sound = new Audio('./audio/silent_swim.mp3');
 
     constructor() {
         super();
         this.loadImage('./img/1.Sharkie/3.Swim/1.png');
+        this.loadImages(this.IMAGES_IDLE);
+        this.loadImages(this.IMAGES_LONG_IDLE);
         this.loadImages(this.IMAGES_SWIM);
+        this.loadImages(this.IMAGES_DEAD_POISONED);
         this.animate();
     }
     animate() {
@@ -97,9 +115,13 @@ class Character extends MovableObject {
         //Image animation swimming 
         setInterval(() => {
             this.swim_sound.pause();
-            if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
-                this.animateImages(this.IMAGES_SWIM);
-                this.swim_sound.play();
+            if (this.isDead()) {
+                this.animateImages(this.IMAGES_DEAD_POISONED);
+            } else {
+                if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
+                    this.animateImages(this.IMAGES_SWIM);
+                    this.swim_sound.play();
+                }
             }
         }, 100);
     }
