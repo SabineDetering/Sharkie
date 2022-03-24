@@ -9,6 +9,7 @@ class Character extends MovableObject {
     collisionHeight = 90;
 
     speed = 1;
+
     IMAGES_IDLE = [
         './img/1.Sharkie/1.IDLE/1.png',
         './img/1.Sharkie/1.IDLE/2.png',
@@ -137,6 +138,7 @@ class Character extends MovableObject {
         //Image animation 
         setInterval(() => {
             if (this.isDead()) {
+                this.currentImage = 0;
                 this.animateImagesDeath(this.IMAGES_DEAD_POISONED);
             } else if (this.isHurt()) {
                 this.animateImages(this.IMAGES_HURT_POISONED);

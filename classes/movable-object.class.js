@@ -18,6 +18,7 @@ class MovableObject {
     currentImage = 0;
     energy = 100;
     lastHit;
+    lastKeyMove;
 
     loadImage(path) {
         this.img = new Image();
@@ -36,6 +37,7 @@ class MovableObject {
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
     }
 
+    //draws a rectangle around character, pufferfish and endboss
     drawFrame(ctx) {
         if (this instanceof Character || this instanceof Pufferfish || this instanceof Endboss) {
             ctx.beginPath();
@@ -82,7 +84,7 @@ class MovableObject {
     }
     isLongIdle() {
         let timePassed = new Date().getTime() - this.world.lastKeyMove;
-        console.log('lastKey' + this.world.lastKeyMove + 'timePassed' + timePassed);
+        console.log('lastKeyMove ' + this.world.lastKeyMove + 'timePassed ' + timePassed);
         return timePassed > 2000;
     }
 
@@ -126,7 +128,6 @@ class MovableObject {
         this.currentImage++;
     }
     animateImagesDeath(images) {
-        this.currentImage = 0;
         let path;
         if (this.currentImage < images.length) {
             path = images[this.currentImage];
