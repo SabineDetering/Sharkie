@@ -17,6 +17,7 @@ class MovableObject {
     imageCache = {};
     currentImage = 0;
     energy = 100;
+    lastHit;
 
     loadImage(path) {
         this.img = new Image();
@@ -66,10 +67,23 @@ class MovableObject {
         if (
             this.energy < 0) {
             this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();//in milliseconds
         }
     }
+    isHurt() {
+        let timePassed = new Date().getTime() - this.lastHit;
+        console.log(timePassed);
+        return timePassed < 500;
+    }
+
     isDead() {
         return this.energy == 0;
+    }
+    isLongIdle() {
+        let timePassed = new Date().getTime() - this.world.lastKeyMove;
+        console.log('lastKey' + this.world.lastKeyMove + 'timePassed' + timePassed);
+        return timePassed > 2000;
     }
 
     flipImage(ctx) {
@@ -108,6 +122,17 @@ class MovableObject {
     animateImages(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
+        this.img = this.imageCache[path];
+        this.currentImage++;
+    }
+    animateImagesDeath(images) {
+        this.currentImage = 0;
+        let path;
+        if (this.currentImage < images.length) {
+            path = images[this.currentImage];
+        } else {
+            path = images[images.length - 1]
+        }
         this.img = this.imageCache[path];
         this.currentImage++;
     }

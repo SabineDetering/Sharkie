@@ -56,6 +56,20 @@ class Character extends MovableObject {
         './img/1.Sharkie/3.Swim/5.png',
         './img/1.Sharkie/3.Swim/6.png',
     ];
+    IMAGES_HURT_POISONED = [
+        './img/1.Sharkie/5.Hurt/1.Poisoned/1.png',
+        './img/1.Sharkie/5.Hurt/1.Poisoned/2.png',
+        './img/1.Sharkie/5.Hurt/1.Poisoned/3.png',
+        './img/1.Sharkie/5.Hurt/1.Poisoned/4.png'
+    ];
+    IMAGES_HURT_SHOCK = [
+        './img/1.Sharkie/5.Hurt/2.Electric_shock/o1.png',
+        './img/1.Sharkie/5.Hurt/2.Electric_shock/o2.png',
+        './img/1.Sharkie/5.Hurt/2.Electric_shock/o1.png',
+        './img/1.Sharkie/5.Hurt/2.Electric_shock/o2.png',
+        './img/1.Sharkie/5.Hurt/2.Electric_shock/o1.png',
+        './img/1.Sharkie/5.Hurt/2.Electric_shock/o2.png'
+    ];
 
     IMAGES_ATTACK_BUBBLE = [
         './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/1.png',
@@ -90,38 +104,50 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
         this.loadImages(this.IMAGES_SWIM);
+        this.loadImages(this.IMAGES_HURT_POISONED);
+        this.loadImages(this.IMAGES_HURT_SHOCK);
         this.loadImages(this.IMAGES_DEAD_POISONED);
         this.animate();
     }
     animate() {
         //Movement
         setInterval(() => {
+            this.swim_sound.pause();
             if (this.world.keyboard.right && this.x < this.world.level.level_end_x) {
                 this.x += this.speed;
                 this.otherDirection = false;
+                this.swim_sound.play();
             }
             if (this.world.keyboard.left && this.x > this.world.level.level_start_x) {
                 this.x -= this.speed;
                 this.otherDirection = true;
+                this.swim_sound.play();
             }
             if (this.world.keyboard.up) {
                 this.y -= this.speed;
+                this.swim_sound.play();
             }
             if (this.world.keyboard.down) {
                 this.y += this.speed;
+                this.swim_sound.play();
             }
             this.world.camera_x = -this.x + 100;
         }, 1000 / 60);
-        //Image animation swimming 
+
+        //Image animation 
         setInterval(() => {
-            this.swim_sound.pause();
             if (this.isDead()) {
-                this.animateImages(this.IMAGES_DEAD_POISONED);
-            } else {
-                if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
-                    this.animateImages(this.IMAGES_SWIM);
-                    this.swim_sound.play();
-                }
+                this.animateImagesDeath(this.IMAGES_DEAD_POISONED);
+            } else if (this.isHurt()) {
+                this.animateImages(this.IMAGES_HURT_POISONED);
+            }
+            else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
+                this.animateImages(this.IMAGES_SWIM);
+            } else if (this.isLongIdle()) {
+                this.animateImages(this.IMAGES_LONG_IDLE);
+            }
+            else {
+                this.animateImages(this.IMAGES_IDLE);
             }
         }, 100);
     }

@@ -4,12 +4,14 @@ class World {
     canvas;
     ctx;
     keyboard;
+    lastKeyMove;
     camera_x = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.lastKeyMove = lastKeyMove;
         this.draw();
         this.setWorld();
         this.checkCollisions();
@@ -25,11 +27,11 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 enemy.calculateCollisionCoordinates();
                 if (this.character.isColliding(enemy)) {
-                    console.log('collision',enemy,this.character.energy);
+                    console.log('collision', enemy, this.character.energy);
                     this.character.hit();
                 }
             })
-        }, 1000/10);
+        }, 1000 / 10);
     }
 
     draw() {
