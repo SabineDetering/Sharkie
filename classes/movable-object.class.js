@@ -83,8 +83,8 @@ class MovableObject {
         return this.energy == 0;
     }
     isLongIdle() {
-        let timePassed = new Date().getTime() - this.world.lastKeyMove;
-        console.log('lastKeyMove ' + this.world.lastKeyMove + 'timePassed ' + timePassed);
+        let timePassed = new Date().getTime() - this.world.keyboard.lastKeyMove;
+        console.log('lastKeyMove ' + this.world.keyboard.lastKeyMove + 'timePassed ' + timePassed);
         return timePassed > 2000;
     }
 

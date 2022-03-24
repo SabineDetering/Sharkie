@@ -1,7 +1,6 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let lastKeyMove=0;
 
 function init() {
     canvas = document.getElementById('canvas');
@@ -10,8 +9,8 @@ function init() {
 }
 
 window.addEventListener('keydown', (e) => {
-    lastKeyMove = new Date().getTime();
-    console.log('keydown', lastKeyMove);
+    keyboard.lastKeyMove = new Date().getTime();
+    console.log('keydown', keyboard.lastKeyMove);
     if (e.key == "ArrowLeft") {
         keyboard.left = true;
     }
@@ -31,8 +30,8 @@ window.addEventListener('keydown', (e) => {
 });
 
 window.addEventListener('keyup', (e) => {
-    lastKeyMove = new Date().getTime();
-    console.log('keyup', lastKeyMove);
+    keyboard.lastKeyMove = new Date().getTime();
+    console.log('keyup', keyboard.lastKeyMove);
     if (e.key == "ArrowLeft") {
         keyboard.left = false;
     }

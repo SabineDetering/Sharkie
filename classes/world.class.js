@@ -4,14 +4,12 @@ class World {
     canvas;
     ctx;
     keyboard;
-    lastKeyMove;
     camera_x = 0;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
-        this.lastKeyMove = lastKeyMove;
         this.draw();
         this.setWorld();
         this.checkCollisions();
