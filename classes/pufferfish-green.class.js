@@ -12,5 +12,6 @@ class PufferfishGreen extends Pufferfish {
     constructor(imgPath) {
         super(imgPath);
         this.loadImages(this.IMAGES_SWIM);
+        this.x = 320 + Math.random() * 200;
     }
 }

@@ -110,6 +110,12 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD_POISONED);
         this.animate();
     }
+
+    hit() {
+        super.hit();
+        this.currentImage = 0;
+}
+
     animate() {
         //Movement
         setInterval(() => {
@@ -138,7 +144,6 @@ class Character extends MovableObject {
         //Image animation 
         setInterval(() => {
             if (this.isDead()) {
-                this.currentImage = 0;
                 this.animateImagesDeath(this.IMAGES_DEAD_POISONED);
             } else if (this.isHurt()) {
                 this.animateImages(this.IMAGES_HURT_POISONED);

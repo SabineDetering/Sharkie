@@ -27,7 +27,7 @@ class World {
             this.character.calculateCollisionCoordinates();
             this.level.enemies.forEach((enemy) => {
                 enemy.calculateCollisionCoordinates();
-                if (this.character.isColliding(enemy)) {
+                if (!this.character.isDead() && !this.character.isHurt() && this.character.isColliding(enemy)) {
                     // console.log('collision', enemy, this.character.energy);
                     this.character.hit();
                 }

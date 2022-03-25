@@ -24,7 +24,7 @@ class MovableObject extends DrawableObject {
             ctx.stroke();
         }
     }
-    
+
     calculateCollisionCoordinates() {
         this.collisionMinX = this.x + this.collisionOffsetX;
         this.collisionMaxX = this.x + this.collisionOffsetX + this.collisionWidth;
@@ -43,8 +43,7 @@ class MovableObject extends DrawableObject {
 
     hit() {
         this.energy -= 5;
-        if (
-            this.energy < 0) {
+        if (this.energy < 0) {
             this.energy = 0;
         } else {
             this.lastHit = new Date().getTime();//in milliseconds
@@ -53,7 +52,7 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
         // console.log(timePassed);
-        return timePassed < 500;
+        return timePassed < 250;
     }
 
     isDead() {
