@@ -6,11 +6,11 @@ class Pufferfish extends MovableObject {
     collisionWidth = 105;
     collisionHeight = 65;
     hitSpeedX = -5;
-    hitSpeedY = -4;
+    hitSpeedY = -3;
     slapped = false;
 
-    IMG_DEAD ;
-    IMAGES_SWIM = [ ];
+    IMG_DEAD;
+    IMAGES_SWIM = [];
 
     constructor(imgPath) {
         super();
@@ -24,20 +24,24 @@ class Pufferfish extends MovableObject {
     }
     animate() {
         setInterval(() => {
-            if (this.slapped) {
+            if (this.slappedNormal) {
                 this.x += this.hitSpeedX;
                 this.y += this.hitSpeedY;
-            } else {
+            } else if (this.slappedInverse) { 
+                this.x -= this.hitSpeedX;
+                this.y += this.hitSpeedY;
+            } else{
                 this.x -= this.speed;
             }
-        }, 1000/60);
+        }, 1000 / 60);
         setInterval(() => {
-            if (this.slapped) {
+            if (this.slappedNormal ||this.slappedInverse) {
                 this.img = this.imageCache[this.IMG_DEAD];
-            }else{
+            } else {
                 this.animateImages(this.IMAGES_SWIM);
             }
-        },1000/10);
+        }, 1000 / 10);
     }
+
 
 }

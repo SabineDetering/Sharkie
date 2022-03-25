@@ -34,11 +34,15 @@ class World {
                         this.character.hit();
                     } else if (this.keyboard.space && enemy.isSlapped(this.character)) {//slapping is only possible if character is not colliding
                         console.log('slapped');
-                        enemy.slapped = true;
+                        if (this.character.otherDirection) {
+                            enemy.slappedInverse = true;
+                        } else {
+                            enemy.slappedNormal = true; }
+                        
                     }
                 })
             }
-        }, 1000 /60);
+        }, 1000 / 60);
     }
 
 
@@ -89,4 +93,5 @@ class World {
     addStaticToCanvas(o) {
         o.draw(this.ctx);
     }
+
 }
