@@ -3,5 +3,6 @@ class Keyboard{
     right = false;
     up = false;
     down = false;
+    space = false;
     lastKeyMove = 0;  
 }

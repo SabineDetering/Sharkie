@@ -15,25 +15,32 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkCollisions();
+        this.checkContact();
     }
 
     setWorld() {
         this.character.world = this;//allows character to use all variables of world
     }
 
-    checkCollisions() {
+    checkContact() {
         setInterval(() => {
-            this.character.calculateCollisionCoordinates();
-            this.level.enemies.forEach((enemy) => {
-                enemy.calculateCollisionCoordinates();
-                if (!this.character.isDead() && !this.character.isHurt() && this.character.isColliding(enemy)) {
-                    // console.log('collision', enemy, this.character.energy);
-                    this.character.hit();
-                }
-            })
-        }, 1000 / 10);
+            //contact with enemy only relevant if character not dead or hurt
+            if (!this.character.isDead() && !this.character.isHurt()) {
+                this.character.calculateCollisionCoordinates();
+                this.level.enemies.forEach((enemy) => {
+                    enemy.calculateCollisionCoordinates();
+                    if (this.character.isColliding(enemy)) {
+                        // console.log('collision', enemy, this.character.energy);
+                        this.character.hit();
+                    } else if (this.keyboard.space && enemy.isSlapped(this.character)) {//slapping is only possible if character is not colliding
+                        console.log('slapped');
+                        enemy.slapped = true;
+                    }
+                })
+            }
+        }, 1000 /60);
     }
+
 
     draw() {
         //clear canvas completely to enable redrawing
@@ -50,7 +57,7 @@ class World {
         this.addStaticToCanvas(this.lifeBar);
         this.addStaticToCanvas(this.coinBar);
         this.addStaticToCanvas(this.poisonBar);
-        
+
         let self = this;
         requestAnimationFrame(function () {
             self.draw();

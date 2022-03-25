@@ -6,7 +6,7 @@ class Character extends MovableObject {
     collisionOffsetX = 75;
     collisionOffsetY = 160;
     collisionWidth = 210;
-    collisionHeight = 90;
+    collisionHeight = 110;
 
     speed = 1;
 
@@ -82,6 +82,36 @@ class Character extends MovableObject {
         './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/7.png',
         './img/1.Sharkie/4.Attack/Bubble trap/op1 (with bubble formation)/8.png'
     ];
+
+    IMAGES_ATTACK_POISONED_BUBBLE = [
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/1.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/2.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/3.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/4.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/5.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/6.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/7.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/8.png'
+    ];
+    IMAGES_ATTACK_WITHOUT_BUBBLE = [
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/1.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/3.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/4.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/2.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/5.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/6.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/7.png',
+        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/8.png'
+    ];
+
+    IMAGES_ATTACK_FIN = [
+        './img/1.Sharkie/4.Attack/Fin slap/1.png',
+        './img/1.Sharkie/4.Attack/Fin slap/4.png',
+        './img/1.Sharkie/4.Attack/Fin slap/5.png',
+        './img/1.Sharkie/4.Attack/Fin slap/6.png',
+        './img/1.Sharkie/4.Attack/Fin slap/7.png',
+        './img/1.Sharkie/4.Attack/Fin slap/8.png'
+    ];
     IMAGES_DEAD_POISONED = [
         './img/1.Sharkie/6.dead/1.Poisoned/1.png',
         './img/1.Sharkie/6.dead/1.Poisoned/2.png',
@@ -95,7 +125,20 @@ class Character extends MovableObject {
         './img/1.Sharkie/6.dead/1.Poisoned/10.png',
         './img/1.Sharkie/6.dead/1.Poisoned/11.png',
         './img/1.Sharkie/6.dead/1.Poisoned/12.png'
-    ]
+    ];
+
+    IMAGES_DEAD_SHOCK = [
+        './img/1.Sharkie/6.dead/2.Electro_shock/1.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/2.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/3.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/4.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/5.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/6.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/7.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/8.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/9.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/10.png'
+    ];
     world; // to get access to keyboard
     swim_sound = new Audio('./audio/silent_swim.mp3');
 
@@ -107,7 +150,12 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages(this.IMAGES_HURT_POISONED);
         this.loadImages(this.IMAGES_HURT_SHOCK);
+        this.loadImages(this.IMAGES_ATTACK_BUBBLE);
+        this.loadImages(this.IMAGES_ATTACK_POISONED_BUBBLE);
+        this.loadImages(this.IMAGES_ATTACK_WITHOUT_BUBBLE);
+        this.loadImages(this.IMAGES_ATTACK_FIN);
         this.loadImages(this.IMAGES_DEAD_POISONED);
+        this.loadImages(this.IMAGES_DEAD_SHOCK);
         this.animate();
     }
 
@@ -115,7 +163,7 @@ class Character extends MovableObject {
         super.hit();
         this.currentImage = 0;
         this.world.lifeBar.showStatus(this.energy);
-}
+    }
 
     animate() {
         //Movement
@@ -131,11 +179,11 @@ class Character extends MovableObject {
                 this.otherDirection = true;
                 this.swim_sound.play();
             }
-            if (this.world.keyboard.up && this.collisionMinY>0) {
+            if (this.world.keyboard.up && this.collisionMinY > 0) {
                 this.y -= this.speed;
                 this.swim_sound.play();
             }
-            if (this.world.keyboard.down && this.collisionMaxY <460) {
+            if (this.world.keyboard.down && this.collisionMaxY < 460) {
                 this.y += this.speed;
                 this.swim_sound.play();
             }
@@ -148,13 +196,13 @@ class Character extends MovableObject {
                 this.animateImagesDeath(this.IMAGES_DEAD_POISONED);
             } else if (this.isHurt()) {
                 this.animateImages(this.IMAGES_HURT_POISONED);
-            }
-            else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
+            } else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
                 this.animateImages(this.IMAGES_SWIM);
+            } else if (this.world.keyboard.space) {
+                this.animateImages(this.IMAGES_ATTACK_FIN);
             } else if (this.isLongIdle()) {
                 this.animateImages(this.IMAGES_LONG_IDLE);
-            }
-            else {
+            } else {
                 this.animateImages(this.IMAGES_IDLE);
             }
         }, 100);

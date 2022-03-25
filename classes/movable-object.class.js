@@ -12,7 +12,7 @@ class MovableObject extends DrawableObject {
     otherDirection = false;
     currentImage = 0;
     energy = 100;
-    lastHit;    
+    lastHit;
 
     //draws a rectangle around character, pufferfish and endboss
     drawFrame(ctx) {
@@ -52,12 +52,22 @@ class MovableObject extends DrawableObject {
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
         // console.log(timePassed);
-        return timePassed < 250;
+        return timePassed < 400;
     }
 
     isDead() {
         return this.energy == 0;
     }
+
+    isSlapped(c) {
+        return (this instanceof Pufferfish
+            && (c.collisionMinY + c.collisionMaxY) / 2 < this.collisionMaxY+20
+            && (c.collisionMinY + c.collisionMaxY) / 2 > this.collisionMinY-20
+            && (c.otherDirection==false && Math.abs(c.collisionMaxX - this.collisionMinX) < 40
+            || c.otherDirection == true && Math.abs(c.collisionMinX - this.collisionMaxX) < 40)
+            );            
+    }
+
     isLongIdle() {
         let timePassed = new Date().getTime() - this.world.keyboard.lastKeyMove;
         return timePassed > 2000;
