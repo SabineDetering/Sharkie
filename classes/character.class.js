@@ -114,6 +114,7 @@ class Character extends MovableObject {
     hit() {
         super.hit();
         this.currentImage = 0;
+        this.world.lifeBar.showStatus(this.energy);
 }
 
     animate() {
@@ -130,11 +131,11 @@ class Character extends MovableObject {
                 this.otherDirection = true;
                 this.swim_sound.play();
             }
-            if (this.world.keyboard.up) {
+            if (this.world.keyboard.up && this.collisionMinY>0) {
                 this.y -= this.speed;
                 this.swim_sound.play();
             }
-            if (this.world.keyboard.down) {
+            if (this.world.keyboard.down && this.collisionMaxY <460) {
                 this.y += this.speed;
                 this.swim_sound.play();
             }

@@ -41,7 +41,7 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);//move coordinates to position of character before drawing
 
-        this.addObjectsToCanvas(this.level.backgroundObjects);
+        this.addStaticObjectsToCanvas(this.level.backgroundObjects);
         this.addToCanvas(this.character);
         this.addObjectsToCanvas(this.level.enemies);
 
@@ -50,6 +50,7 @@ class World {
         this.addStaticToCanvas(this.lifeBar);
         this.addStaticToCanvas(this.coinBar);
         this.addStaticToCanvas(this.poisonBar);
+        
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -72,6 +73,11 @@ class World {
         if (mo.otherDirection) {
             mo.flipImageBack(ctx);
         }
+    }
+    addStaticObjectsToCanvas(objects) {
+        objects.forEach(o => {
+            this.addStaticToCanvas(o);
+        })
     }
     addStaticToCanvas(o) {
         o.draw(this.ctx);
