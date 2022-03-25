@@ -1,6 +1,9 @@
 class World {
     character = new Character();
     level = level1;
+    lifeBar = new LifeBar();
+    coinBar = new CoinBar();
+    poisonBar = new PoisonBar();
     canvas;
     ctx;
     keyboard;
@@ -25,7 +28,7 @@ class World {
             this.level.enemies.forEach((enemy) => {
                 enemy.calculateCollisionCoordinates();
                 if (this.character.isColliding(enemy)) {
-                    console.log('collision', enemy, this.character.energy);
+                    // console.log('collision', enemy, this.character.energy);
                     this.character.hit();
                 }
             })
@@ -43,6 +46,10 @@ class World {
         this.addObjectsToCanvas(this.level.enemies);
 
         this.ctx.translate(- this.camera_x, 0);//move coordinates back to normal after drawing
+
+        this.addStaticToCanvas(this.lifeBar);
+        this.addStaticToCanvas(this.coinBar);
+        this.addStaticToCanvas(this.poisonBar);
         let self = this;
         requestAnimationFrame(function () {
             self.draw();
@@ -65,5 +72,8 @@ class World {
         if (mo.otherDirection) {
             mo.flipImageBack(ctx);
         }
+    }
+    addStaticToCanvas(o) {
+        o.draw(this.ctx);
     }
 }

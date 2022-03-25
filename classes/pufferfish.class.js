@@ -1,5 +1,4 @@
 class Pufferfish extends MovableObject {
-
     height = 80;
     width = 120;
     collisionOffsetX = 5;
@@ -16,8 +15,9 @@ class Pufferfish extends MovableObject {
     ];
     
     constructor(imgPath) {
-        super().loadImage(imgPath);
-        this.x = 220 + Math.random() * 500;
+        super();
+        this.loadImage(imgPath);
+        this.x = 320 + Math.random() * 700;
         this.y = 50 + Math.random() * 320;
         this.loadImages(this.IMAGES_SWIM);
         this.speed = 0.15 + Math.random() * 0.3;

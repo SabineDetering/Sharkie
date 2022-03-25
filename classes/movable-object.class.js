@@ -1,7 +1,4 @@
-class MovableObject {
-    height;
-    width;
-
+class MovableObject extends DrawableObject {
     collisionOffsetX = 0;
     collisionOffsetY = 0;
     collisionWidth = this.width;
@@ -11,31 +8,11 @@ class MovableObject {
     collisionMinY;
     collisionMaxY;
 
-    img;
     speed;
     otherDirection = false;
-    imageCache = {};
     currentImage = 0;
     energy = 100;
-    lastHit;
-    lastKeyMove;
-
-    loadImage(path) {
-        this.img = new Image();
-        this.img.src = path;
-    }
-
-    loadImages(arr) {
-        arr.forEach(path => {
-            let img = new Image();//loads image
-            img.src = path;
-            this.imageCache[path] = img;
-        });
-    }
-
-    draw(ctx) {
-        ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
-    }
+    lastHit;    
 
     //draws a rectangle around character, pufferfish and endboss
     drawFrame(ctx) {
@@ -47,7 +24,7 @@ class MovableObject {
             ctx.stroke();
         }
     }
-
+    
     calculateCollisionCoordinates() {
         this.collisionMinX = this.x + this.collisionOffsetX;
         this.collisionMaxX = this.x + this.collisionOffsetX + this.collisionWidth;
@@ -75,7 +52,7 @@ class MovableObject {
     }
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
-        console.log(timePassed);
+        // console.log(timePassed);
         return timePassed < 500;
     }
 
@@ -84,7 +61,6 @@ class MovableObject {
     }
     isLongIdle() {
         let timePassed = new Date().getTime() - this.world.keyboard.lastKeyMove;
-        console.log('lastKeyMove ' + this.world.keyboard.lastKeyMove + 'timePassed ' + timePassed);
         return timePassed > 2000;
     }
 

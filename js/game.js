@@ -10,7 +10,7 @@ function init() {
 
 window.addEventListener('keydown', (e) => {
     keyboard.lastKeyMove = new Date().getTime();
-    console.log('keydown', keyboard.lastKeyMove);
+    // console.log('keydown', keyboard.lastKeyMove);
     if (e.key == "ArrowLeft") {
         keyboard.left = true;
     }
@@ -31,7 +31,7 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('keyup', (e) => {
     keyboard.lastKeyMove = new Date().getTime();
-    console.log('keyup', keyboard.lastKeyMove);
+    // console.log('keyup', keyboard.lastKeyMove);
     if (e.key == "ArrowLeft") {
         keyboard.left = false;
     }
