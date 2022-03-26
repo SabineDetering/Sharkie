@@ -46,6 +46,13 @@ class World {
                 });
             }
 
+            if (this.keyboard.b) {
+                if (!this.character.isBubbling) {
+                    this.character.isBubbling = true;
+                    this.character .currentImage = 0;
+                }
+            }
+
             this.level.collectableObjects.forEach((object) => {
                 object.calculateCollisionCoordinates();
                 if (this.character.isColliding(object)) {

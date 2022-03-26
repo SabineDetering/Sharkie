@@ -26,6 +26,9 @@ window.addEventListener('keydown', (e) => {
     if (e.key == " ") {
         keyboard.space = true;
     }
+    if (e.key == "b") {
+        keyboard.b = true;
+    }
     // console.log(e);
 });
 
@@ -46,6 +49,9 @@ window.addEventListener('keyup', (e) => {
     }
     if (e.key == " ") {
         keyboard.space = false;
+    }
+    if (e.key == "b") {
+        keyboard.b = false;
     }
     // console.log(e);
 });

@@ -61,6 +61,10 @@ class MovableObject extends DrawableObject {
     }
 
     isSlapped(c) {
+        if (!c.isSlapping) {
+            c.isSlapping = true;
+            c.currentImage = 0;
+        }
         return (this instanceof Pufferfish
             && (c.collisionMinY + c.collisionMaxY) / 2 < this.collisionMaxY + 20
             && (c.collisionMinY + c.collisionMaxY) / 2 > this.collisionMinY - 20
@@ -109,12 +113,23 @@ class MovableObject extends DrawableObject {
         this.img = this.imageCache[path];
         this.currentImage++;
     }
+    animateImagesOnce(images,marker) {
+        let path;
+        if (this.currentImage < images.length) {
+            path = images[this.currentImage];
+            this.img = this.imageCache[path];
+            this.currentImage++;
+        } else {
+            this[marker] = false;
+        }
+        console.log('sharkie is slapping', marker);
+    }
     animateImagesDeath(images) {
         let path;
         if (this.currentImage < images.length) {
             path = images[this.currentImage];
         } else {
-            path = images[images.length - 1]
+            path = images[images.length - 1];
         }
         this.img = this.imageCache[path];
         this.currentImage++;

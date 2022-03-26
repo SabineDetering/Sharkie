@@ -10,6 +10,9 @@ class Character extends MovableObject {
     collisionWidth = 210;
     collisionHeight = 110;
 
+    isSlapping = false;
+    isBubbling = false; 
+
     collectedCoins = 0;
     collectedPoisons = 0;
 
@@ -217,10 +220,12 @@ class Character extends MovableObject {
                 this.animateImages(this.IMAGES_HURT_POISONED);
             } else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
                 this.animateImages(this.IMAGES_SWIM);
-            } else if (this.world.keyboard.space) {
-                this.animateImages(this.IMAGES_ATTACK_FIN);
+            } else if (this.isSlapping) {
+                this.animateImagesOnce(this.IMAGES_ATTACK_FIN,'isSlapping');
             } else if (this.isLongIdle()) {
                 this.animateImages(this.IMAGES_LONG_IDLE);
+            } else if (this.isBubbling) {
+                this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE,'isBubbling');
             } else {
                 this.animateImages(this.IMAGES_IDLE);
             }
