@@ -4,6 +4,7 @@ class World {
     lifeBar = new LifeBar();
     coinBar = new CoinBar();
     poisonBar = new PoisonBar();
+    bubbles = [];
     canvas;
     ctx;
     keyboard;
@@ -24,9 +25,10 @@ class World {
 
     checkContact() {
         setInterval(() => {
-            //contacts are only relevant if character not dead or hurt
+            //character can only act if it is not dead or hurt
             if (!this.character.isDead() && !this.character.isHurt()) {
                 this.character.calculateCollisionCoordinates();
+
                 this.level.enemies.forEach((enemy) => {
                     enemy.calculateCollisionCoordinates();
 
@@ -46,13 +48,15 @@ class World {
                 });
             }
 
+            // bubble attack
             if (this.keyboard.b) {
                 if (!this.character.isBubbling) {
                     this.character.isBubbling = true;
-                    this.character .currentImage = 0;
+                    this.character.currentImage = 0;
                 }
             }
 
+            //collect items
             this.level.collectableObjects.forEach((object) => {
                 object.calculateCollisionCoordinates();
                 if (this.character.isColliding(object)) {
@@ -75,6 +79,7 @@ class World {
         this.addStaticObjectsToCanvas(this.level.collectableObjects);
         this.addToCanvas(this.character);
         this.addObjectsToCanvas(this.level.enemies);
+        this.addObjectsToCanvas(this.bubbles);
 
         this.ctx.translate(- this.camera_x, 0);//move coordinates back to normal after drawing
 

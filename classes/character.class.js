@@ -225,10 +225,22 @@ class Character extends MovableObject {
             } else if (this.isLongIdle()) {
                 this.animateImages(this.IMAGES_LONG_IDLE);
             } else if (this.isBubbling) {
-                this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE,'isBubbling');
+                this.animateBubbling();
             } else {
                 this.animateImages(this.IMAGES_IDLE);
             }
         }, 100);
+    }
+    animateBubbling() {
+        this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubbling');
+        if(!this.isBubbling){
+        let bubble; 
+        if (this.otherDirection) {
+            bubble = new Bubble(this.collisionMinX - 80, this.collisionMinY + 20, 'left');
+        }else{
+            bubble = new Bubble(this.collisionMaxX +20, this.collisionMinY + 20, 'right');
+        }
+            this.world.bubbles.push(bubble);
+        }
     }
 }

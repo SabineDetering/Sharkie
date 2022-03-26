@@ -113,6 +113,7 @@ class MovableObject extends DrawableObject {
         this.img = this.imageCache[path];
         this.currentImage++;
     }
+    
     animateImagesOnce(images,marker) {
         let path;
         if (this.currentImage < images.length) {
@@ -122,8 +123,8 @@ class MovableObject extends DrawableObject {
         } else {
             this[marker] = false;
         }
-        console.log('sharkie is slapping', marker);
     }
+
     animateImagesDeath(images) {
         let path;
         if (this.currentImage < images.length) {

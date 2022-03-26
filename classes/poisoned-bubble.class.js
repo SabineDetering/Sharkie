@@ -1,0 +1,1 @@
+class PoisonedBubble extends Bubble{}
