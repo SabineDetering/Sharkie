@@ -1,13 +1,18 @@
 const level1 = new Level(
     [//enemies
-        new PufferfishGreen('./img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/2.swim1.png'),
-        new PufferfishOrange('./img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/2.swim1.png'),
-        new PufferfishRed('./img/2.Enemy/1.Puffer fish (3 color options)/1.Swim/3.swim1.png'),
+        new PufferfishGreen(),
+        new PufferfishOrange(),
+        new PufferfishRed(),
         new Endboss(),
-       /* new Jellyfish('./img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png'),
-        new Jellyfish('./img/2.Enemy/2 Jelly fish/Regular damage/Yellow 1.png'),
-        new Jellyfish('./img/2.Enemy/2 Jelly fish/Súper dangerous/Green 1.png'),
-        new Jellyfish('./img/2.Enemy/2 Jelly fish/Súper dangerous/Pink 1.png')*/
+        /* new Jellyfish('./img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png'),
+         new Jellyfish('./img/2.Enemy/2 Jelly fish/Regular damage/Yellow 1.png'),
+         new Jellyfish('./img/2.Enemy/2 Jelly fish/Súper dangerous/Green 1.png'),
+         new Jellyfish('./img/2.Enemy/2 Jelly fish/Súper dangerous/Pink 1.png')*/
+    ],
+    [
+        new Coin(200, 400),
+        new Coin(300, 350),
+        new Poison(440, 430, 'img/4.Marcadores/Posión/Dark - Left.png')
     ],
     [
         new BackgroundObject('./img/3.Background/Layers/5.Water/D2.png', -780),

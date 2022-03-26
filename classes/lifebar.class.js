@@ -1,5 +1,5 @@
 class LifeBar extends StatusBar{
-    y = 20;
+    y = 15;
     IMAGES = [
         './img/4.Marcadores/green/Life/life_0.png',
         './img/4.Marcadores/green/Life/life_20.png',

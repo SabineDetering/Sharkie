@@ -23,7 +23,7 @@ class PufferfishGreen extends Pufferfish {
 
     IMG_DEAD = './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/1.1.png';
 
-    constructor(imgPath) {
+    constructor() {
         super();
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages([this.IMG_DEAD]);

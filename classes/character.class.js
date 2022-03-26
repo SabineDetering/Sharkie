@@ -3,12 +3,16 @@ class Character extends MovableObject {
     width = 360;
     x = 0;
     y = 100;
+    speed = 1;
+
     collisionOffsetX = 75;
     collisionOffsetY = 160;
     collisionWidth = 210;
     collisionHeight = 110;
 
-    speed = 1;
+    collectedCoins = 0;
+    collectedPoisons = 0;
+
 
     IMAGES_IDLE = [
         './img/1.Sharkie/1.IDLE/1.png',
@@ -159,10 +163,25 @@ class Character extends MovableObject {
         this.animate();
     }
 
+    isLongIdle() {
+        let timePassed = new Date().getTime() - this.world.keyboard.lastKeyMove;
+        return timePassed > 2000;
+    }
+
     hit() {
         super.hit();
         this.currentImage = 0;
         this.world.lifeBar.showStatus(this.energy);
+    }
+
+    collect(o) {
+        if (o instanceof Coin) {
+            this.collectedCoins++;
+            this.world.coinBar.showStatus(this.collectedCoins / this.world.level.totalCoins * 100);
+        } else {
+            this.collectedPoisons++;
+            this.world.poisonBar.showStatus(this.collectedPoisons / this.world.level.totalPoisons * 100);
+        }
     }
 
     animate() {

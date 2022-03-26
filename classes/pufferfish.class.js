@@ -12,9 +12,8 @@ class Pufferfish extends MovableObject {
     IMG_DEAD;
     IMAGES_SWIM = [];
 
-    constructor(imgPath) {
+    constructor() {
         super();
-        this.loadImage(imgPath);
         this.loadImages([this.IMG_DEAD]);
         this.loadImages(this.IMAGES_SWIM);
         this.x = 320 + Math.random() * 700;

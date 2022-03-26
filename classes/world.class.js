@@ -24,12 +24,13 @@ class World {
 
     checkContact() {
         setInterval(() => {
-            //contact with enemy only relevant if character not dead or hurt
+            //contacts are only relevant if character not dead or hurt
             if (!this.character.isDead() && !this.character.isHurt()) {
                 this.character.calculateCollisionCoordinates();
                 this.level.enemies.forEach((enemy) => {
                     enemy.calculateCollisionCoordinates();
-                    if (this.character.isColliding(enemy)) {
+
+                    if (this.character.isColliding(enemy) && !enemy.slappedNormal && !enemy.slappedInverse) {//slapped enemies don't hurt 
                         // console.log('collision', enemy, this.character.energy);
                         this.character.hit();
                     } else if (this.keyboard.space && enemy.isSlapped(this.character)) {//slapping is only possible if character is not colliding
@@ -37,13 +38,24 @@ class World {
                         if (this.character.otherDirection) {
                             enemy.slappedInverse = true;
                         } else {
-                            enemy.slappedNormal = true; }
-                        
+                            enemy.slappedNormal = true;
+                        }
+                    } else if (enemy.y < 0) {
+                        enemy.delete(this.level.enemies, enemy)
                     }
-                })
+                });
             }
+
+            this.level.collectableObjects.forEach((object) => {
+                object.calculateCollisionCoordinates();
+                if (this.character.isColliding(object)) {
+                    this.character.collect(object);
+                    object.delete(this.level.collectableObjects, object);
+                }
+            });
         }, 1000 / 60);
     }
+
 
 
     draw() {
@@ -53,6 +65,7 @@ class World {
         this.ctx.translate(this.camera_x, 0);//move coordinates to position of character before drawing
 
         this.addStaticObjectsToCanvas(this.level.backgroundObjects);
+        this.addStaticObjectsToCanvas(this.level.collectableObjects);
         this.addToCanvas(this.character);
         this.addObjectsToCanvas(this.level.enemies);
 

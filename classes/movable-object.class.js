@@ -43,6 +43,7 @@ class MovableObject extends DrawableObject {
 
     hit() {
         this.energy -= 5;
+        console.log('energy ', this.energy)
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -61,17 +62,13 @@ class MovableObject extends DrawableObject {
 
     isSlapped(c) {
         return (this instanceof Pufferfish
-            && (c.collisionMinY + c.collisionMaxY) / 2 < this.collisionMaxY+20
-            && (c.collisionMinY + c.collisionMaxY) / 2 > this.collisionMinY-20
-            && (c.otherDirection==false && Math.abs(c.collisionMaxX - this.collisionMinX) < 40
-            || c.otherDirection == true && Math.abs(c.collisionMinX - this.collisionMaxX) < 40)
-            );            
+            && (c.collisionMinY + c.collisionMaxY) / 2 < this.collisionMaxY + 20
+            && (c.collisionMinY + c.collisionMaxY) / 2 > this.collisionMinY - 20
+            && (c.otherDirection == false && Math.abs(c.collisionMaxX - this.collisionMinX) < 20
+                || c.otherDirection == true && Math.abs(c.collisionMinX - this.collisionMaxX) < 20)
+        );
     }
 
-    isLongIdle() {
-        let timePassed = new Date().getTime() - this.world.keyboard.lastKeyMove;
-        return timePassed > 2000;
-    }
 
     flipImage(ctx) {
         ctx.save();
@@ -122,4 +119,13 @@ class MovableObject extends DrawableObject {
         this.img = this.imageCache[path];
         this.currentImage++;
     }
+
+
+    delete(arr, mo) {
+        console.log('array to delete from ', arr);
+        console.log('object to delete ', mo);
+        let index = arr.indexOf(mo);
+        arr.splice(index, 1);
+    }
+
 }
