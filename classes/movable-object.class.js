@@ -43,7 +43,7 @@ class MovableObject extends DrawableObject {
 
     hit() {
         this.energy -= 5;
-        console.log('energy ', this.energy)
+        console.log('energy ', this.energy);
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -121,7 +121,7 @@ class MovableObject extends DrawableObject {
             this.img = this.imageCache[path];
             this.currentImage++;
         } else {
-            this[marker] = false;
+            this[marker] = !this[marker];
         }
     }
 

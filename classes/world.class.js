@@ -1,5 +1,6 @@
 class World {
     character = new Character();
+    endboss = new Endboss();
     level = level1;
     lifeBar = new LifeBar();
     coinBar = new CoinBar();
@@ -16,14 +17,14 @@ class World {
         this.keyboard = keyboard;
         this.draw();
         this.setWorld();
-        this.checkContact();
+        this.run();
     }
 
     setWorld() {
         this.character.world = this;//allows character to use all variables of world
     }
 
-    checkContact() {
+    run() {
         setInterval(() => {
             //character can only act if it is not dead or hurt
             if (!this.character.isDead() && !this.character.isHurt()) {
@@ -37,6 +38,7 @@ class World {
                         this.character.hit();
                     } else if (this.keyboard.space && enemy.isSlapped(this.character)) {//slapping is only possible if character is not colliding
                         console.log('slapped');
+                        enemy.wait = true;
                         if (this.character.otherDirection) {
                             enemy.slappedInverse = true;
                         } else {
@@ -60,7 +62,7 @@ class World {
                     this.character.isBubblingPoison = true;
                     this.character.currentImage = 0;
                 }
-            } 
+            }
 
             //collect items
             this.level.collectableObjects.forEach((object) => {
@@ -70,6 +72,23 @@ class World {
                     object.delete(this.level.collectableObjects, object);
                 }
             });
+            //endboss
+            this.endboss.calculateCollisionCoordinates();
+
+            //bubbles
+            this.bubbles.forEach(bubble => {
+                bubble.calculateCollisionCoordinates();
+                if (bubble.collisionMaxY < 0) {
+                    bubble.delete(this.bubbles, bubble);
+                } else if (this.endboss.isColliding(bubble)) {
+                    if (bubble instanceof PoisonedBubble) {
+                        this.endboss.hit(bubble);
+                    }
+                    bubble.delete(this.bubbles, bubble);
+                }
+
+            });
+
         }, 1000 / 60);
     }
 
@@ -84,6 +103,7 @@ class World {
         this.addStaticObjectsToCanvas(this.level.backgroundObjects);
         this.addStaticObjectsToCanvas(this.level.collectableObjects);
         this.addToCanvas(this.character);
+        this.addToCanvas(this.endboss);
         this.addObjectsToCanvas(this.level.enemies);
         this.addObjectsToCanvas(this.bubbles);
 

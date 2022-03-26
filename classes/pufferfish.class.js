@@ -8,6 +8,9 @@ class Pufferfish extends MovableObject {
     hitSpeedX = -5;
     hitSpeedY = -3;
     slapped = false;
+    slappedNormal = false;
+    slappedInverse = false;
+    wait = false;
 
     IMG_DEAD;
     IMAGES_SWIM = [];
@@ -23,18 +26,25 @@ class Pufferfish extends MovableObject {
     }
     animate() {
         setInterval(() => {
-            if (this.slappedNormal) {
-                this.x += this.hitSpeedX;
-                this.y += this.hitSpeedY;
-            } else if (this.slappedInverse) { 
-                this.x -= this.hitSpeedX;
-                this.y += this.hitSpeedY;
-            } else{
+            // console.log('wait ', this.wait, 'slappedNormal ', this.slappedNormal, 'slappedInverse ', this.slappedInverse);
+            if (this.wait) {//normal move
                 this.x -= this.speed;
+            } else {//slapped move
+                if (this.slappedNormal) {
+                    this.x += this.hitSpeedX;
+                    this.y += this.hitSpeedY;
+                } else if (this.slappedInverse) {
+                    this.x -= this.hitSpeedX;
+                    this.y += this.hitSpeedY;
+                } else {//normal move
+                    this.x -= this.speed;
+                }
             }
         }, 1000 / 60);
         setInterval(() => {
-            if (this.slappedNormal ||this.slappedInverse) {
+            if (this.wait) {//waiting for fin slap finalisation
+                this.animateImagesOnce(this.IMAGES_SWIM.slice(0, 8), 'wait');
+            } else if (this.slappedNormal || this.slappedInverse) {
                 this.img = this.imageCache[this.IMG_DEAD];
             } else {
                 this.animateImages(this.IMAGES_SWIM);

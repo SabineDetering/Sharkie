@@ -240,9 +240,9 @@ class Character extends MovableObject {
             this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubblingPoison');
             if (!this.isBubblingPoison) {
                 if (this.otherDirection) {
-                    bubble = new PoisonedBubble(this.collisionMinX - 80, this.collisionMinY + 20, 'left');
+                    bubble = new PoisonedBubble(this.collisionMinX - 70, this.collisionMinY + 20, 'left');
                 } else {
-                    bubble = new PoisonedBubble(this.collisionMaxX + 20, this.collisionMinY + 20, 'right');
+                    bubble = new PoisonedBubble(this.collisionMaxX + 10, this.collisionMinY + 20, 'right');
                 }
                 this.world.bubbles.push(bubble);
             }

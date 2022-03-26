@@ -2,8 +2,7 @@ const level1 = new Level(
     [//enemies
         new PufferfishGreen(),
         new PufferfishOrange(),
-        new PufferfishRed(),
-        new Endboss(),
+        new PufferfishRed()
         /* new Jellyfish('./img/2.Enemy/2 Jelly fish/Regular damage/Lila 1.png'),
          new Jellyfish('./img/2.Enemy/2 Jelly fish/Regular damage/Yellow 1.png'),
          new Jellyfish('./img/2.Enemy/2 Jelly fish/Súper dangerous/Green 1.png'),

@@ -1,6 +1,10 @@
 class Bubble extends MovableObject{
     width = 60;
     height = 60;
+    collisionOffsetX = 0;
+    collisionOffsetY = 0;
+    collisionWidth = this.width;
+    collisionHeight = this.height;
     speed = 1.4 ;
     speedY = -0.3;
     direction;

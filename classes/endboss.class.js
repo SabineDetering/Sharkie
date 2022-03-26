@@ -1,12 +1,16 @@
 class Endboss extends MovableObject{
     height = 440;
     width = 380;
-    x = 700;
+    x = 400;
     y = 0;
     collisionOffsetX = 30;
     collisionOffsetY = 210;
     collisionWidth = 300;
     collisionHeight = 150;
+    energy = 15;
+    isIntroduced = false;
+    isDead = false;
+    isHurt = false;
 
     IMAGES_INTRODUCE = [
         './img/2.Enemy/3 Final Enemy/1.Introduce/1.png',
@@ -20,18 +24,65 @@ class Endboss extends MovableObject{
         './img/2.Enemy/3 Final Enemy/1.Introduce/9.png',
         './img/2.Enemy/3 Final Enemy/1.Introduce/10.png'
     ];
+    IMAGES_FLOATING = [
+        './img/2.Enemy/3 Final Enemy/2.floating/1.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/2.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/3.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/4.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/5.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/6.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/7.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/8.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/9.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/10.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/11.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/12.png',
+        './img/2.Enemy/3 Final Enemy/2.floating/13.png'
+    ];
+    IMAGES_ATTACK = [
+        './img/2.Enemy/3 Final Enemy/Attack/1.png',
+        './img/2.Enemy/3 Final Enemy/Attack/2.png',
+        './img/2.Enemy/3 Final Enemy/Attack/3.png',
+        './img/2.Enemy/3 Final Enemy/Attack/4.png',
+        './img/2.Enemy/3 Final Enemy/Attack/5.png',
+        './img/2.Enemy/3 Final Enemy/Attack/6.png'
+    ];
+    IMAGES_HURT = [
+        './img/2.Enemy/3 Final Enemy/Hurt/1.png',
+        './img/2.Enemy/3 Final Enemy/Hurt/2.png',
+        './img/2.Enemy/3 Final Enemy/Hurt/3.png',
+        './img/2.Enemy/3 Final Enemy/Hurt/4.png'
+    ];
+    IMAGES_DEAD = [
+        './img/2.Enemy/3 Final Enemy/Dead/1.png',
+        './img/2.Enemy/3 Final Enemy/Dead/2.png',
+        './img/2.Enemy/3 Final Enemy/Dead/3.png',
+        './img/2.Enemy/3 Final Enemy/Dead/4.png',
+        './img/2.Enemy/3 Final Enemy/Dead/5.png'
+    ];
+
 
     constructor() {
         super();
         this.loadImage(this.IMAGES_INTRODUCE[0]);
         this.loadImages(this.IMAGES_INTRODUCE);
+        this.loadImages(this.IMAGES_FLOATING);
+        this.loadImages(this.IMAGES_ATTACK);
+        this.loadImages(this.IMAGES_HURT);
+        this.loadImages(this.IMAGES_DEAD);
         this.speed = 0.15;
         this.animate();
     }
 
     animate() {
         setInterval(() => {
-            this.animateImages(this.IMAGES_INTRODUCE);
+            if (!this.isIntroduced) {
+                this.animateImagesOnce(this.IMAGES_INTRODUCE, 'isIntroduced');
+            } else if (this.isDead) {
+                this.animateImagesDeath(this.IMAGES_DEAD);
+            } else {
+                this.animateImages(this.IMAGES_FLOATING);
+            }
         }, 100);
     }
 
