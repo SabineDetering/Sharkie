@@ -9,8 +9,6 @@ class Endboss extends MovableObject{
     collisionHeight = 150;
     energy = 15;
     isIntroduced = false;
-    isDead = false;
-    isHurt = false;
 
     IMAGES_INTRODUCE = [
         './img/2.Enemy/3 Final Enemy/1.Introduce/1.png',
@@ -58,6 +56,18 @@ class Endboss extends MovableObject{
         './img/2.Enemy/3 Final Enemy/Dead/2.png',
         './img/2.Enemy/3 Final Enemy/Dead/3.png',
         './img/2.Enemy/3 Final Enemy/Dead/4.png',
+        './img/2.Enemy/3 Final Enemy/Dead/1.png',
+        './img/2.Enemy/3 Final Enemy/Dead/2.png',
+        './img/2.Enemy/3 Final Enemy/Dead/3.png',
+        './img/2.Enemy/3 Final Enemy/Dead/4.png',
+        './img/2.Enemy/3 Final Enemy/Dead/1.png',
+        './img/2.Enemy/3 Final Enemy/Dead/2.png',
+        './img/2.Enemy/3 Final Enemy/Dead/3.png',
+        './img/2.Enemy/3 Final Enemy/Dead/4.png',
+        './img/2.Enemy/3 Final Enemy/Dead/1.png',
+        './img/2.Enemy/3 Final Enemy/Dead/2.png',
+        './img/2.Enemy/3 Final Enemy/Dead/3.png',
+        './img/2.Enemy/3 Final Enemy/Dead/4.png',
         './img/2.Enemy/3 Final Enemy/Dead/5.png'
     ];
 
@@ -74,12 +84,21 @@ class Endboss extends MovableObject{
         this.animate();
     }
 
+
+    hit() {
+        super.hit();
+        this.currentImage = 0;
+        // this.world.lifeBar.showStatus(this.energy);
+    }
+
     animate() {
         setInterval(() => {
             if (!this.isIntroduced) {
                 this.animateImagesOnce(this.IMAGES_INTRODUCE, 'isIntroduced');
-            } else if (this.isDead) {
-                this.animateImagesDeath(this.IMAGES_DEAD);
+            } else if (this.isHurt()) {
+                this.animateImages(this.IMAGES_HURT);
+            } else if (this.isDead()) {
+                this.animateImagesDeath(this.IMAGES_DEAD); 
             } else {
                 this.animateImages(this.IMAGES_FLOATING);
             }
