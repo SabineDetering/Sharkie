@@ -11,7 +11,8 @@ class Character extends MovableObject {
     collisionHeight = 110;
 
     isSlapping = false;
-    isBubbling = false; 
+    isBubbling = false;
+    isBubblingPoison = false;
 
     collectedCoins = 0;
     collectedPoisons = 0;
@@ -221,26 +222,40 @@ class Character extends MovableObject {
             } else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
                 this.animateImages(this.IMAGES_SWIM);
             } else if (this.isSlapping) {
-                this.animateImagesOnce(this.IMAGES_ATTACK_FIN,'isSlapping');
+                this.animateImagesOnce(this.IMAGES_ATTACK_FIN, 'isSlapping');
             } else if (this.isLongIdle()) {
                 this.animateImages(this.IMAGES_LONG_IDLE);
             } else if (this.isBubbling) {
-                this.animateBubbling();
+                this.animateBubbling(false);
+            } else if (this.isBubblingPoison) {
+                this.animateBubbling(true);
             } else {
                 this.animateImages(this.IMAGES_IDLE);
             }
         }, 100);
     }
-    animateBubbling() {
-        this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubbling');
-        if(!this.isBubbling){
-        let bubble; 
-        if (this.otherDirection) {
-            bubble = new Bubble(this.collisionMinX - 80, this.collisionMinY + 20, 'left');
-        }else{
-            bubble = new Bubble(this.collisionMaxX +20, this.collisionMinY + 20, 'right');
-        }
-            this.world.bubbles.push(bubble);
+    animateBubbling(poison) {
+        let bubble;
+        if (poison) {
+            this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubblingPoison');
+            if (!this.isBubblingPoison) {
+                if (this.otherDirection) {
+                    bubble = new PoisonedBubble(this.collisionMinX - 80, this.collisionMinY + 20, 'left');
+                } else {
+                    bubble = new PoisonedBubble(this.collisionMaxX + 20, this.collisionMinY + 20, 'right');
+                }
+                this.world.bubbles.push(bubble);
+            }
+        } else {
+            this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubbling');
+            if (!this.isBubbling) {
+                if (this.otherDirection) {
+                    bubble = new Bubble(this.collisionMinX - 80, this.collisionMinY + 20, 'left');
+                } else {
+                    bubble = new Bubble(this.collisionMaxX + 20, this.collisionMinY + 20, 'right');
+                }
+                this.world.bubbles.push(bubble);
+            }
         }
     }
 }

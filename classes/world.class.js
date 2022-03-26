@@ -55,6 +55,12 @@ class World {
                     this.character.currentImage = 0;
                 }
             }
+            if (this.keyboard.v) {
+                if (!this.character.isBubblingPoison) {
+                    this.character.isBubblingPoison = true;
+                    this.character.currentImage = 0;
+                }
+            } 
 
             //collect items
             this.level.collectableObjects.forEach((object) => {

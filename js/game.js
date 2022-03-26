@@ -29,6 +29,9 @@ window.addEventListener('keydown', (e) => {
     if (e.key == "b") {
         keyboard.b = true;
     }
+    if (e.key == "v") {
+        keyboard.v = true;
+    }
     // console.log(e);
 });
 
@@ -52,6 +55,9 @@ window.addEventListener('keyup', (e) => {
     }
     if (e.key == "b") {
         keyboard.b = false;
+    }
+    if (e.key == "v") {
+        keyboard.v = false;
     }
     // console.log(e);
 });
