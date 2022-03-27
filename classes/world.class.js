@@ -28,7 +28,15 @@ class World {
         setInterval(() => {
             //character can only act if it is not dead or hurt
             if (!this.character.isDead() && !this.character.isHurt()) {
+
                 this.character.calculateCollisionCoordinates();
+
+                if (this.endboss.attackFinished && !this.character.killedByEndboss) {
+                    this.character.killedByEndboss = true;
+                    this.character.currentImage = 0;
+                    this.character.energy = 0;
+                    this.lifeBar.showStatus(0);
+                }
 
                 this.level.enemies.forEach((enemy) => {
                     enemy.calculateCollisionCoordinates();
@@ -52,14 +60,16 @@ class World {
 
             // bubble attack
             if (this.keyboard.b) {
-                if (!this.character.isBubbling) {
+                if (!this.character.isBubbling && !this.character.isBubblingPoison) {
                     this.character.isBubbling = true;
                     this.character.currentImage = 0;
                 }
             }
             if (this.keyboard.v) {
-                if (!this.character.isBubblingPoison) {
-                    this.character.isBubblingPoison = true;
+                if (!this.character.isBubbling && !this.character.isBubblingPoison) {
+                    if (this.character.collectedPoisons > 0) {
+                        this.character.isBubblingPoison = true;
+                    } else { this.character.isBubbling = true; }
                     this.character.currentImage = 0;
                 }
             }
@@ -73,18 +83,35 @@ class World {
                 }
             });
             //endboss
+            if (this.character.collisionMaxX >= this.endboss.x - 200) {
+                this.endboss.wait = false; //endboss is introduced
+            }
             this.endboss.calculateCollisionCoordinates();
+            if (this.character.collisionMaxX > this.endboss.collisionMinX - 70 && !this.endboss.attack) {
+                this.endboss.currentImage = 0;
+                this.endboss.isAttacking(this.character);
+            }
 
             //bubbles
             this.bubbles.forEach(bubble => {
                 bubble.calculateCollisionCoordinates();
                 if (bubble.collisionMaxY < 0) {
                     bubble.delete(this.bubbles, bubble);
-                } else if (this.endboss.isColliding(bubble)) {
+                } else if (this.endboss.isColliding(bubble)) {//bubble meets endboss
                     if (bubble instanceof PoisonedBubble) {
                         this.endboss.hit(bubble);
                     }
                     bubble.delete(this.bubbles, bubble);
+                } else {
+                    this.level.enemies.forEach(enemy => {
+                        if (bubble.isColliding(enemy)) {//bubble meets enemy
+                            if (enemy instanceof Pufferfish) {
+                                bubble.delete(this.bubbles, bubble);
+                            } else {//bubble meets jellyfish
+                                bubble.withJelly(enemy.constructor.name);
+                            }
+                        }
+                    });
                 }
 
             });

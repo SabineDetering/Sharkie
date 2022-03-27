@@ -16,6 +16,7 @@ class Character extends MovableObject {
 
     collectedCoins = 0;
     collectedPoisons = 0;
+    killedByEndboss = false;
 
 
     IMAGES_IDLE = [
@@ -134,7 +135,6 @@ class Character extends MovableObject {
         './img/1.Sharkie/6.dead/1.Poisoned/11.png',
         './img/1.Sharkie/6.dead/1.Poisoned/12.png'
     ];
-
     IMAGES_DEAD_SHOCK = [
         './img/1.Sharkie/6.dead/2.Electro_shock/1.png',
         './img/1.Sharkie/6.dead/2.Electro_shock/2.png',
@@ -147,6 +147,18 @@ class Character extends MovableObject {
         './img/1.Sharkie/6.dead/2.Electro_shock/9.png',
         './img/1.Sharkie/6.dead/2.Electro_shock/10.png'
     ];
+    IMAGES_DEAD_ENDBOSS = [
+        './img/1.Sharkie/5.Hurt/1.Poisoned/1.png',
+        './img/1.Sharkie/5.Hurt/1.Poisoned/3.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/7.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/7.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/8.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/8.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/9.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/9.png',
+        './img/1.Sharkie/6.dead/2.Electro_shock/10.png'
+    ];
+
     world; // to get access to keyboard
     swim_sound = new Audio('./audio/silent_swim.mp3');
 
@@ -164,6 +176,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK_FIN);
         this.loadImages(this.IMAGES_DEAD_POISONED);
         this.loadImages(this.IMAGES_DEAD_SHOCK);
+        this.loadImages(this.IMAGES_DEAD_ENDBOSS);
         this.animate();
     }
 
@@ -191,6 +204,12 @@ class Character extends MovableObject {
     animate() {
         //Movement
         setInterval(() => {
+            console.log('maxy ', this.collisionMaxY);
+            if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 400) {
+                this.y += 5;
+                this.calculateCollisionCoordinates();
+             }
+
             this.swim_sound.pause();
             if (this.world.keyboard.right && this.x < this.world.level.level_end_x) {
                 this.x += this.speed;
@@ -210,12 +229,14 @@ class Character extends MovableObject {
                 this.y += this.speed;
                 this.swim_sound.play();
             }
-            this.world.camera_x = -this.x + 100;
+            this.world.camera_x = -this.x + 30;
         }, 1000 / 60);
 
         //Image animation 
         setInterval(() => {
-            if (this.isDead()) {
+            if (this.world.endboss.attackFinished) {
+                this.animateImagesDeath(this.IMAGES_DEAD_ENDBOSS);
+            } else if (this.isDead()) {
                 this.animateImagesDeath(this.IMAGES_DEAD_POISONED);
             } else if (this.isHurt()) {
                 this.animateImages(this.IMAGES_HURT_POISONED);
@@ -245,6 +266,8 @@ class Character extends MovableObject {
                     bubble = new PoisonedBubble(this.collisionMaxX + 10, this.collisionMinY + 20, 'right');
                 }
                 this.world.bubbles.push(bubble);
+                this.collectedPoisons--;
+                this.world.poisonBar.showStatus(this.collectedPoisons / this.world.level.totalCoins * 100);
             }
         } else {
             this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubbling');

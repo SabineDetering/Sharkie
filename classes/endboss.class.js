@@ -1,14 +1,20 @@
-class Endboss extends MovableObject{
+class Endboss extends MovableObject {
     height = 440;
     width = 380;
-    x = 400;
+    x = 550;
     y = 0;
     collisionOffsetX = 30;
     collisionOffsetY = 210;
     collisionWidth = 300;
     collisionHeight = 150;
+    speed = -0.8;
     energy = 15;
+    wait = true;
     isIntroduced = false;
+    attack = false;
+    attackFinished = false;
+    attackSpeedX = -8;
+    attackSpeedY;
 
     IMAGES_INTRODUCE = [
         './img/2.Enemy/3 Final Enemy/1.Introduce/1.png',
@@ -43,9 +49,19 @@ class Endboss extends MovableObject{
         './img/2.Enemy/3 Final Enemy/Attack/3.png',
         './img/2.Enemy/3 Final Enemy/Attack/4.png',
         './img/2.Enemy/3 Final Enemy/Attack/5.png',
+        './img/2.Enemy/3 Final Enemy/Attack/6.png',
+        './img/2.Enemy/3 Final Enemy/Attack/1.png',
+        './img/2.Enemy/3 Final Enemy/Attack/2.png',
+        './img/2.Enemy/3 Final Enemy/Attack/3.png',
+        './img/2.Enemy/3 Final Enemy/Attack/4.png',
+        './img/2.Enemy/3 Final Enemy/Attack/5.png',
         './img/2.Enemy/3 Final Enemy/Attack/6.png'
     ];
     IMAGES_HURT = [
+        './img/2.Enemy/3 Final Enemy/Hurt/1.png',
+        './img/2.Enemy/3 Final Enemy/Hurt/2.png',
+        './img/2.Enemy/3 Final Enemy/Hurt/3.png',
+        './img/2.Enemy/3 Final Enemy/Hurt/4.png',
         './img/2.Enemy/3 Final Enemy/Hurt/1.png',
         './img/2.Enemy/3 Final Enemy/Hurt/2.png',
         './img/2.Enemy/3 Final Enemy/Hurt/3.png',
@@ -80,7 +96,6 @@ class Endboss extends MovableObject{
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.speed = 0.15;
         this.animate();
     }
 
@@ -90,17 +105,30 @@ class Endboss extends MovableObject{
         this.currentImage = 0;
         // this.world.lifeBar.showStatus(this.energy);
     }
+    isAttacking(c) {
+        this.attack = true;
+        this.attackSpeedY = (c.collisionMinY + 0.5 * c.collisionHeight - (this.collisionMinY + 0.5 * this.collisionHeight)) / 10;
+    }
 
     animate() {
         setInterval(() => {
-            if (!this.isIntroduced) {
-                this.animateImagesOnce(this.IMAGES_INTRODUCE, 'isIntroduced');
-            } else if (this.isHurt()) {
-                this.animateImages(this.IMAGES_HURT);
-            } else if (this.isDead()) {
-                this.animateImagesDeath(this.IMAGES_DEAD); 
-            } else {
-                this.animateImages(this.IMAGES_FLOATING);
+            if (!this.wait) {
+                if (!this.isIntroduced) {
+                    this.animateImagesOnce(this.IMAGES_INTRODUCE, 'isIntroduced');
+                } else if (this.isHurt()) {
+                    this.animateImages(this.IMAGES_HURT);
+                } else if (this.isDead()) {
+                    this.animateImagesDeath(this.IMAGES_DEAD);
+                } else if (this.attack && !this.attackFinished) {
+                    this.animateImagesOnce(this.IMAGES_ATTACK, 'attackFinished');
+                    this.x += this.attackSpeedX;
+                    this.y += this.attackSpeedY;
+                } else if (this.attackFinished) {
+                    this.animateImages(this.IMAGES_FLOATING);
+                } else {
+                    this.animateImages(this.IMAGES_FLOATING);
+                    this.x += this.speed;
+                }
             }
         }, 100);
     }
