@@ -139,6 +139,7 @@ class World {
         this.addStaticToCanvas(this.lifeBar);
         this.addStaticToCanvas(this.coinBar);
         this.addStaticToCanvas(this.poisonBar);
+        this.addStaticToCanvas(this.endboss.lifeBarEndboss);
 
         let self = this;
         requestAnimationFrame(function () {

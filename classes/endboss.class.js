@@ -1,15 +1,17 @@
 class Endboss extends MovableObject {
     height = 440;
     width = 380;
-    x = 550;
+    x = 900;
     y = 0;
     collisionOffsetX = 30;
     collisionOffsetY = 210;
     collisionWidth = 300;
     collisionHeight = 150;
     speed = -0.8;
+    startEnergy = 15;
     energy = 15;
     wait = true;
+    lifeBarEndboss = new LifeBarEndboss();
     isIntroduced = false;
     attack = false;
     attackFinished = false;
@@ -103,7 +105,7 @@ class Endboss extends MovableObject {
     hit() {
         super.hit();
         this.currentImage = 0;
-        // this.world.lifeBar.showStatus(this.energy);
+        this.lifeBarEndboss.showStatus(this.energy/this.startEnergy*100);
     }
     isAttacking(c) {
         this.attack = true;

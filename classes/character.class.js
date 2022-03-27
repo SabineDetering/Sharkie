@@ -204,11 +204,10 @@ class Character extends MovableObject {
     animate() {
         //Movement
         setInterval(() => {
-            console.log('maxy ', this.collisionMaxY);
             if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 400) {
                 this.y += 5;
                 this.calculateCollisionCoordinates();
-             }
+            }
 
             this.swim_sound.pause();
             if (this.world.keyboard.right && this.x < this.world.level.level_end_x) {
