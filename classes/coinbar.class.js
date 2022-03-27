@@ -1,5 +1,5 @@
 class CoinBar extends StatusBar {
-    y = 95;
+    y = 85;
     IMAGES = [
         './img/4.Marcadores/green/Coin/coin_0.png',
         './img/4.Marcadores/green/Coin/coin_20.png',

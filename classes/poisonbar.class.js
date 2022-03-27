@@ -1,5 +1,5 @@
 class PoisonBar extends StatusBar {
-    y = 55;
+    y = 60;
     IMAGES = [
         './img/4.Marcadores/green/Poison/poison_0.png',
         './img/4.Marcadores/green/Poison/poison_20.png',

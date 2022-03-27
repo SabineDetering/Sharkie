@@ -1,6 +1,6 @@
 class LifeBarEndboss extends LifeBar{
-    x = 500;
-    y = 15;
+    x = 555;
+    y = 35;
     IMAGES = [
         './img/4.Marcadores/orange/Life/life_0.png',
         './img/4.Marcadores/orange/Life/life_20.png',
