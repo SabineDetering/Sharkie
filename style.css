@@ -1,3 +1,7 @@
+* {
+    font-family: 'Luckiest Guy', cursive;
+}
+
 body {
     margin: 0;
     background-image: url(./img/Screen-Background.png);
@@ -18,11 +22,12 @@ body {
 
 h1 {
     margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 60px;
+    color: #2F2771;
 }
 
-h1 img {
-    height: 50px;
-}
+
 
 .d-none {
     display: none;
@@ -40,24 +45,61 @@ h1 img {
     height: 480px;
     top: 0;
     left: 0;
-    background-color: #2e277198;
+    background-color: #2e2771b7;
     display: none;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
 }
+
+#loose-screen {
+    justify-content: center;
+}
+
+
 
 #img-win {
     width: 720px;
     cursor: pointer;
+    justify-self: left;
 }
 
 #img-loose {
     display: block;
-    cursor: pointer;
     width: 620px;
 }
-.btn{
-    margin-top:40px;
-    height:70px;
+
+#collected-coins {
+
+    position: absolute;
+    top: 40%;
+    left: 35%;
+    width: 420px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#coin-text {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    padding:16px;
+    margin:0;
+}
+
+.btn {
+    margin-top: 40px;
+    height: 70px;
+    width: 250px;
+    background-color: #388fc3;
+    color: white;
+    border-radius: 25px;
+    border: 5px white solid;
+    font-size: 36px;
+}
+
+.btn-group {
+    display: flex;
+    gap: 20px;
 }

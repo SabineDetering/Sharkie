@@ -8,19 +8,20 @@ function init() {
     ctx = canvas.getContext('2d');
 }
 
-function finishGame(playerWins, coins) {
-    // console.log('finish executed');
-    setTimeout(() => {
-        world.endOfGame = true;        
-    }, 1000); 
-    if (playerWins) {
-        showWinScreen();
-    } else {
-        showLooseScreen();
+async function finishGame(playerWins) {
+    if (!world.endOfGame) {
+        console.log('finish executed');
+        world.endOfGame = true;
+        if (playerWins) {
+            showWinScreen();
+        } else {
+            showLooseScreen();
+        }
     }
 }
 function showWinScreen() {
     document.getElementById('win-screen').style.display = "flex";
+    document.getElementById('coin-text').innerHTML = `You have collected ${world.character.collectedCoins} coins.<br> Each coin will strengthen your health in the next level.`;
 }
 function showLooseScreen() {
     document.getElementById('loose-screen').style.display = "flex";

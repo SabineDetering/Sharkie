@@ -121,6 +121,10 @@ class Endboss extends MovableObject {
                     this.animateImages(this.IMAGES_HURT);
                 } else if (this.isDead()) {
                     this.animateImagesDeath(this.IMAGES_DEAD);
+                    if (this.currentImage >= this.IMAGES_DEAD.length + 25) {//after dead animation 
+                        // console.log('finish function called');
+                        finishGame(true);
+                    }
                 } else if (this.attack && !this.attackFinished) {
                     this.animateImagesOnce(this.IMAGES_ATTACK, 'attackFinished');
                     this.x += this.attackSpeedX;

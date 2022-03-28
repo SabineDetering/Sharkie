@@ -6,6 +6,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sharkie</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Roboto:wght@700&display=swap"
+        rel="stylesheet">
+
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
     <script src="./classes/drawable-object.class.js"></script>
@@ -38,18 +44,23 @@
 
 <body onload="init()">
     <div class="blur">
-        <h1><img src="./img/Title.png"></h1>
+        <h1>SharKie</h1>
         <div class="wrapper">
             <canvas id="canvas" width="720" height="480"></canvas>
 
             <div id="win-screen" class="endscreen">
-                <img id="img-win" src="./img/6.Botones/Tittles/You win/Mesa de trabajo 1.png">
+                <img id="img-win" src="./img/win-screen-resized.png">
+                <div id="collected-coins"><p id="coin-text"></p>
+                    <img src="./img/4.Marcadores/1. Coins/1.png" style="width:50px;height:50px;"></div>
+                <div class="btn-group">
+                    <button class="btn" onclick="">Restart</button>
+                    <button class="btn" onclick="">Next level</button>
+                </div>
             </div>
 
             <div id="loose-screen" class="endscreen">
                 <img id="img-loose" src="./img/6.Botones/Tittles/Game Over/Recurso 13.png">
-                <img id="btn-try-again" class="btn" onclick="" src="img/6.Botones/Try again/Recurso 16.png"
-                    alt="try again" title="try again">
+                <button class="btn" onclick="">Try again</button>
             </div>
         </div>
     </div>

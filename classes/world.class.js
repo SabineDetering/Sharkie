@@ -13,7 +13,6 @@ class World {
     keyboard;
     camera_x = 0;
     endOfGame = false;
-    playerWins;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -87,7 +86,7 @@ class World {
                 }
             });
             //endboss
-            if (this.character.collisionMaxX >= this.endboss.x - 200) {
+            if (this.character.collisionMaxX >= this.endboss.x - 250) {
                 this.endboss.wait = false; //endboss is introduced
             }
             this.endboss.calculateCollisionCoordinates();

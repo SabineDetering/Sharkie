@@ -11,7 +11,9 @@ const level1 = new Level(
     [
         new Coin(200, 400),
         new Coin(300, 350),
-        new Poison(440, 430, 'img/4.Marcadores/Posión/Dark - Left.png')
+        new Poison(440, 430, 'img/4.Marcadores/Posión/Dark - Left.png'),
+        new Poison(230, 430, 'img/4.Marcadores/Posión/Dark - Left.png'),
+        new Poison(350, 430, 'img/4.Marcadores/Posión/Dark - Right.png')
     ],
     [
         new BackgroundObject('./img/3.Background/Layers/5.Water/D2.png', -780),
