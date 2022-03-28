@@ -4,8 +4,26 @@ let keyboard = new Keyboard();
 
 function init() {
     canvas = document.getElementById('canvas');
-    world = new World(canvas,keyboard);
+    world = new World(canvas, keyboard);
     ctx = canvas.getContext('2d');
+}
+
+function finishGame(playerWins, coins) {
+    // console.log('finish executed');
+    setTimeout(() => {
+        world.endOfGame = true;        
+    }, 1000); 
+    if (playerWins) {
+        showWinScreen();
+    } else {
+        showLooseScreen();
+    }
+}
+function showWinScreen() {
+    document.getElementById('win-screen').style.display = "flex";
+}
+function showLooseScreen() {
+    document.getElementById('loose-screen').style.display = "flex";
 }
 
 window.addEventListener('keydown', (e) => {

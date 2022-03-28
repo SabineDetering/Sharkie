@@ -204,7 +204,7 @@ class Character extends MovableObject {
     animate() {
         //Movement
         setInterval(() => {
-            if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 400) {
+            if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 400) {//let bones fall to ground
                 this.y += 5;
                 this.calculateCollisionCoordinates();
             }
@@ -235,8 +235,17 @@ class Character extends MovableObject {
         setInterval(() => {
             if (this.world.endboss.attackFinished) {
                 this.animateImagesDeath(this.IMAGES_DEAD_ENDBOSS);
+                if (this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length + 12) {//after dead animation plus sinking bones
+                    // console.log('finish function called');
+                    finishGame(false);
+            
+                }
             } else if (this.isDead()) {
                 this.animateImagesDeath(this.IMAGES_DEAD_POISONED);
+                if (this.currentImage >= this.IMAGES_DEAD_POISONED.length) {//after dead animation
+                    // console.log('finish function called');
+                    finishGame(false);
+                }
             } else if (this.isHurt()) {
                 this.animateImages(this.IMAGES_HURT_POISONED);
             } else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {

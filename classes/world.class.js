@@ -12,6 +12,8 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    endOfGame = false;
+    playerWins;
 
     constructor(canvas, keyboard) {
         this.ctx = canvas.getContext('2d');
@@ -137,14 +139,15 @@ class World {
         this.addObjectsToCanvas(this.bubbles);
 
         this.ctx.translate(- this.camera_x, 0);//move coordinates back to normal after drawing
-        
+
+        //static elements (foreground)
         this.addStaticToCanvas(this.sharkie);
         this.addStaticToCanvas(this.lifeBar);
         this.addStaticToCanvas(this.coinBar);
         this.addStaticToCanvas(this.poisonBar);
         this.addStaticToCanvas(this.whale);
         this.addStaticToCanvas(this.endboss.lifeBarEndboss);
-
+        
         let self = this;
         requestAnimationFrame(function () {
             self.draw();

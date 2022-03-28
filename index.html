@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -34,11 +35,25 @@
     <script src="./levels/level1.js"></script>
     <script src="./js/game.js"></script>
 </head>
+
 <body onload="init()">
     <div class="blur">
-    <h1><img  src="./img/Title.png"></h1>
-    <canvas id="canvas" width="720" height="480"></canvas>
-</div>
-    
+        <h1><img src="./img/Title.png"></h1>
+        <div class="wrapper">
+            <canvas id="canvas" width="720" height="480"></canvas>
+
+            <div id="win-screen" class="endscreen">
+                <img id="img-win" src="./img/6.Botones/Tittles/You win/Mesa de trabajo 1.png">
+            </div>
+
+            <div id="loose-screen" class="endscreen">
+                <img id="img-loose" src="./img/6.Botones/Tittles/Game Over/Recurso 13.png">
+                <img id="btn-try-again" class="btn" onclick="" src="img/6.Botones/Try again/Recurso 16.png"
+                    alt="try again" title="try again">
+            </div>
+        </div>
+    </div>
+
 </body>
+
 </html>
