@@ -1,7 +1,6 @@
 class World {
     character = new Character();
     endboss = new Endboss();
-    level = level1;
     sharkie = new Picture(15, -25, 80, 90,'./img/1.Sharkie/1.IDLE/1.png');
     lifeBar = new LifeBar();
     coinBar = new CoinBar();
@@ -14,10 +13,11 @@ class World {
     camera_x = 0;
     endOfGame = false;
 
-    constructor(canvas, keyboard) {
+    constructor(canvas, keyboard,level) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
+        this.level = level;
         this.draw();
         this.setWorld();
         this.run();
@@ -29,96 +29,97 @@ class World {
 
     run() {
         setInterval(() => {
-            //character can only act if it is not dead or hurt
-            if (!this.character.isDead() && !this.character.isHurt()) {
+            if (!this.endOfGame) {
+                //character can only act if it is not dead or hurt
+                if (!this.character.isDead() && !this.character.isHurt()) {
 
-                this.character.calculateCollisionCoordinates();
+                    this.character.calculateCollisionCoordinates();
 
-                if (this.endboss.attackFinished && !this.character.killedByEndboss) {
-                    this.character.killedByEndboss = true;
-                    this.character.currentImage = 0;
-                    this.character.energy = 0;
-                    this.lifeBar.showStatus(0);
-                }
-
-                this.level.enemies.forEach((enemy) => {
-                    enemy.calculateCollisionCoordinates();
-
-                    if (this.character.isColliding(enemy) && !enemy.slappedNormal && !enemy.slappedInverse) {//slapped enemies don't hurt 
-                        // console.log('collision', enemy, this.character.energy);
-                        this.character.hit();
-                    } else if (this.keyboard.space && enemy.isSlapped(this.character)) {//slapping is only possible if character is not colliding
-                        console.log('slapped');
-                        enemy.wait = true;
-                        if (this.character.otherDirection) {
-                            enemy.slappedInverse = true;
-                        } else {
-                            enemy.slappedNormal = true;
-                        }
-                    } else if (enemy.y < 0) {
-                        enemy.delete(this.level.enemies, enemy)
+                    if (this.endboss.attackFinished && !this.character.killedByEndboss) {
+                        this.character.killedByEndboss = true;
+                        this.character.currentImage = 0;
+                        this.character.energy = 0;
+                        this.lifeBar.showStatus(0);
                     }
-                });
-            }
 
-            // bubble attack
-            if (this.keyboard.b) {
-                if (!this.character.isBubbling && !this.character.isBubblingPoison) {
-                    this.character.isBubbling = true;
-                    this.character.currentImage = 0;
-                }
-            }
-            if (this.keyboard.v) {
-                if (!this.character.isBubbling && !this.character.isBubblingPoison) {
-                    if (this.character.collectedPoisons > 0) {
-                        this.character.isBubblingPoison = true;
-                    } else { this.character.isBubbling = true; }
-                    this.character.currentImage = 0;
-                }
-            }
+                    this.level.enemies.forEach((enemy) => {
+                        enemy.calculateCollisionCoordinates();
 
-            //collect items
-            this.level.collectableObjects.forEach((object) => {
-                object.calculateCollisionCoordinates();
-                if (this.character.isColliding(object)) {
-                    this.character.collect(object);
-                    object.delete(this.level.collectableObjects, object);
-                }
-            });
-            //endboss
-            if (this.character.collisionMaxX >= this.endboss.x - 250) {
-                this.endboss.wait = false; //endboss is introduced
-            }
-            this.endboss.calculateCollisionCoordinates();
-            if (this.character.collisionMaxX > this.endboss.collisionMinX - 70 && !this.endboss.attack) {
-                this.endboss.currentImage = 0;
-                this.endboss.isAttacking(this.character);
-            }
-
-            //bubbles
-            this.bubbles.forEach(bubble => {
-                bubble.calculateCollisionCoordinates();
-                if (bubble.collisionMaxY < 0) {
-                    bubble.delete(this.bubbles, bubble);
-                } else if (this.endboss.isColliding(bubble)) {//bubble meets endboss
-                    if (bubble instanceof PoisonedBubble) {
-                        this.endboss.hit(bubble);
-                    }
-                    bubble.delete(this.bubbles, bubble);
-                } else {
-                    this.level.enemies.forEach(enemy => {
-                        if (bubble.isColliding(enemy)) {//bubble meets enemy
-                            if (enemy instanceof Pufferfish) {
-                                bubble.delete(this.bubbles, bubble);
-                            } else {//bubble meets jellyfish
-                                bubble.withJelly(enemy.constructor.name);
+                        if (this.character.isColliding(enemy) && !enemy.slappedNormal && !enemy.slappedInverse) {//slapped enemies don't hurt 
+                            // console.log('collision', enemy, this.character.energy);
+                            this.character.hit();
+                        } else if (this.keyboard.space && enemy.isSlapped(this.character)) {//slapping is only possible if character is not colliding
+                            // console.log('slapped');
+                            enemy.wait = true;
+                            if (this.character.otherDirection) {
+                                enemy.slappedInverse = true;
+                            } else {
+                                enemy.slappedNormal = true;
                             }
+                        } else if (enemy.y < 0) {
+                            enemy.delete(this.level.enemies, enemy)
                         }
                     });
                 }
 
-            });
+                // bubble attack
+                if (this.keyboard.b) {
+                    if (!this.character.isBubbling && !this.character.isBubblingPoison) {
+                        this.character.isBubbling = true;
+                        this.character.currentImage = 0;
+                    }
+                }
+                if (this.keyboard.v) {
+                    if (!this.character.isBubbling && !this.character.isBubblingPoison) {
+                        if (this.character.collectedPoisons > 0) {
+                            this.character.isBubblingPoison = true;
+                        } else { this.character.isBubbling = true; }
+                        this.character.currentImage = 0;
+                    }
+                }
 
+                //collect items
+                this.level.collectableObjects.forEach((object) => {
+                    object.calculateCollisionCoordinates();
+                    if (this.character.isColliding(object)) {
+                        this.character.collect(object);
+                        object.delete(this.level.collectableObjects, object);
+                    }
+                });
+                //endboss
+                if (this.character.collisionMaxX >= this.endboss.x - 250) {
+                    this.endboss.wait = false; //endboss is introduced
+                }
+                this.endboss.calculateCollisionCoordinates();
+                if (this.character.collisionMaxX > this.endboss.collisionMinX - 70 && !this.endboss.attack) {
+                    this.endboss.currentImage = 0;
+                    this.endboss.isAttacking(this.character);
+                }
+
+                //bubbles
+                this.bubbles.forEach(bubble => {
+                    bubble.calculateCollisionCoordinates();
+                    if (bubble.collisionMaxY < 0) {
+                        bubble.delete(this.bubbles, bubble);
+                    } else if (this.endboss.isColliding(bubble)) {//bubble meets endboss
+                        if (bubble instanceof PoisonedBubble) {
+                            this.endboss.hit(bubble);
+                        }
+                        bubble.delete(this.bubbles, bubble);
+                    } else {
+                        this.level.enemies.forEach(enemy => {
+                            if (bubble.isColliding(enemy)) {//bubble meets enemy
+                                if (enemy instanceof Pufferfish) {
+                                    bubble.delete(this.bubbles, bubble);
+                                } else {//bubble meets jellyfish
+                                    bubble.withJelly(enemy.constructor.name);
+                                }
+                            }
+                        });
+                    }
+
+                });
+            }
         }, 1000 / 60);
     }
 

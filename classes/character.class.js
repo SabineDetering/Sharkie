@@ -7,8 +7,8 @@ class Character extends MovableObject {
 
     collisionOffsetX = 75;
     collisionOffsetY = 160;
-    collisionWidth = 210;
-    collisionHeight = 110;
+    collisionWidth = 205;
+    collisionHeight = 100;
 
     isSlapping = false;
     isBubbling = false;

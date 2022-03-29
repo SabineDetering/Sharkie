@@ -42,25 +42,41 @@
     <script src="./js/game.js"></script>
 </head>
 
-<body onload="init()">
+<body>
     <div class="blur">
         <h1>SharKie</h1>
         <div class="wrapper">
+
+            <div id="start-screen" class="startscreen">
+                <p>Sharkie is the friendliest shark ever, but he lives in a hostile environment. <br><br>All the other
+                    animals he encounters are deathly dangerous for him. Luckily, he found out how to take advantage of
+                    the pollution of the sea to defend himself. <br><br>
+                    Help Sharkie to fight his enemies and survive!
+                </p>
+                <div class="vertical-btn-group">
+                    <button class="startscreen-btn" onclick="">Instructions</button>
+                    <button class="startscreen-btn" onclick="startGame('level1');">Start game</button>
+                </div>
+            </div>
+
             <canvas id="canvas" width="720" height="480"></canvas>
+
 
             <div id="win-screen" class="endscreen">
                 <img id="img-win" src="./img/win-screen-resized.png">
-                <div id="collected-coins"><p id="coin-text"></p>
-                    <img src="./img/4.Marcadores/1. Coins/1.png" style="width:50px;height:50px;"></div>
+                <div id="collected-coins">
+                    <p id="coin-text"></p>
+                    <img src="./img/4.Marcadores/1. Coins/1.png" style="width:50px;height:50px;">
+                </div>
                 <div class="btn-group">
-                    <button class="btn" onclick="">Restart</button>
-                    <button class="btn" onclick="">Next level</button>
+                    <button class="endscreen-btn" onclick="">Restart</button>
+                    <button class="endscreen-btn" onclick="">Next level</button>
                 </div>
             </div>
 
             <div id="loose-screen" class="endscreen">
                 <img id="img-loose" src="./img/6.Botones/Tittles/Game Over/Recurso 13.png">
-                <button class="btn" onclick="">Try again</button>
+                <button class="endscreen-btn" onclick="">Try again</button>
             </div>
         </div>
     </div>

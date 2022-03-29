@@ -39,6 +39,26 @@ h1 {
     position: relative;
 }
 
+.startscreen {
+    position: absolute;
+    width: 720px;
+    height: 480px;
+    box-sizing: border-box;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    align-items: center;
+    background-image: url('./img/startscreen-background.png');
+}
+
+.startscreen p {
+    color: white;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    padding: 32px;
+    margin: 0;
+}
+
 .endscreen {
     position: absolute;
     width: 720px;
@@ -69,7 +89,6 @@ h1 {
 }
 
 #collected-coins {
-
     position: absolute;
     top: 40%;
     left: 35%;
@@ -79,27 +98,38 @@ h1 {
     align-items: center;
 }
 
-#coin-text {
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
-    font-family: 'Roboto', sans-serif;
-    padding:16px;
-    margin:0;
-}
 
-.btn {
-    margin-top: 40px;
-    height: 70px;
-    width: 250px;
+.startscreen-btn {
+    height: 60px;
+    width: 240px;
     background-color: #388fc3;
     color: white;
     border-radius: 25px;
     border: 5px white solid;
-    font-size: 36px;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.endscreen-btn {
+    margin-top: 40px;
+    height: 60px;
+    width: 230px;
+    background-color: #388fc3;
+    color: white;
+    border-radius: 25px;
+    border: 5px white solid;
+    font-size: 28px;
+    cursor: pointer;
 }
 
 .btn-group {
     display: flex;
+    gap: 20px;
+}
+
+.vertical-btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
 }

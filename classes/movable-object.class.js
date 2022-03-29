@@ -45,7 +45,7 @@ class MovableObject extends DrawableObject {
         this.energy -= 5;
         if (this.energy < 0) {
             this.energy = 0;
-            console.log('energy ', this.energy);
+            // console.log('energy ', this.energy);
         } else {
             this.lastHit = new Date().getTime();//in milliseconds
         }
@@ -137,8 +137,8 @@ class MovableObject extends DrawableObject {
 
 
     delete(arr, mo) {
-        console.log('array to delete from ', arr);
-        console.log('object to delete ', mo);
+        // console.log('array to delete from ', arr);
+        // console.log('object to delete ', mo);
         let index = arr.indexOf(mo);
         arr.splice(index, 1);
     }

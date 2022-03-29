@@ -3,10 +3,10 @@ class Endboss extends MovableObject {
     width = 380;
     x = 900;
     y = 0;
-    collisionOffsetX = 30;
-    collisionOffsetY = 210;
+    collisionOffsetX = 35;
+    collisionOffsetY = 220;
     collisionWidth = 300;
-    collisionHeight = 150;
+    collisionHeight = 130;
     speed = -0.8;
     startEnergy = 15;
     energy = 15;
