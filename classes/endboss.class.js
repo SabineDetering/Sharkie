@@ -1,4 +1,7 @@
 class Endboss extends MovableObject {
+    static counter = 0;
+    id;
+
     height = 440;
     width = 380;
     x = 900;
@@ -89,6 +92,9 @@ class Endboss extends MovableObject {
 
     constructor() {
         super();
+        this.id = Endboss.counter;
+        Endboss.counter++;
+
         this.energy = 15;
         this.wait = true;
         this.isIntroduced = false;
@@ -100,7 +106,19 @@ class Endboss extends MovableObject {
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        this.animate();
+        // this.animate();
+    }
+
+    reset() {
+        this.x = 900;
+        this.y = 0;
+        this.energy = 15;
+        this.wait = true;
+        this.isIntroduced = false;
+        this.attack = false;
+        this.attackFinished = false;
+        this.loadImage(this.IMAGES_INTRODUCE[0]);
+        this.lifeBarEndboss.showStatus(100);
     }
 
 
@@ -115,7 +133,8 @@ class Endboss extends MovableObject {
     }
 
     animate() {
-        setInterval(() => {
+        this.animationInterval=setInterval(() => {
+            // console.log('Endboss id: ', this.id);
             if (!this.wait) {
                 if (!this.isIntroduced) {
                     this.animateImagesOnce(this.IMAGES_INTRODUCE, 'isIntroduced');

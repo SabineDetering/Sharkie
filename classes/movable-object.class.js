@@ -9,6 +9,7 @@ class MovableObject extends DrawableObject {
     collisionMaxY;
 
     speed;
+    animationInterval;
     otherDirection = false;
     currentImage = 0;
     energy = 100;
@@ -85,45 +86,42 @@ class MovableObject extends DrawableObject {
         this.x = this.x * -1;
     }
 
-    moveRight(speed) {
-        setInterval(() => {
-            this.x += speed;
-        }, 1000 / 60);
-    }
-    moveLeft(speed) {
-        setInterval(() => {
-            this.x -= speed;
-        }, 1000 / 60);
-    }
-    moveUp(speed) {
-        setInterval(() => {
-            this.y -= speed;
-        }, 1000 / 60);
-    }
-    moveDown(speed) {
-        setInterval(() => {
-            this.y += speed;
-        }, 1000 / 60);
-    }
 
+    /**
+     * shows the images of the array repeatedly
+     * @param {array} images -array of image paths that were preloaded
+     */
     animateImages(images) {
         let i = this.currentImage % images.length;
         let path = images[i];
         this.img = this.imageCache[path];
         this.currentImage++;
     }
-    
-    animateImagesOnce(images,marker) {
+
+    /**
+     * images in the array are shown once 
+     * then the value of the flag is toggled so that it can be used to check if all images were shown 
+     * important:currentImage must be set to 0 before!
+     * @param {array} images - array of image paths that were preloaded
+     * @param {boolean} flag - marker to show that all images were shown
+     */
+    animateImagesOnce(images,flag) {
         let path;
         if (this.currentImage < images.length) {
             path = images[this.currentImage];
             this.img = this.imageCache[path];
             this.currentImage++;
         } else {
-            this[marker] = !this[marker];
+            this[flag] = !this[flag];
         }
     }
 
+
+    /**
+     * images in the array are shown once and then always the last image of the array
+     * important:currentImage must be set to 0 before!
+     * @param {array} images - array of image paths that were preloaded
+     */
     animateImagesDeath(images) {
         let path;
         if (this.currentImage < images.length) {
@@ -135,12 +133,25 @@ class MovableObject extends DrawableObject {
         this.currentImage++;
     }
 
-
+/**
+ * stops animation of an object and deletes it from an object array
+ * @param {array} arr - array of objects
+ * @param {object} mo - object to delete
+ */
     delete(arr, mo) {
         // console.log('array to delete from ', arr);
         // console.log('object to delete ', mo);
         let index = arr.indexOf(mo);
+        mo.stopAnimation();
         arr.splice(index, 1);
+    }
+
+
+    /**
+     * stops the animation interval
+     */
+    stopAnimation() {
+        clearInterval(this.animationInterval);
     }
 
 }

@@ -4,6 +4,10 @@ class Character extends MovableObject {
     x = 0;
     y = 100;
     speed = 1;
+    animationIntervalMove;
+    animationIntervalImg;
+
+
 
     collisionOffsetX = 75;
     collisionOffsetY = 160;
@@ -178,7 +182,23 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD_POISONED);
         this.loadImages(this.IMAGES_DEAD_SHOCK);
         this.loadImages(this.IMAGES_DEAD_ENDBOSS);
-        this.animate();
+        // this.animate();
+    }
+
+
+    reset() {
+        this.x = 0;
+        this.y = 100;
+        this.img = this.imageCache['./img/1.Sharkie/3.Swim/1.png'];
+        let factor = 1 + coinsCollectedinLevels[currentLevel - 1] / 20;
+        this.energy = 100 * factor;
+        this.isSlapping = false;
+        this.isBubbling = false;
+        this.isBubblingPoison = false;
+
+        this.collectedCoins = 0;
+        this.collectedPoisons = 0;
+        this.killedByEndboss = false;
     }
 
     isLongIdle() {
@@ -204,7 +224,7 @@ class Character extends MovableObject {
 
     animate() {
         //Movement
-        setInterval(() => {
+        this.animationIntervalMove = setInterval(() => {
             if (!this.world.endOfGame) {
                 if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 400) {//let bones fall to ground
                     this.y += 5;
@@ -235,7 +255,7 @@ class Character extends MovableObject {
         }, 1000 / 60);
 
         //Image animation 
-        setInterval(() => {
+        this.animationIntervalImg = setInterval(() => {
             if (!this.world.endOfGame) {
                 if (this.world.endboss.attackFinished) {
                     this.animateImagesDeath(this.IMAGES_DEAD_ENDBOSS);
@@ -294,4 +314,15 @@ class Character extends MovableObject {
             }
         }
     }
+
+
+    /**
+     * stops the animation intervals for movement and images
+     */
+    stopAnimation() {
+        clearInterval(this.animationIntervalMove);
+        clearInterval(this.animationIntervalImg);
+    }
+
+
 }

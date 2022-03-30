@@ -27,6 +27,33 @@ class World {
         this.character.world = this;//allows character to use all variables of world
     }
 
+    startAnimation() {
+        this.character.animate();
+        this.endboss.animate();
+        this.level.enemies.forEach(o => { o.animate(); });
+    }
+    
+    
+    stopAnimation() {
+        this.character.stopAnimation();
+        this.endboss.stopAnimation();
+        this.level.enemies.forEach(o => { o.delete(this.level.enemies, o) });
+        this.level.collectableObjects.forEach(o => { o.delete(this.level.collectableObjects, o) });
+        this.bubbles.forEach(o => { o.delete(this.bubbles, o) });
+    }
+
+
+    reset() {
+        this.camera_x = 0;
+        this.endOfGame = endOfGame;
+        this.character.reset();
+        this.endboss.reset();
+        this.lifeBar.reset();
+        this.poisonBar.showStatus(0);
+        this.coinBar.showStatus(0);
+
+    }
+
     run() {
         setInterval(() => {
             if (!this.endOfGame) {

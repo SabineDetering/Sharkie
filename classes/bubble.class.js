@@ -21,9 +21,9 @@ class Bubble extends MovableObject {
 
 
     withJelly(classname) { }
-    
+
     animate() {
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             if (this.direction == 'right') {
                 this.x += this.speed;
                 this.y += this.speedY;
