@@ -59,10 +59,11 @@
                     <button class="startscreen-btn" onclick="startGame(1)">Start game</button>
                 </div>
             </div>
-            
+
             <div id="level2-screen" class="startscreen">
                 <p><br>
-                    On this level, Sharkie meets even more dangerous animals. Be careful, to stay away from them and fight them from a safe distance!  <br><br>
+                    On this level, Sharkie meets even more dangerous animals. Be careful, to stay away from them and
+                    fight them from a safe distance! <br><br>
                     With the coins collected in the previous level, Sharkie got some cures to improve his health.
                 </p>
                 <div class="vertical-btn-group">
@@ -70,9 +71,29 @@
                         Instructions
                     </button>
                     <button class="startscreen-btn" onclick="startGame(2)">
-                        Start game
+                        Start level
                     </button>
                 </div>
+            </div>
+
+            <div id="instruction-screen" class="startscreen">
+                <div style="display:flex">
+                    <div style="text-align:center;">
+                        <button class="instruction-btn">&#5123;</button><br>
+                        <button class="instruction-btn">&#5130;</button>
+                        <button class="instruction-btn">&#5121;</button>
+                        <button class="instruction-btn">&#5125;</button>
+                    </div>
+                    <p>use arrow keys to move Sharkie</p>
+                </div>
+                <p><button class="startscreen-btn">space</button>fin slap</p>
+                <p><button class="instruction-btn">b</button>blow bubbles</p>
+                <p><button class="instruction-btn">v</button>blow poisoned bubbles</p>
+
+                <button id="start-btn" class="startscreen-btn" >
+                    Start level
+                </button>
+
             </div>
 
             <canvas id="canvas" width="720" height="480"></canvas>

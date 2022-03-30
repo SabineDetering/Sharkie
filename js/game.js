@@ -18,10 +18,8 @@ function startGame(levelNumber) {
     ctx = canvas.getContext('2d');
     level = levelFunctions[levelNumber - 1]();
     world = new World(canvas, keyboard, level);
-    getId('level1-screen').style.display = "none";
-    getId('level2-screen').style.display = "none";
-    getId('win-screen').style.display = "none";
-    getId('loose-screen').style.display = "none";
+    getId(`level${levelNumber}-screen`).style.display = "none";
+    getId('instruction-screen').style.display = "none";
 }
 
 async function finishGame(playerWins) {
@@ -45,7 +43,9 @@ function showStartScreen(levelNumber) {
 
 
 function showInstructions(levelNumber) {
-
+    getId('instruction-screen').style.display = "block";
+    getId(`level${levelNumber}-screen`).style.display = "none";
+    getId('start-btn').setAttribute('onclick', `startGame(${levelNumber})`);
 }
 
 
