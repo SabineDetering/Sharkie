@@ -1,4 +1,4 @@
-class LifeBar extends StatusBar{
+class LifeBar extends StatusBar {
     y = 35;
     IMAGES = [
         './img/4.Marcadores/green/Life/life_0.png',
@@ -12,6 +12,8 @@ class LifeBar extends StatusBar{
 
     constructor() {
         super();
+        let factor = 1 + coinsCollectedinLevels[currentLevel - 1] / 20;
+        this.width = this.width * factor;
         this.loadImages(this.IMAGES);;
         this.showStatus(100);
     }

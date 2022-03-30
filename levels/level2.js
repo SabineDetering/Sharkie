@@ -1,6 +1,9 @@
-function initLevel1() {
-    const level1 = {
+function initLevel2() {
+    const level2 = {
         enemies: [
+            new PufferfishGreen(),
+            new PufferfishOrange(),
+            new PufferfishRed(),
             new PufferfishGreen(),
             new PufferfishOrange(),
             new PufferfishRed()
@@ -48,5 +51,5 @@ function initLevel1() {
                 new BackgroundObject('./img/3.Background/Layers/1.Light/2.png', 3 * 780)
             ]
     }
-    return new Level(level1.enemies, level1.collectableObjects, level1.backgroundObjects);
+    return new Level(level2.enemies, level2.collectableObjects, level2.backgroundObjects);
 };

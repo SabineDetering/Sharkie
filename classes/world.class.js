@@ -11,13 +11,13 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
-    endOfGame = false;
 
     constructor(canvas, keyboard,level) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.level = level;
+        this.endOfGame = endOfGame;
         this.draw();
         this.setWorld();
         this.run();

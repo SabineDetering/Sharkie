@@ -1,21 +1,27 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
-let level;
+let currentLevel = 1;
+let level;//level object
+let levelFunctions = [initLevel1, initLevel2];
+let coinsCollectedinLevels = [0];
+let endOfGame = false;
 
-function startGame(levelname) {
-    document.getElementById('start-screen').style.display = "none";
-    canvas = document.getElementById('canvas');
-    switch (levelname) {
-        case 'level1': level = initLevel1();
-            break;
-        case 'level2': level = initLevel2();
-            break;
-        default:
-            console.log(levelname + ' is not defined.');
-    }
-    world = new World(canvas, keyboard, level);
+function getId(id) {
+    return document.getElementById(id);
+}
+
+function startGame(levelNumber) {
+    currentLevel = levelNumber;
+    endOfGame = false;
+    canvas = getId('canvas');
     ctx = canvas.getContext('2d');
+    level = levelFunctions[levelNumber - 1]();
+    world = new World(canvas, keyboard, level);
+    getId('level1-screen').style.display = "none";
+    getId('level2-screen').style.display = "none";
+    getId('win-screen').style.display = "none";
+    getId('loose-screen').style.display = "none";
 }
 
 async function finishGame(playerWins) {
@@ -29,13 +35,35 @@ async function finishGame(playerWins) {
         }
     }
 }
+
+
+function showStartScreen(levelNumber) {
+    getId('loose-screen').style.display = "none";
+    getId('win-screen').style.display = "none";
+    getId(`level${levelNumber}-screen`).style.display = "block";
+}
+
+
+function showInstructions(levelNumber) {
+
+}
+
+
 function showWinScreen() {
-    document.getElementById('win-screen').style.display = "flex";
-    document.getElementById('coin-text').innerHTML = `You have collected ${world.character.collectedCoins} coins.<br> Each coin will strengthen your health in the next level.`;
+    getId('win-screen').style.display = "flex";
+    getId('coin-text').innerHTML = `You have collected ${world.character.collectedCoins} coins.<br> Each coin will strengthen your health in the next level.`;
+    coinsCollectedinLevels[currentLevel] = world.character.collectedCoins;
+    getId('restart-btn').setAttribute('onclick', `startGame(${currentLevel})`);
+    getId('next-btn').setAttribute('onclick', `showStartScreen(${currentLevel + 1})`);
 }
+
+
 function showLooseScreen() {
-    document.getElementById('loose-screen').style.display = "flex";
+    getId('loose-screen').style.display = "flex";
+    getId('again-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
 }
+
+
 
 window.addEventListener('keydown', (e) => {
     keyboard.lastKeyMove = new Date().getTime();

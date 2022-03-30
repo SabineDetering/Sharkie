@@ -7,17 +7,8 @@ class Character extends MovableObject {
 
     collisionOffsetX = 75;
     collisionOffsetY = 160;
-    collisionWidth = 205;
+    collisionWidth = 200;
     collisionHeight = 100;
-
-    isSlapping = false;
-    isBubbling = false;
-    isBubblingPoison = false;
-
-    collectedCoins = 0;
-    collectedPoisons = 0;
-    killedByEndboss = false;
-
 
     IMAGES_IDLE = [
         './img/1.Sharkie/1.IDLE/1.png',
@@ -164,6 +155,16 @@ class Character extends MovableObject {
 
     constructor() {
         super();
+        let factor = 1 + coinsCollectedinLevels[currentLevel - 1] / 20;
+        this.energy = 100 * factor;
+        this.isSlapping = false;
+        this.isBubbling = false;
+        this.isBubblingPoison = false;
+
+        this.collectedCoins = 0;
+        this.collectedPoisons = 0;
+        this.killedByEndboss = false;
+
         this.loadImage('./img/1.Sharkie/3.Swim/1.png');
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
@@ -182,7 +183,7 @@ class Character extends MovableObject {
 
     isLongIdle() {
         let timePassed = new Date().getTime() - this.world.keyboard.lastKeyMove;
-        return timePassed > 2000;
+        return timePassed > 2500;
     }
 
     hit() {

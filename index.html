@@ -39,23 +39,39 @@
     <script src="./classes/bubble.class.js"></script>
     <script src="./classes/poisoned-bubble.class.js"></script>
     <script src="./levels/level1.js"></script>
+    <script src="./levels/level2.js"></script>
     <script src="./js/game.js"></script>
 </head>
 
-<body>
+<body onload="showStartScreen(1)">
     <div class="blur">
         <h1>SharKie</h1>
         <div class="wrapper">
 
-            <div id="start-screen" class="startscreen">
+            <div id="level1-screen" class="startscreen">
                 <p>Sharkie is the friendliest shark ever, but he lives in a hostile environment. <br><br>All the other
                     animals he encounters are deathly dangerous for him. Luckily, he found out how to take advantage of
                     the pollution of the sea to defend himself. <br><br>
                     Help Sharkie to fight his enemies and survive!
                 </p>
                 <div class="vertical-btn-group">
-                    <button class="startscreen-btn" onclick="">Instructions</button>
-                    <button class="startscreen-btn" onclick="startGame('level1');">Start game</button>
+                    <button class="startscreen-btn" onclick="showInstructions(1)">Instructions</button>
+                    <button class="startscreen-btn" onclick="startGame(1)">Start game</button>
+                </div>
+            </div>
+            
+            <div id="level2-screen" class="startscreen">
+                <p><br>
+                    On this level, Sharkie meets even more dangerous animals. Be careful, to stay away from them and fight them from a safe distance!  <br><br>
+                    With the coins collected in the previous level, Sharkie got some cures to improve his health.
+                </p>
+                <div class="vertical-btn-group">
+                    <button class="startscreen-btn" onclick="showInstructions(2)">
+                        Instructions
+                    </button>
+                    <button class="startscreen-btn" onclick="startGame(2)">
+                        Start game
+                    </button>
                 </div>
             </div>
 
@@ -69,14 +85,14 @@
                     <img src="./img/4.Marcadores/1. Coins/1.png" style="width:50px;height:50px;">
                 </div>
                 <div class="btn-group">
-                    <button class="endscreen-btn" onclick="">Restart</button>
-                    <button class="endscreen-btn" onclick="">Next level</button>
+                    <button id="restart-btn" class="endscreen-btn" onclick="">Restart</button>
+                    <button id="next-btn" class="endscreen-btn" onclick="">Next level</button>
                 </div>
             </div>
 
             <div id="loose-screen" class="endscreen">
                 <img id="img-loose" src="./img/6.Botones/Tittles/Game Over/Recurso 13.png">
-                <button class="endscreen-btn" onclick="">Try again</button>
+                <button id="again-btn" class="endscreen-btn" onclick="">Try again</button>
             </div>
         </div>
     </div>

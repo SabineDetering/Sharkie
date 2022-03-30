@@ -10,7 +10,7 @@ class CollectableObject extends MovableObject {
         super();
         this.x = x;
         this.y = y;
-        this.loadImage(this.IMG);
+        // this.loadImage(this.IMG);
     }
 
 }

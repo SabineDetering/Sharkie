@@ -45,7 +45,7 @@ class MovableObject extends DrawableObject {
         this.energy -= 5;
         if (this.energy < 0) {
             this.energy = 0;
-            // console.log('energy ', this.energy);
+            console.log('energy ', this.energy);
         } else {
             this.lastHit = new Date().getTime();//in milliseconds
         }

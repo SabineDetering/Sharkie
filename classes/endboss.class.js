@@ -9,12 +9,9 @@ class Endboss extends MovableObject {
     collisionHeight = 130;
     speed = -0.8;
     startEnergy = 15;
-    energy = 15;
-    wait = true;
+   
     lifeBarEndboss = new LifeBarEndboss();
-    isIntroduced = false;
-    attack = false;
-    attackFinished = false;
+
     attackSpeedX = -8;
     attackSpeedY;
 
@@ -92,6 +89,11 @@ class Endboss extends MovableObject {
 
     constructor() {
         super();
+        this.energy = 15;
+        this.wait = true;
+        this.isIntroduced = false;
+        this.attack = false;
+        this.attackFinished = false;
         this.loadImage(this.IMAGES_INTRODUCE[0]);
         this.loadImages(this.IMAGES_INTRODUCE);
         this.loadImages(this.IMAGES_FLOATING);
