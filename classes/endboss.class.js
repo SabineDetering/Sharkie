@@ -4,7 +4,7 @@ class Endboss extends MovableObject {
 
     height = 440;
     width = 380;
-    x = 900;
+    x = 1700;
     y = 0;
     collisionOffsetX = 35;
     collisionOffsetY = 220;

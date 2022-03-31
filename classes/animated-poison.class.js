@@ -1,4 +1,4 @@
-class Poison extends CollectableObject {
+class AnimatedPoison extends CollectableObject {
     width = 40;
     height = 40;
     collisionOffsetX = 0;
@@ -16,10 +16,17 @@ class Poison extends CollectableObject {
         './img/4.Marcadores/Posión/Animada/8.png'
     ];
 
-    constructor(x, y,image) {
+    constructor(x, y) {
         super();
         this.x = x;
         this.y = y;
-        this.loadImage(image);
+        this.loadImage(this.IMAGES[0]);
+        this.loadImages(this.IMAGES);
+        this.animate();
+    }
+    animate() {
+        this.animationInterval = setInterval(() => {
+            this.animateImages(this.IMAGES);
+        }, 1000 / 10);
     }
 }

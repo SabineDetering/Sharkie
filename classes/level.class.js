@@ -15,6 +15,6 @@ class Level {
         return this.collectableObjects.filter(o => o instanceof Coin).length;
     }
     countPoisons() {
-        return this.collectableObjects.filter(o => o instanceof Poison).length;
+        return this.collectableObjects.filter(o => o instanceof Poison || o instanceof AnimatedPoison).length;
     }
 }

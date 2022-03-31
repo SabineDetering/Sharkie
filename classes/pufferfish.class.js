@@ -24,8 +24,9 @@ class Pufferfish extends MovableObject {
         // this.x = 320 + Math.random() * 700;
         // this.y = 50 + Math.random() * 320;
         this.speed = 0.15 + Math.random() * 0.4;
-        // this.animate();
     }
+
+    
     animate() {
         this.animationIntervalMove = setInterval(() => {
             // console.log('wait ', this.wait, 'slappedNormal ', this.slappedNormal, 'slappedInverse ', this.slappedInverse);

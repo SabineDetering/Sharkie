@@ -182,11 +182,13 @@ class World {
         });
     }
 
+
     addObjectsToCanvas(objects) {
         objects.forEach(o => {
             this.addToCanvas(o);
         })
     }
+
 
     addToCanvas(mo) {
         if (mo.otherDirection) {
@@ -199,11 +201,15 @@ class World {
             mo.flipImageBack(ctx);
         }
     }
+
+
     addStaticObjectsToCanvas(objects) {
         objects.forEach(o => {
             this.addStaticToCanvas(o);
         })
     }
+
+
     addStaticToCanvas(o) {
         o.draw(this.ctx);
     }
