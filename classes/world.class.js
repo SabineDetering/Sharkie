@@ -30,7 +30,6 @@ class World {
 
     startAnimation() {
         this.character.animate();
-        this.endboss.animate();
         this.level.enemies.forEach(o => { o.animate(); });
     }
     
@@ -38,6 +37,7 @@ class World {
     stopAnimation() {
         this.character.stopAnimation();
         this.endboss.stopAnimation();
+        // console.log('endboss animation stopped');
         this.level.enemies.forEach(o => { o.delete(this.level.enemies, o) });
         this.level.collectableObjects.forEach(o => { o.delete(this.level.collectableObjects, o) });
         this.bubbles.forEach(o => { o.delete(this.bubbles, o) });
@@ -52,7 +52,6 @@ class World {
         this.lifeBar.reset();
         this.poisonBar.showStatus(0);
         this.coinBar.showStatus(0);
-
     }
 
     run() {
@@ -116,7 +115,7 @@ class World {
                 });
                 //endboss
                 if (this.character.collisionMaxX >= this.endboss.x - 250) {
-                    this.endboss.wait = false; //endboss is introduced
+                    this.endboss.startAnimation(); //endboss is introduced
                 }
                 this.endboss.calculateCollisionCoordinates();
                 if (this.character.collisionMaxX > this.endboss.collisionMinX - 70 && !this.endboss.attack) {

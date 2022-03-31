@@ -12,7 +12,13 @@ class Endboss extends MovableObject {
     collisionHeight = 130;
     speed = -0.8;
     startEnergy = 15;
-   
+
+    energy = 15;
+    wait = true;
+    isIntroduced = false;
+    attack = false;
+    attackFinished = false;
+
     lifeBarEndboss = new LifeBarEndboss();
 
     attackSpeedX = -8;
@@ -95,20 +101,18 @@ class Endboss extends MovableObject {
         this.id = Endboss.counter;
         Endboss.counter++;
 
-        this.energy = 15;
-        this.wait = true;
-        this.isIntroduced = false;
-        this.attack = false;
-        this.attackFinished = false;
         this.loadImage(this.IMAGES_INTRODUCE[0]);
         this.loadImages(this.IMAGES_INTRODUCE);
         this.loadImages(this.IMAGES_FLOATING);
         this.loadImages(this.IMAGES_ATTACK);
         this.loadImages(this.IMAGES_HURT);
         this.loadImages(this.IMAGES_DEAD);
-        // this.animate();
     }
 
+
+    /**
+     * resets all properties that could have been changed during previous game
+     */
     reset() {
         this.x = 900;
         this.y = 0;
@@ -123,42 +127,69 @@ class Endboss extends MovableObject {
     }
 
 
+    /**
+     * starts animation of endboss triggered by approaching character (world.run())
+     */
+    startAnimation() {
+        if (this.wait) {
+            this.wait = false;
+            this.animate();
+     }
+ }
+
+    
+    /**
+     * reduces energy and indirectly starts "isHurt"-interval
+     * currentImage set to 0 to start animation with first image
+     * lifeBarEndboss is updated
+     */
     hit() {
         super.hit();
         this.currentImage = 0;
-        this.lifeBarEndboss.showStatus(this.energy/this.startEnergy*100);
+        this.lifeBarEndboss.showStatus(this.energy / this.startEnergy * 100);
     }
+
+
+    /**
+     * sets flag to true in order to start attacking animation
+     * attackSpeedy is calculated to overcome the vertical distance to the attacked character
+     * @param {object} c -character
+     */
     isAttacking(c) {
         this.attack = true;
         this.attackSpeedY = (c.collisionMinY + 0.5 * c.collisionHeight - (this.collisionMinY + 0.5 * this.collisionHeight)) / 10;
     }
 
+    /**
+     * movement and images for endboss
+     */
     animate() {
-        this.animationInterval=setInterval(() => {
-            // console.log('Endboss id: ', this.id);
-            if (!this.wait) {
-                if (!this.isIntroduced) {
-                    this.animateImagesOnce(this.IMAGES_INTRODUCE, 'isIntroduced');
-                } else if (this.isHurt()) {
-                    this.animateImages(this.IMAGES_HURT);
-                } else if (this.isDead()) {
-                    this.animateImagesDeath(this.IMAGES_DEAD);
-                    if (this.currentImage >= this.IMAGES_DEAD.length + 25) {//after dead animation 
-                        // console.log('finish function called');
-                        finishGame(true);
-                    }
-                } else if (this.attack && !this.attackFinished) {
-                    this.animateImagesOnce(this.IMAGES_ATTACK, 'attackFinished');
-                    this.x += this.attackSpeedX;
-                    this.y += this.attackSpeedY;
-                } else if (this.attackFinished) {
-                    this.animateImages(this.IMAGES_FLOATING);
-                } else {
-                    this.animateImages(this.IMAGES_FLOATING);
-                    this.x += this.speed;
+        this.animationInterval = setInterval(() => {
+            // console.log('Endboss id: ', this.id);   
+            if (!this.isIntroduced) {
+                //intro animation is only shown once when endboss appears
+                this.animateImagesOnce(this.IMAGES_INTRODUCE, 'isIntroduced');
+            } else if (this.isHurt()) {
+                this.animateImages(this.IMAGES_HURT);
+            } else if (this.isDead()) {
+                this.animateImagesDeath(this.IMAGES_DEAD);
+                if (this.currentImage >= this.IMAGES_DEAD.length + 25) {
+                    //short timeout after dead animation
+                    console.log('finish function called');
+                    finishGame(true);
                 }
+            } else if (this.attack && !this.attackFinished) {
+                // attack animation is shown only once, enboss moves to the attacked character
+                this.animateImagesOnce(this.IMAGES_ATTACK, 'attackFinished');
+                this.x += this.attackSpeedX;
+                this.y += this.attackSpeedY;
+            } else if (this.attackFinished) {
+                //after attack before finish
+                this.animateImages(this.IMAGES_FLOATING);
+            } else {//slowly approaching character
+                this.animateImages(this.IMAGES_FLOATING);
+                this.x += this.speed;
             }
         }, 100);
     }
-
 }
