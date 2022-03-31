@@ -3,14 +3,23 @@ class Character extends MovableObject {
     width = 360;
     x = 0;
     y = 100;
-    speed = 1;
-    animationIntervalMove;
-    animationIntervalImg;
 
     collisionOffsetX = 75;
     collisionOffsetY = 160;
     collisionWidth = 200;
     collisionHeight = 100;
+
+    speed = 1;
+    isSlapping = false;
+    isBubbling = false;
+    isBubblingPoison = false;
+    killedByEndboss = false;
+
+    collectedCoins = 0;
+    collectedPoisons = 0;
+
+    animationIntervalMove;
+    animationIntervalImg;
 
     IMAGES_IDLE = [
         './img/1.Sharkie/1.IDLE/1.png',
@@ -157,16 +166,9 @@ class Character extends MovableObject {
 
     constructor() {
         super();
+        //collected coins from previous level increase energy
         let factor = 1 + coinsCollectedinLevels[currentLevel - 1] / 20;
         this.energy = 100 * factor;
-        this.isSlapping = false;
-        this.isBubbling = false;
-        this.isBubblingPoison = false;
-
-        this.collectedCoins = 0;
-        this.collectedPoisons = 0;
-        this.killedByEndboss = false;
-
         this.loadImage('./img/1.Sharkie/3.Swim/1.png');
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
@@ -180,10 +182,12 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_DEAD_POISONED);
         this.loadImages(this.IMAGES_DEAD_SHOCK);
         this.loadImages(this.IMAGES_DEAD_ENDBOSS);
-        // this.animate();
     }
 
 
+    /**
+     * resets all properties that could have been changed during previous game
+     */
     reset() {
         this.x = 0;
         this.y = 100;
@@ -199,73 +203,102 @@ class Character extends MovableObject {
         this.killedByEndboss = false;
     }
 
+
+    /**
+     * @returns boolean - true, if more than 2.5 sec passed since last keyboard touch
+     */
     isLongIdle() {
         let timePassed = new Date().getTime() - this.world.keyboard.lastKeyMove;
         return timePassed > 2500;
     }
 
+
+    /**
+     * reduces energy and indirectly starts "isHurt"-interval
+     * currentImage set to 0 to start animation with first image
+     * lifeBar is updated
+     */
     hit() {
         super.hit();
         this.currentImage = 0;
         this.world.lifeBar.showStatus(this.energy);
     }
 
+
+    /**
+     * updates number of collected items and status bar
+     * @param {object} o - collectable object
+     */
     collect(o) {
         if (o instanceof Coin) {
             this.collectedCoins++;
             this.world.coinBar.showStatus(this.collectedCoins / this.world.level.totalCoins * 100);
-        } else {
+        } else {//poison
             this.collectedPoisons++;
             this.world.poisonBar.showStatus(this.collectedPoisons / this.world.level.totalPoisons * 100);
         }
     }
 
+
+    /**
+     * movement,images and sound for character
+     */
     animate() {
-        //Movement
+        this.animateMovement();
+        this.animateImages();
+    }
+
+
+    /**
+     * animation of movement for character
+     */
+    animateMovement() {
         this.animationIntervalMove = setInterval(() => {
-            if (!this.world.endOfGame) {
-                if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 400) {//let bones fall to ground
-                    this.y += 5;
-                    this.calculateCollisionCoordinates();
-                }
-
-                this.swim_sound.pause();
-                if (this.world.keyboard.right && this.x < this.world.background.endX) {
-                    this.x += this.speed;
-                    this.otherDirection = false;
-                    this.swim_sound.play();
-                }
-                if (this.world.keyboard.left && this.x > this.world.background.startX) {
-                    this.x -= this.speed;
-                    this.otherDirection = true;
-                    this.swim_sound.play();
-                }
-                if (this.world.keyboard.up && this.collisionMinY > 0) {
-                    this.y -= this.speed;
-                    this.swim_sound.play();
-                }
-                if (this.world.keyboard.down && this.collisionMaxY < 460) {
-                    this.y += this.speed;
-                    this.swim_sound.play();
-                }
-                this.world.camera_x = -this.x + 30;
+            if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 400) {//let bones fall to ground
+                this.y += 5;
+                this.calculateCollisionCoordinates();
             }
-        }, 1000 / 60);
 
-        //Image animation 
+            this.swim_sound.pause();
+            if (this.world.keyboard.right && this.x < this.world.background.endX) {
+                this.x += this.speed;
+                this.otherDirection = false;
+                this.swim_sound.play();
+            }
+            if (this.world.keyboard.left && this.x > this.world.background.startX) {
+                this.x -= this.speed;
+                this.otherDirection = true;
+                this.swim_sound.play();
+            }
+            if (this.world.keyboard.up && this.collisionMinY > 0) {
+                this.y -= this.speed;
+                this.swim_sound.play();
+            }
+            if (this.world.keyboard.down && this.collisionMaxY < 460) {
+                this.y += this.speed;
+                this.swim_sound.play();
+            }
+            this.world.camera_x = -this.x + 30;
+        }, 1000 / 60);
+    }
+
+
+    /**
+     * animation of images for character
+     */
+    animateImages() {
         this.animationIntervalImg = setInterval(() => {
             if (!this.world.endOfGame) {
                 if (this.world.endboss.attackFinished) {
                     this.animateImagesDeath(this.IMAGES_DEAD_ENDBOSS);
-                    if (this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length + 32) {//after dead animation plus sinking bones
-                        // console.log('finish function called');
+                    if (this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length + 32) {
+                        //short timeout after dead animation plus sinking bones
                         finishGame(false);
-
                     }
                 } else if (this.isDead()) {
                     this.animateImagesDeath(this.IMAGES_DEAD_POISONED);
-                    if (this.currentImage >= this.IMAGES_DEAD_POISONED.length + 20) {//after dead animation
-                        // console.log('finish function called');
+                    if (this.currentImage >= this.IMAGES_DEAD_POISONED.length + 20) {
+                        //short timeout after dead animation (no sinking bones)
                         finishGame(false);
                     }
                 } else if (this.isHurt()) {
@@ -277,39 +310,54 @@ class Character extends MovableObject {
                 } else if (this.isLongIdle()) {
                     this.animateImages(this.IMAGES_LONG_IDLE);
                 } else if (this.isBubbling) {
-                    this.animateBubbling(false);
+                    this.animateBubbling();
                 } else if (this.isBubblingPoison) {
-                    this.animateBubbling(true);
+                    this.animateBubblingPoison();
                 } else {
                     this.animateImages(this.IMAGES_IDLE);
                 }
             }
         }, 100);
     }
-    animateBubbling(poison) {
+
+
+    /**
+     * shows images for producing bubble once (while isBubblingPoison is true)
+     * and sets isBubbling to false
+     * then a new instance of poisoned bubble is created with position dependent on direction of character
+     * number of collected poisons and status bar is updated
+     */
+    animateBubblingPoison() {
         let bubble;
-        if (poison) {
-            this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubblingPoison');
-            if (!this.isBubblingPoison) {
-                if (this.otherDirection) {
-                    bubble = new PoisonedBubble(this.collisionMinX - 70, this.collisionMinY + 20, 'left');
-                } else {
-                    bubble = new PoisonedBubble(this.collisionMaxX + 10, this.collisionMinY + 20, 'right');
-                }
-                this.world.bubbles.push(bubble);
-                this.collectedPoisons--;
-                this.world.poisonBar.showStatus(this.collectedPoisons / this.world.level.totalCoins * 100);
+        this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubblingPoison');
+        if (!this.isBubblingPoison) {
+            if (this.otherDirection) {
+                bubble = new PoisonedBubble(this.collisionMinX - 70, this.collisionMinY + 20, 'left');
+            } else {
+                bubble = new PoisonedBubble(this.collisionMaxX + 10, this.collisionMinY + 20, 'right');
             }
-        } else {
-            this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubbling');
-            if (!this.isBubbling) {
-                if (this.otherDirection) {
-                    bubble = new Bubble(this.collisionMinX - 80, this.collisionMinY + 20, 'left');
-                } else {
-                    bubble = new Bubble(this.collisionMaxX + 20, this.collisionMinY + 20, 'right');
-                }
-                this.world.bubbles.push(bubble);
+            this.world.bubbles.push(bubble);
+            this.collectedPoisons--;
+            this.world.poisonBar.showStatus(this.collectedPoisons / this.world.level.totalCoins * 100);
+        }
+    }
+
+
+    /**
+     * shows images for producing bubble once (while isBubbling is true)
+     * and sets isBubbling to false
+     * then a new instance of bubble is created with position dependent on direction of character
+     */
+    animateBubbling() {
+        let bubble;
+        this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubbling');
+        if (!this.isBubbling) {
+            if (this.otherDirection) {
+                bubble = new Bubble(this.collisionMinX - 80, this.collisionMinY + 20, 'left');
+            } else {
+                bubble = new Bubble(this.collisionMaxX + 20, this.collisionMinY + 20, 'right');
             }
+            this.world.bubbles.push(bubble);
         }
     }
 
@@ -321,6 +369,4 @@ class Character extends MovableObject {
         clearInterval(this.animationIntervalMove);
         clearInterval(this.animationIntervalImg);
     }
-
-
 }

@@ -81,11 +81,22 @@ button {
     align-items: center;
 }
 
+.small-instructions  {
+    padding: 4px;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.small-instructions span {
+    color: white;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+}
+
 #loose-screen {
     justify-content: center;
 }
-
-
 
 #img-win {
     width: 720px;
