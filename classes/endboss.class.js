@@ -24,6 +24,11 @@ class Endboss extends MovableObject {
     attackSpeedX = -8;
     attackSpeedY;
 
+    intro_sound = new Audio('./audio/endboss_intro.mp3');
+    attack_sound = new Audio('./audio/attack.mp3');
+    hurt_sound = new Audio('./audio/endboss_hurt.mp3');
+    dead_sound = new Audio('./audio/endboss_death.mp3');
+
     IMAGES_INTRODUCE = [
         './img/2.Enemy/3 Final Enemy/1.Introduce/1.png',
         './img/2.Enemy/3 Final Enemy/1.Introduce/2.png',
@@ -134,10 +139,11 @@ class Endboss extends MovableObject {
         if (this.wait) {
             this.wait = false;
             this.animate();
-     }
- }
+            if (soundOn) {this.intro_sound.play();}
+        }
+    }
 
-    
+
     /**
      * reduces energy and indirectly starts "isHurt"-interval
      * currentImage set to 0 to start animation with first image
@@ -146,7 +152,11 @@ class Endboss extends MovableObject {
     hit() {
         super.hit();
         this.currentImage = 0;
+        if (soundOn) {this.hurt_sound.play();}
         this.lifeBarEndboss.showStatus(this.energy / this.startEnergy * 100);
+        if (this.isDead()) {
+            if (soundOn) {this.dead_sound.play();}
+        }
     }
 
 
@@ -184,7 +194,7 @@ class Endboss extends MovableObject {
                 this.x += this.attackSpeedX;
                 this.y += this.attackSpeedY;
             } else if (this.attackFinished) {
-                //after attack before finish
+                //after attack before finish of game
                 this.animateImages(this.IMAGES_FLOATING);
             } else {//slowly approaching character
                 this.animateImages(this.IMAGES_FLOATING);

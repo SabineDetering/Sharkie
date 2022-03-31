@@ -27,6 +27,6 @@ class AnimatedPoison extends CollectableObject {
     animate() {
         this.animationInterval = setInterval(() => {
             this.animateImages(this.IMAGES);
-        }, 1000 / 10);
+        }, 1000 / 5);
     }
 }

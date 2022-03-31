@@ -18,6 +18,17 @@ class Character extends MovableObject {
     collectedCoins = 0;
     collectedPoisons = 0;
 
+    world; // to get access to keyboard
+    swim_sound = new Audio('./audio/silent_swim.mp3');
+    collectCoin_sound = new Audio('./audio/coin.mp3');
+    collectPoison_sound = new Audio('./audio/glass.mp3');
+    slap_sound = new Audio('./audio/slap.mp3');
+    bubble_sound = new Audio('./audio/bubble.mp3');
+    hurt_sound = new Audio('./audio/hurt.mp3');
+    shocked_sound = new Audio('./audio/shock.mp3');
+    dead_sound = new Audio('./audio/killed.mp3');
+    win_sound = new Audio('./audio/win.mp3');
+
     animationIntervalMove;
     animationIntervalImg;
 
@@ -161,8 +172,6 @@ class Character extends MovableObject {
         './img/1.Sharkie/6.dead/2.Electro_shock/10.png'
     ];
 
-    world; // to get access to keyboard
-    swim_sound = new Audio('./audio/silent_swim.mp3');
 
     constructor() {
         super();
@@ -215,13 +224,20 @@ class Character extends MovableObject {
 
     /**
      * reduces energy and indirectly starts "isHurt"-interval
-     * currentImage set to 0 to start animation with first image
+     * currentImage set to 0 to start hurt animation with first image
      * lifeBar is updated
      */
-    hit() {
+    hit(o) {
         super.hit();
         this.currentImage = 0;
+        if (o instanceof Jellyfish) {
+            if (soundOn) {this.shocked_sound.play();}
+        }
+        if (soundOn) {this.hurt_sound.play();}
         this.world.lifeBar.showStatus(this.energy);
+        if (this.isDead()) {
+            if (soundOn) {this.dead_sound.play();}
+        }
     }
 
 
@@ -233,9 +249,11 @@ class Character extends MovableObject {
         if (o instanceof Coin) {
             this.collectedCoins++;
             this.world.coinBar.showStatus(this.collectedCoins / this.world.level.totalCoins * 100);
+            if (soundOn) {this.collectCoin_sound.play();}
         } else {//poison
             this.collectedPoisons++;
             this.world.poisonBar.showStatus(this.collectedPoisons / this.world.level.totalPoisons * 100);
+            if (soundOn) {this.collectPoison_sound.play();}
         }
     }
 
@@ -243,18 +261,18 @@ class Character extends MovableObject {
     /**
      * movement,images and sound for character
      */
-    // animate() {
-    //     this.animateMovement();
-    //     this.animateImages();
-    // }
+    animate() {
+        this.animateMovement();
+        this.animatePictures();
+    }
 
 
     /**
      * animation of movement for character
      */
 
-    animate() {
-    // animateMovement() {
+    // animate() {
+    animateMovement() {
         this.animationIntervalMove = setInterval(() => {
             if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 400) {//let bones fall to ground
                 this.y += 5;
@@ -265,30 +283,30 @@ class Character extends MovableObject {
             if (this.world.keyboard.right && this.x < this.world.background.endX) {
                 this.x += this.speed;
                 this.otherDirection = false;
-                this.swim_sound.play();
+                if (soundOn) { this.swim_sound.play(); }
             }
             if (this.world.keyboard.left && this.x > this.world.background.startX) {
                 this.x -= this.speed;
                 this.otherDirection = true;
-                this.swim_sound.play();
+                if (soundOn) { this.swim_sound.play(); }
             }
             if (this.world.keyboard.up && this.collisionMinY > 0) {
                 this.y -= this.speed;
-                this.swim_sound.play();
+                if (soundOn) { this.swim_sound.play(); }
             }
             if (this.world.keyboard.down && this.collisionMaxY < 460) {
                 this.y += this.speed;
-                this.swim_sound.play();
+                if (soundOn) {this.swim_sound.play();}
             }
             this.world.camera_x = -this.x + 30;
         }, 1000 / 60);
-    // }
+    }
 
 
     /**
      * animation of images for character
      */
-    // animateImages() {
+    animatePictures() {
         this.animationIntervalImg = setInterval(() => {
             if (this.world.endboss.attackFinished) {
                 this.animateImagesDeath(this.IMAGES_DEAD_ENDBOSS);
@@ -308,6 +326,7 @@ class Character extends MovableObject {
                 this.animateImages(this.IMAGES_SWIM);
             } else if (this.isSlapping) {
                 this.animateImagesOnce(this.IMAGES_ATTACK_FIN, 'isSlapping');
+                if (soundOn){ this.slap_sound.play();}
             } else if (this.isLongIdle()) {
                 this.animateImages(this.IMAGES_LONG_IDLE);
             } else if (this.isBubbling) {
@@ -331,6 +350,7 @@ class Character extends MovableObject {
         let bubble;
         this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubblingPoison');
         if (!this.isBubblingPoison) {
+            if (soundOn) {this.bubble_sound.play();}
             if (this.otherDirection) {
                 bubble = new PoisonedBubble(this.collisionMinX - 70, this.collisionMinY + 20, 'left');
             } else {
@@ -352,6 +372,7 @@ class Character extends MovableObject {
         let bubble;
         this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubbling');
         if (!this.isBubbling) {
+            if (soundOn){ this.bubble_sound.play();}
             if (this.otherDirection) {
                 bubble = new Bubble(this.collisionMinX - 80, this.collisionMinY + 20, 'left');
             } else {

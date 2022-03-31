@@ -6,6 +6,7 @@ let level;//level object
 let levelFunctions = [level1, level2];
 let coinsCollectedinLevels = [0];
 let endOfGame = false;
+let soundOn = true;
 
 function getId(id) {
     return document.getElementById(id);
@@ -16,6 +17,8 @@ function initGame() {
     ctx = canvas.getContext('2d');
     level = levelFunctions[0]();
     world = new World(canvas, keyboard, level);
+    background_sound = new Audio('./audio/under_water.mp3');
+    background_sound.loop = true;
 }
 
 function initLevel(levelNumber) {
@@ -36,6 +39,7 @@ function startLevel(levelNumber) {
     getId(`level${levelNumber}-screen`).style.display = "none";
     getId('instruction-screen').style.display = "none";
     world.startAnimation();
+    if (soundOn) { background_sound.play(); }
 }
 
 
@@ -44,8 +48,10 @@ function finishGame(playerWins) {
         // console.log('finish executed');
         world.endOfGame = true;
         world.stopAnimation();
+        background_sound.pause();
         if (playerWins) {
             showWinScreen();
+            if (soundOn) { world.win_sound.play(); }
             if (currentLevel == levelFunctions.length) {
                 getId('next-btn').style.display = "none";
             } else {
@@ -54,6 +60,7 @@ function finishGame(playerWins) {
 
         } else {
             showLooseScreen();
+            if (soundOn) {world.loose_sound.play();}
         }
     }
 }
@@ -67,7 +74,7 @@ function finishGame(playerWins) {
 function showStartScreen(levelNumber, onload = false) {
     getId('loose-screen').style.display = "none";
     getId('win-screen').style.display = "none";
-    getId(`level${levelNumber}-screen`).style.display = "block";
+    getId(`level${levelNumber}-screen`).style.display = "flex";
     if (onload) {
         initGame();
     } else {
@@ -97,6 +104,20 @@ function showLooseScreen() {
     getId('again-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
 }
 
+
+function toggleVolume() {
+    soundOn = !soundOn;
+    volume = getId('volume');
+    if (soundOn) {
+        volume.src = "img/volume-off.png";
+        volume.alt = "sound off";
+        volume.title = "sound off";
+    } else {
+        volume.src = "img/volume-on.png";
+        volume.alt = "sound on";
+        volume.title = "sound on";
+    }
+}
 
 
 window.addEventListener('keydown', (e) => {

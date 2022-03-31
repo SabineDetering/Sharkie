@@ -2,7 +2,7 @@ class World {
     background = new Background();
     character = new Character();
     endboss = new Endboss();
-    sharkie = new Picture(15, -25, 80, 90,'./img/1.Sharkie/1.IDLE/1.png');
+    sharkie = new Picture(15, -25, 80, 90, './img/1.Sharkie/1.IDLE/1.png');
     lifeBar = new LifeBar();
     coinBar = new CoinBar();
     poisonBar = new PoisonBar();
@@ -13,7 +13,10 @@ class World {
     keyboard;
     camera_x = 0;
 
-    constructor(canvas, keyboard,level) {
+    win_sound = new Audio('./audio/win.mp3');
+    loose_sound = new Audio('./audio/loose.mp3');
+
+    constructor(canvas, keyboard, level) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
@@ -29,12 +32,12 @@ class World {
     }
 
     startAnimation() {
-        console.log('animation started');
+        // console.log('animation started');
         this.character.animate();
         this.level.enemies.forEach(o => { o.animate(); });
     }
-    
-    
+
+
     stopAnimation() {
         this.character.stopAnimation();
         this.endboss.stopAnimation();
@@ -65,6 +68,7 @@ class World {
 
                     if (this.endboss.attackFinished && !this.character.killedByEndboss) {
                         this.character.killedByEndboss = true;
+                        if (soundOn) {this.character.dead_sound.play();}
                         this.character.currentImage = 0;
                         this.character.energy = 0;
                         this.lifeBar.showStatus(0);
@@ -75,8 +79,9 @@ class World {
 
                         if (this.character.isColliding(enemy) && !enemy.slappedNormal && !enemy.slappedInverse) {//slapped enemies don't hurt 
                             // console.log('collision', enemy, this.character.energy);
-                            this.character.hit();
-                        } else if (this.keyboard.space && enemy.isSlapped(this.character)) {//slapping is only possible if character is not colliding
+                            this.character.hit(enemy);
+                        } else if (this.keyboard.space && enemy.isSlapped(this.character)) {
+                            //slapping is only possible if character is not colliding
                             // console.log('slapped');
                             enemy.wait = true;
                             if (this.character.otherDirection) {
@@ -84,7 +89,7 @@ class World {
                             } else {
                                 enemy.slappedNormal = true;
                             }
-                        } else if (enemy.y < 0) {
+                        } else if (enemy.y < 0) {//slapped out of sight
                             enemy.delete(this.level.enemies, enemy)
                         }
                     });
@@ -116,12 +121,13 @@ class World {
                 });
                 //endboss
                 if (this.character.collisionMaxX >= this.endboss.x - 250) {
-                    this.endboss.startAnimation(); //endboss is introduced
+                    this.endboss.startAnimation(); //endboss is introduced                  
                 }
                 this.endboss.calculateCollisionCoordinates();
                 if (this.character.collisionMaxX > this.endboss.collisionMinX - 70 && !this.endboss.attack) {
                     this.endboss.currentImage = 0;
                     this.endboss.isAttacking(this.character);
+                    if (soundOn) { this.endboss.attack_sound.play(); }
                 }
 
                 //bubbles
@@ -131,7 +137,8 @@ class World {
                         bubble.delete(this.bubbles, bubble);
                     } else if (this.endboss.isColliding(bubble)) {//bubble meets endboss
                         if (bubble instanceof PoisonedBubble) {
-                            this.endboss.hit(bubble);
+                            this.endboss.hit();
+                            if (soundOn) { this.character.bubble_sound.play(); }
                         }
                         bubble.delete(this.bubbles, bubble);
                     } else {
@@ -142,6 +149,7 @@ class World {
                                 } else {//bubble meets jellyfish
                                     bubble.withJelly(enemy.constructor.name);
                                 }
+                                if (soundOn) { this.character.bubble_sound.play(); }
                             }
                         });
                     }
@@ -175,7 +183,7 @@ class World {
         this.addStaticToCanvas(this.poisonBar);
         this.addStaticToCanvas(this.whale);
         this.addStaticToCanvas(this.endboss.lifeBarEndboss);
-        
+
         let self = this;
         requestAnimationFrame(function () {
             self.draw();

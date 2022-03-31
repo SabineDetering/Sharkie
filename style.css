@@ -61,14 +61,16 @@ button {
 
 .startscreen {
     display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
     position: absolute;
     width: 720px;
+    min-height: 480px;
     height: 480px;
     box-sizing: border-box;
     top: 0;
     left: 0;
-    /* flex-direction: column;
-    align-items: center; */
     background-image: url('./img/startscreen-background.png');
 }
 
@@ -98,6 +100,13 @@ button {
     display: none;
     flex-direction: column;
     align-items: center;
+}
+
+.settings {
+    padding: 16px 32px 16px 32px;
+    align-self: flex-start;
+    width: fit-content;
+    background-color: #2e2771b7;
 }
 
 .small-instructions {
