@@ -104,6 +104,55 @@ function showLooseScreen() {
     getId('again-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
 }
 
+function toggleFullscreen() {
+
+    var elem = document.getElementById("wrapper");
+   
+        if (elem.requestFullscreen) {
+            elem.requestFullscreen();
+        } else if (elem.webkitRequestFullscreen) { /* Safari */
+            elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) { /* IE11 */
+            elem.msRequestFullscreen();
+        }
+    
+    // div.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
+    // div.mozRequestFullScreen();
+    // div.msRequestFullscreen();
+    // div.requestFullscreen(); // standard
+
+    // document.webkitExitFullscreen();
+    // document.mozCancelFullScreen();
+    // document.msExitFullscreen();
+    // document.exitFullscreen();
+
+    // window.onload = function () {
+
+    //     // object containing configuration options
+    //     let gameConfig = {
+    //         type: Phaser.AUTO,
+    //         scale: {
+    //             mode: Phaser.Scale.FIT,
+    //             autoCenter: Phaser.Scale.CENTER_BOTH,
+    //             parent: "thegame",
+    //             width: 1334,
+    //             height: 750
+    //         },
+    //         scene: [preloadGame, playGame],
+    //         backgroundColor: 0x0c88c7,
+
+    //         // physics settings
+    //         physics: {
+    //             default: "arcade"
+    //         }
+    //     }
+    //     game = new Phaser.Game(gameConfig);
+    //     window.focus();
+    // }
+
+    // if (!this.scale.isFullscreen) {
+    //     this.scale.startFullscreen();
+}
 
 function toggleVolume() {
     soundOn = !soundOn;

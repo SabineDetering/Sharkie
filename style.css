@@ -103,6 +103,9 @@ button {
 }
 
 .settings {
+    display: flex;
+    align-items: center;
+    gap: 16px;
     padding: 16px 32px 16px 32px;
     align-self: flex-start;
     width: fit-content;

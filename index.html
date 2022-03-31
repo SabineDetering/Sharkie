@@ -48,7 +48,7 @@
 <body onload="showStartScreen(1,true)">
     <div class="blur">
         <h1>SharKie</h1>
-        <div class="wrapper">
+        <div id="wrapper" class="wrapper">
 
             <div id="level1-screen" class="startscreen">
                 <p>Sharkie is the friendliest shark ever, but he lives in a hostile environment. <br><br>All the other
@@ -61,8 +61,15 @@
                     <button class="startscreen-btn" onclick="startLevel(1)">Start game</button>
                 </div>
                 <div class="settings">
-                    <button class="instruction-btn"><img id="volume" src="img/volume-off.png" alt="sound off" title="sound off" onclick="toggleVolume()" style="display: block;"></button>
-                    
+                    <button class="instruction-btn">
+                        <img id="fullscreen" src="img/fullscreen.png" alt="fullscreen" title="fullscreen"
+                            onclick="toggleFullscreen()" style="display: block;">
+                    </button>
+                    <button class="instruction-btn">
+                        <img id="volume" src="img/volume-off.png" alt="sound off" title="sound off"
+                            onclick="toggleVolume()" style="display: block;">
+                    </button>
+
                 </div>
             </div>
 
@@ -95,7 +102,8 @@
                         <span>move Sharkie</span><br>
                     </div>
                     <div class="flex-center">
-                        <button class="startscreen-btn" style="width:120px;">space</button> <span class="t-center"> fin slap</span><br>
+                        <button class="startscreen-btn" style="width:120px;">space</button> <span class="t-center"> fin
+                            slap</span><br>
                     </div>
                     <div class="flex-center">
                         <button class="instruction-btn">b</button>
@@ -106,7 +114,7 @@
                         <span class="t-center">blow poisoned bubbles</span>
                     </div>
                 </div>
-                
+
                 <button id="start-btn" class="endscreen-btn">
                     Start level
                 </button>
