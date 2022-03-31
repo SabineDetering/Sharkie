@@ -42,6 +42,17 @@ button {
     display: none;
 }
 
+.t-center {
+    text-align: center;
+}
+
+.flex-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
 .wrapper {
     width: 720px;
     height: 480px;
@@ -69,6 +80,14 @@ button {
     margin: 0;
 }
 
+.startscreen span {
+    color: white;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 8px;
+    margin: 0;
+}
+
 .endscreen {
     position: absolute;
     width: 720px;
@@ -81,7 +100,7 @@ button {
     align-items: center;
 }
 
-.small-instructions  {
+.small-instructions {
     padding: 4px;
     margin: 0;
     display: flex;
@@ -156,4 +175,12 @@ button {
     flex-direction: column;
     align-items: center;
     gap: 20px;
+}
+
+.key-wrapper {
+    padding: 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 40px;
 }

@@ -77,28 +77,39 @@
                 </div>
             </div>
 
-            <div id="instruction-screen" class="startscreen">
-                <div style="display:flex">
-                    <div style="text-align:center;">
-                        <button class="instruction-btn">&#5123;</button><br>
-                        <button class="instruction-btn">&#5130;</button>
-                        <button class="instruction-btn">&#5121;</button>
-                        <button class="instruction-btn">&#5125;</button>
-                    </div>
-                    <p>use arrow keys to move Sharkie</p>
-                </div>
-                <p><button class="startscreen-btn">space</button>fin slap</p>
-                <p><button class="instruction-btn">b</button>blow bubbles</p>
-                <p><button class="instruction-btn">v</button>blow poisoned bubbles</p>
+            <div id="instruction-screen" class="startscreen t-center">
+                <div class="key-wrapper">
 
-                <button id="start-btn" class="startscreen-btn">
+                    <div class="flex-center">
+                        <div class="t-center" style="width:190px">
+                            <button class="instruction-btn">&#5123;</button><br>
+                            <button class="instruction-btn">&#5130;</button>
+                            <button class="instruction-btn">&#5121;</button>
+                            <button class="instruction-btn">&#5125;</button>
+                        </div>
+                        <span>move Sharkie</span><br>
+                    </div>
+                    <div class="flex-center">
+                        <button class="startscreen-btn" style="width:120px;">space</button> <span class="t-center"> fin slap</span><br>
+                    </div>
+                    <div class="flex-center">
+                        <button class="instruction-btn">b</button>
+                        <span class="t-center">blow bubbles</span>
+                    </div>
+                    <div class="flex-center">
+                        <button class="instruction-btn">v</button>
+                        <span class="t-center">blow poisoned bubbles</span>
+                    </div>
+                </div>
+                
+                <button id="start-btn" class="endscreen-btn">
                     Start level
                 </button>
 
             </div>
 
             <canvas id="canvas" width="720" height="480"></canvas>
-            <div class = "small-instructions"> 
+            <div class="small-instructions">
                 <span> arrows: move Sharkie</span>
                 <span> space: fin slap</span>
                 <span> b: bubble</span>
