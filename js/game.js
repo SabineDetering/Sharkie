@@ -3,7 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let currentLevel = 1;
 let level;//level object
-let levelFunctions = [initLevel1, initLevel2];
+let levelFunctions = [level1, level2];
 let coinsCollectedinLevels = [0];
 let endOfGame = false;
 
@@ -46,6 +46,12 @@ function finishGame(playerWins) {
         world.stopAnimation();
         if (playerWins) {
             showWinScreen();
+            if (currentLevel == levelFunctions.length) {
+                getId('next-btn').style.display = "none";
+            } else {
+                getId('next-btn').style.display = "block";
+            }
+
         } else {
             showLooseScreen();
         }
@@ -58,11 +64,11 @@ function finishGame(playerWins) {
  * preloads level objects (no animation)
  * @param {integer} levelNumber 
  */
-function showStartScreen(levelNumber) {
+function showStartScreen(levelNumber, onload = false) {
     getId('loose-screen').style.display = "none";
     getId('win-screen').style.display = "none";
     getId(`level${levelNumber}-screen`).style.display = "block";
-    if (levelNumber == 1) {
+    if (onload) {
         initGame();
     } else {
         initLevel(levelNumber);

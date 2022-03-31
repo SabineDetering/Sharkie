@@ -7,8 +7,6 @@ class Character extends MovableObject {
     animationIntervalMove;
     animationIntervalImg;
 
-
-
     collisionOffsetX = 75;
     collisionOffsetY = 160;
     collisionWidth = 200;
@@ -232,12 +230,12 @@ class Character extends MovableObject {
                 }
 
                 this.swim_sound.pause();
-                if (this.world.keyboard.right && this.x < this.world.level.level_end_x) {
+                if (this.world.keyboard.right && this.x < this.world.background.endX) {
                     this.x += this.speed;
                     this.otherDirection = false;
                     this.swim_sound.play();
                 }
-                if (this.world.keyboard.left && this.x > this.world.level.level_start_x) {
+                if (this.world.keyboard.left && this.x > this.world.background.startX) {
                     this.x -= this.speed;
                     this.otherDirection = true;
                     this.swim_sound.play();

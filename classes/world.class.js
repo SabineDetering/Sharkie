@@ -1,4 +1,5 @@
 class World {
+    background = new Background();
     character = new Character();
     endboss = new Endboss();
     sharkie = new Picture(15, -25, 80, 90,'./img/1.Sharkie/1.IDLE/1.png');
@@ -158,7 +159,7 @@ class World {
 
         this.ctx.translate(this.camera_x, 0);//move coordinates to position of character before drawing
 
-        this.addStaticObjectsToCanvas(this.level.backgroundObjects);
+        this.addStaticObjectsToCanvas(this.background.backgroundObjects);
         this.addStaticObjectsToCanvas(this.level.collectableObjects);
         this.addToCanvas(this.character);
         this.addToCanvas(this.endboss);

@@ -14,6 +14,7 @@
 
     <link rel="stylesheet" href="style.css">
     <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
+    <script src="./classes/Background.class.js"></script>
     <script src="./classes/drawable-object.class.js"></script>
     <script src="./classes/picture.class.js"></script>
     <script src="./classes/movable-object.class.js"></script>
@@ -43,7 +44,7 @@
     <script src="./js/game.js"></script>
 </head>
 
-<body onload="showStartScreen(1)">
+<body onload="showStartScreen(1,true)">
     <div class="blur">
         <h1>SharKie</h1>
         <div class="wrapper">
@@ -62,7 +63,7 @@
 
             <div id="level2-screen" class="startscreen">
                 <p><br>
-                    On this level, Sharkie meets even more dangerous animals. Be careful, to stay away from them and
+                    In this level, Sharkie meets even more dangerous animals. Be careful, to stay away from them and
                     fight them from a safe distance! <br><br>
                     With the coins collected in the previous level, Sharkie got some cures to improve his health.
                 </p>
@@ -106,8 +107,8 @@
                     <img src="./img/4.Marcadores/1. Coins/1.png" style="width:50px;height:50px;">
                 </div>
                 <div class="btn-group">
-                    <button id="restart-btn" class="endscreen-btn" onclick="">Restart</button>
-                    <button id="next-btn" class="endscreen-btn" onclick="">Next level</button>
+                    <button id="restart-btn" class="endscreen-btn" >Restart</button>
+                    <button id="next-btn" class="endscreen-btn" >Next level</button>
                 </div>
             </div>
 
