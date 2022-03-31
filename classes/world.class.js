@@ -29,6 +29,7 @@ class World {
     }
 
     startAnimation() {
+        console.log('animation started');
         this.character.animate();
         this.level.enemies.forEach(o => { o.animate(); });
     }

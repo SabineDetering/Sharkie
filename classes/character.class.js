@@ -243,16 +243,18 @@ class Character extends MovableObject {
     /**
      * movement,images and sound for character
      */
-    animate() {
-        this.animateMovement();
-        this.animateImages();
-    }
+    // animate() {
+    //     this.animateMovement();
+    //     this.animateImages();
+    // }
 
 
     /**
      * animation of movement for character
      */
-    animateMovement() {
+
+    animate() {
+    // animateMovement() {
         this.animationIntervalMove = setInterval(() => {
             if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 400) {//let bones fall to ground
                 this.y += 5;
@@ -280,42 +282,40 @@ class Character extends MovableObject {
             }
             this.world.camera_x = -this.x + 30;
         }, 1000 / 60);
-    }
+    // }
 
 
     /**
      * animation of images for character
      */
-    animateImages() {
+    // animateImages() {
         this.animationIntervalImg = setInterval(() => {
-            if (!this.world.endOfGame) {
-                if (this.world.endboss.attackFinished) {
-                    this.animateImagesDeath(this.IMAGES_DEAD_ENDBOSS);
-                    if (this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length + 32) {
-                        //short timeout after dead animation plus sinking bones
-                        finishGame(false);
-                    }
-                } else if (this.isDead()) {
-                    this.animateImagesDeath(this.IMAGES_DEAD_POISONED);
-                    if (this.currentImage >= this.IMAGES_DEAD_POISONED.length + 20) {
-                        //short timeout after dead animation (no sinking bones)
-                        finishGame(false);
-                    }
-                } else if (this.isHurt()) {
-                    this.animateImages(this.IMAGES_HURT_POISONED);
-                } else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
-                    this.animateImages(this.IMAGES_SWIM);
-                } else if (this.isSlapping) {
-                    this.animateImagesOnce(this.IMAGES_ATTACK_FIN, 'isSlapping');
-                } else if (this.isLongIdle()) {
-                    this.animateImages(this.IMAGES_LONG_IDLE);
-                } else if (this.isBubbling) {
-                    this.animateBubbling();
-                } else if (this.isBubblingPoison) {
-                    this.animateBubblingPoison();
-                } else {
-                    this.animateImages(this.IMAGES_IDLE);
+            if (this.world.endboss.attackFinished) {
+                this.animateImagesDeath(this.IMAGES_DEAD_ENDBOSS);
+                if (this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length + 32) {
+                    //short timeout after dead animation plus sinking bones
+                    finishGame(false);
                 }
+            } else if (this.isDead()) {
+                this.animateImagesDeath(this.IMAGES_DEAD_POISONED);
+                if (this.currentImage >= this.IMAGES_DEAD_POISONED.length + 20) {
+                    //short timeout after dead animation (no sinking bones)
+                    finishGame(false);
+                }
+            } else if (this.isHurt()) {
+                this.animateImages(this.IMAGES_HURT_POISONED);
+            } else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
+                this.animateImages(this.IMAGES_SWIM);
+            } else if (this.isSlapping) {
+                this.animateImagesOnce(this.IMAGES_ATTACK_FIN, 'isSlapping');
+            } else if (this.isLongIdle()) {
+                this.animateImages(this.IMAGES_LONG_IDLE);
+            } else if (this.isBubbling) {
+                this.animateBubbling();
+            } else if (this.isBubblingPoison) {
+                this.animateBubblingPoison();
+            } else {
+                this.animateImages(this.IMAGES_IDLE);
             }
         }, 100);
     }
