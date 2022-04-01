@@ -35,6 +35,7 @@ class World {
         // console.log('animation started');
         this.character.animate();
         this.level.enemies.forEach(o => { o.animate(); });
+        this.run();
     }
 
 
@@ -45,6 +46,7 @@ class World {
         this.level.enemies.forEach(o => { o.delete(this.level.enemies, o) });
         this.level.collectableObjects.forEach(o => { o.delete(this.level.collectableObjects, o) });
         this.bubbles.forEach(o => { o.delete(this.bubbles, o) });
+        clearInterval(this.animationInterval);
     }
 
 
@@ -59,7 +61,7 @@ class World {
     }
 
     run() {
-        setInterval(() => {
+        this.animationInterval = setInterval(() => {
             if (!this.endOfGame) {
                 //character can only act if it is not dead or hurt
                 if (!this.character.isDead() && !this.character.isHurt()) {
@@ -68,7 +70,7 @@ class World {
 
                     if (this.endboss.attackFinished && !this.character.killedByEndboss) {
                         this.character.killedByEndboss = true;
-                        if (soundOn) {this.character.dead_sound.play();}
+                        if (soundOn) { this.character.dead_sound.play(); }
                         this.character.currentImage = 0;
                         this.character.energy = 0;
                         this.lifeBar.showStatus(0);
@@ -77,25 +79,33 @@ class World {
                     this.level.enemies.forEach((enemy) => {
                         enemy.calculateCollisionCoordinates();
 
-                        if (this.character.isColliding(enemy) && !enemy.slappedNormal && !enemy.slappedInverse) {//slapped enemies don't hurt 
-                            // console.log('collision', enemy, this.character.energy);
-                            this.character.hit(enemy);
-                        } else if (this.keyboard.space && enemy.isSlapped(this.character)) {
-                            //slapping is only possible if character is not colliding
-                            // console.log('slapped');
-                            enemy.wait = true;
-                            if (this.character.otherDirection) {
-                                enemy.slappedInverse = true;
-                            } else {
-                                enemy.slappedNormal = true;
+                        if (enemy instanceof Pufferfish) {
+
+                            if (this.character.isColliding(enemy) && !enemy.slappedNormal && !enemy.slappedInverse) {//slapped enemies don't hurt 
+                                // console.log('collision', enemy, this.character.energy);
+                                this.character.hit(enemy);
+                            } else if (this.keyboard.space && enemy.isSlapped(this.character)) {
+                                //slapping is only possible if character is not colliding
+                                // console.log('slapped');
+                                enemy.wait = true;
+                                if (this.character.otherDirection) {
+                                    enemy.slappedInverse = true;
+                                } else {
+                                    enemy.slappedNormal = true;
+                                }
+                            } else if (enemy.collisionMaxY < 0) {//slapped out of sight
+                                enemy.delete(this.level.enemies, enemy)
                             }
-                        } else if (enemy.y < 0) {//slapped out of sight
-                            enemy.delete(this.level.enemies, enemy)
+                        } else {//Jellyfish
+                            if (this.character.isColliding(enemy)) {
+                                console.log('collision', enemy, this.character.energy);
+                                this.character.hit(enemy);
+                            }
                         }
                     });
                 }
 
-                // bubble attack
+                // starting bubble attack
                 if (this.keyboard.b) {
                     if (!this.character.isBubbling && !this.character.isBubblingPoison) {
                         this.character.isBubbling = true;
@@ -119,6 +129,7 @@ class World {
                         object.delete(this.level.collectableObjects, object);
                     }
                 });
+
                 //endboss
                 if (this.character.collisionMaxX >= this.endboss.x - 250) {
                     this.endboss.startAnimation(); //endboss is introduced                  
@@ -147,7 +158,8 @@ class World {
                                 if (enemy instanceof Pufferfish) {
                                     bubble.delete(this.bubbles, bubble);
                                 } else {//bubble meets jellyfish
-                                    bubble.withJelly(enemy.constructor.name);
+                                    bubble.withJelly(enemy.color);
+                                    enemy.delete(this.level.enemies, enemy);
                                 }
                                 if (soundOn) { this.character.bubble_sound.play(); }
                             }

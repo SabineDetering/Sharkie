@@ -17,7 +17,7 @@ class MovableObject extends DrawableObject {
 
     //draws a rectangle around character, pufferfish and endboss
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Pufferfish || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof Jellyfish || this instanceof Endboss) {
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "blue";
@@ -42,15 +42,6 @@ class MovableObject extends DrawableObject {
                 || mo.collisionMaxY > this.collisionMinY && mo.collisionMaxY < this.collisionMaxY);
     }
 
-    hit() {
-        this.energy -= 5;
-        if (this.energy < 0) {
-            this.energy = 0;
-            console.log('energy ', this.energy);
-        } else {
-            this.lastHit = new Date().getTime();//in milliseconds
-        }
-    }
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
         return timePassed < 500;

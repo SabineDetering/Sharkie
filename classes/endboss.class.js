@@ -4,16 +4,16 @@ class Endboss extends MovableObject {
 
     height = 440;
     width = 380;
-    x = 1700;
+    x = 1900;
     y = 0;
     collisionOffsetX = 35;
     collisionOffsetY = 220;
     collisionWidth = 300;
     collisionHeight = 130;
     speed = -0.8;
-    startEnergy = 15;
+    startEnergy = 100;
+    energy = 100;
 
-    energy = 15;
     wait = true;
     isIntroduced = false;
     attack = false;
@@ -103,9 +103,8 @@ class Endboss extends MovableObject {
 
     constructor() {
         super();
-        this.id = Endboss.counter;
-        Endboss.counter++;
-
+        // this.id = Endboss.counter;
+        // Endboss.counter++;
         this.loadImage(this.IMAGES_INTRODUCE[0]);
         this.loadImages(this.IMAGES_INTRODUCE);
         this.loadImages(this.IMAGES_FLOATING);
@@ -121,7 +120,7 @@ class Endboss extends MovableObject {
     reset() {
         this.x = 900;
         this.y = 0;
-        this.energy = 15;
+        this.energy = 100;
         this.wait = true;
         this.isIntroduced = false;
         this.attack = false;
@@ -139,7 +138,7 @@ class Endboss extends MovableObject {
         if (this.wait) {
             this.wait = false;
             this.animate();
-            if (soundOn) {this.intro_sound.play();}
+            if (soundOn) { this.intro_sound.play(); }
         }
     }
 
@@ -150,12 +149,18 @@ class Endboss extends MovableObject {
      * lifeBarEndboss is updated
      */
     hit() {
-        super.hit();
+        this.energy -= 33.4;
+        if (this.energy < 0) {
+            this.energy = 0;
+            console.log('energy ', this.energy);
+        } else {
+            this.lastHit = new Date().getTime();//in milliseconds
+        }
         this.currentImage = 0;
-        if (soundOn) {this.hurt_sound.play();}
-        this.lifeBarEndboss.showStatus(this.energy / this.startEnergy * 100);
+        if (soundOn) { this.hurt_sound.play(); }
+        this.lifeBarEndboss.showStatus(this.energy);
         if (this.isDead()) {
-            if (soundOn) {this.dead_sound.play();}
+            if (soundOn) { this.dead_sound.play(); }
         }
     }
 

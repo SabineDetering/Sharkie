@@ -19,10 +19,6 @@ class Pufferfish extends MovableObject {
         this.slappedNormal = false;
         this.slappedInverse = false;
         this.wait = false;
-        // this.loadImages([this.IMG_DEAD]);
-        // this.loadImages(this.IMAGES_SWIM);
-        // this.x = 320 + Math.random() * 700;
-        // this.y = 50 + Math.random() * 320;
         this.speed = 0.15 + Math.random() * 0.4;
     }
 

@@ -14,6 +14,8 @@ class Character extends MovableObject {
     isBubbling = false;
     isBubblingPoison = false;
     killedByEndboss = false;
+    lastHitBy;
+    startEnergy = 100;
 
     collectedCoins = 0;
     collectedPoisons = 0;
@@ -200,6 +202,7 @@ class Character extends MovableObject {
         this.x = 0;
         this.y = 100;
         this.img = this.imageCache['./img/1.Sharkie/3.Swim/1.png'];
+        this.startEnergy = 100 * (1 + healthImprovement);
         this.energy = 100 * (1 + healthImprovement);
         this.isSlapping = false;
         this.isBubbling = false;
@@ -226,15 +229,28 @@ class Character extends MovableObject {
      * lifeBar is updated
      */
     hit(o) {
-        super.hit();
-        this.currentImage = 0;
-        if (o instanceof Jellyfish) {
-            if (soundOn) {this.shocked_sound.play();}
+        if (o instanceof JellyfishDangerous) {
+            this.energy -= 20;
+        } else if (o instanceof JellyfishNormal) {
+            this.energy -= 10;
+        } else {//pufferfish
+            this.energy -= 5;
         }
-        if (soundOn) {this.hurt_sound.play();}
-        this.world.lifeBar.showStatus(this.energy);
-        if (this.isDead()) {
-            if (soundOn) {this.dead_sound.play();}
+
+        if (this.energy < 0) {
+            this.energy = 0;
+        } else {
+            this.lastHit = new Date().getTime();//in milliseconds
+            this.lastHitBy = o;
+        }
+
+        this.world.lifeBar.showStatus(this.energy / this.startEnergy * 100);
+
+        this.currentImage = 0;
+        if (soundOn) {
+            if (o instanceof Jellyfish) { this.shocked_sound.play(); }
+            this.hurt_sound.play();
+            if (this.isDead()) { this.dead_sound.play(); }
         }
     }
 
@@ -247,11 +263,11 @@ class Character extends MovableObject {
         if (o instanceof Coin) {
             this.collectedCoins++;
             this.world.coinBar.showStatus(this.collectedCoins / this.world.level.totalCoins * 100);
-            if (soundOn) {this.collectCoin_sound.play();}
+            if (soundOn) { this.collectCoin_sound.play(); }
         } else {//poison
             this.collectedPoisons++;
             this.world.poisonBar.showStatus(this.collectedPoisons / this.world.level.totalPoisons * 100);
-            if (soundOn) {this.collectPoison_sound.play();}
+            if (soundOn) { this.collectPoison_sound.play(); }
         }
     }
 
@@ -272,7 +288,10 @@ class Character extends MovableObject {
     // animate() {
     animateMovement() {
         this.animationIntervalMove = setInterval(() => {
-            if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 400) {//let bones fall to ground
+            //if killed by endboss or jellyfish final image (bones) are positioned too high
+            if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 380
+                || this.isDead() && this.lastHitBy instanceof Jellyfish && this.currentImage >= this.IMAGES_DEAD_SHOCK.length && this.collisionMaxY < 380) {
+                //let bones fall to ground
                 this.y += 5;
                 this.calculateCollisionCoordinates();
             }
@@ -294,7 +313,7 @@ class Character extends MovableObject {
             }
             if (this.world.keyboard.down && this.collisionMaxY < 460) {
                 this.y += this.speed;
-                if (soundOn) {this.swim_sound.play();}
+                if (soundOn) { this.swim_sound.play(); }
             }
             this.world.camera_x = -this.x + 30;
         }, 1000 / 60);
@@ -312,10 +331,16 @@ class Character extends MovableObject {
                     //short timeout after dead animation plus sinking bones
                     finishGame(false);
                 }
-            } else if (this.isDead()) {
+            } else if (this.isDead() && this.lastHitBy instanceof Pufferfish) {
                 this.animateImagesDeath(this.IMAGES_DEAD_POISONED);
                 if (this.currentImage >= this.IMAGES_DEAD_POISONED.length + 20) {
                     //short timeout after dead animation (no sinking bones)
+                    finishGame(false);
+                }
+            } else if (this.isDead() && this.lastHitBy instanceof Jellyfish) {
+                this.animateImagesDeath(this.IMAGES_DEAD_SHOCK);
+                if (this.currentImage >= this.IMAGES_DEAD_SHOCK.length + 32) {
+                    //short timeout after dead animation plus sinking bones
                     finishGame(false);
                 }
             } else if (this.isHurt()) {
@@ -324,7 +349,7 @@ class Character extends MovableObject {
                 this.animateImages(this.IMAGES_SWIM);
             } else if (this.isSlapping) {
                 this.animateImagesOnce(this.IMAGES_ATTACK_FIN, 'isSlapping');
-                if (soundOn){ this.slap_sound.play();}
+                if (soundOn) { this.slap_sound.play(); }
             } else if (this.isLongIdle()) {
                 this.animateImages(this.IMAGES_LONG_IDLE);
             } else if (this.isBubbling) {
@@ -347,8 +372,9 @@ class Character extends MovableObject {
     animateBubblingPoison() {
         let bubble;
         this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubblingPoison');
+        //when bubble producing animation is done
         if (!this.isBubblingPoison) {
-            if (soundOn) {this.bubble_sound.play();}
+            if (soundOn) { this.bubble_sound.play(); }
             if (this.otherDirection) {
                 bubble = new PoisonedBubble(this.collisionMinX - 70, this.collisionMinY + 20, 'left');
             } else {
@@ -369,8 +395,9 @@ class Character extends MovableObject {
     animateBubbling() {
         let bubble;
         this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubbling');
+        //when bubble producing animation is done
         if (!this.isBubbling) {
-            if (soundOn){ this.bubble_sound.play();}
+            if (soundOn) { this.bubble_sound.play(); }
             if (this.otherDirection) {
                 bubble = new Bubble(this.collisionMinX - 80, this.collisionMinY + 20, 'left');
             } else {

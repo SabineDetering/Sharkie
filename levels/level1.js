@@ -10,7 +10,7 @@ function level1() {
             new PufferfishOrange(1120, 70),
             new PufferfishRed(1800, 260),
             new PufferfishOrange(2400, 120),
-            new PufferfishGreen(2600, 180),
+            new PufferfishGreen(2600, 180)
         ],
         collectableObjects:
             [
