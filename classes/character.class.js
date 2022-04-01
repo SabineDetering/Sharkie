@@ -289,8 +289,8 @@ class Character extends MovableObject {
     animateMovement() {
         this.animationIntervalMove = setInterval(() => {
             //if killed by endboss or jellyfish final image (bones) are positioned too high
-            if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 380
-                || this.isDead() && this.lastHitBy instanceof Jellyfish && this.currentImage >= this.IMAGES_DEAD_SHOCK.length && this.collisionMaxY < 380) {
+            if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 300
+                || this.isDead() && this.lastHitBy instanceof Jellyfish && this.currentImage >= this.IMAGES_DEAD_SHOCK.length && this.collisionMaxY < 300) {
                 //let bones fall to ground
                 this.y += 5;
                 this.calculateCollisionCoordinates();

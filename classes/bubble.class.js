@@ -9,6 +9,38 @@ class Bubble extends MovableObject {
     speedY = -0.3;
     direction;
     IMG = './img/1.Sharkie/4.Attack/Bubble trap/Bubble.png';
+    TRAPPED_IMAGES = [];
+    withTrappedJelly = false;
+
+    animationIntervalMove;
+    animationIntervalImg;
+
+    IMAGES = {
+        'lila': [
+            './img/2.Enemy/2 Jelly fish/Dead/Lila/L1.png',
+            './img/2.Enemy/2 Jelly fish/Dead/Lila/L2.png',
+            './img/2.Enemy/2 Jelly fish/Dead/Lila/L3.png',
+            './img/2.Enemy/2 Jelly fish/Dead/Lila/L4.png'
+        ],
+        'yellow': [
+            './img/2.Enemy/2 Jelly fish/Dead/Yellow/y1.png',
+            './img/2.Enemy/2 Jelly fish/Dead/Yellow/y2.png',
+            './img/2.Enemy/2 Jelly fish/Dead/Yellow/y3.png',
+            './img/2.Enemy/2 Jelly fish/Dead/Yellow/y4.png'
+        ],
+        'pink': [
+            './img/2.Enemy/2 Jelly fish/Dead/Pink/P1.png',
+            './img/2.Enemy/2 Jelly fish/Dead/Pink/P2.png',
+            './img/2.Enemy/2 Jelly fish/Dead/Pink/P3.png',
+            './img/2.Enemy/2 Jelly fish/Dead/Pink/P4.png'
+        ],
+        'green': [
+            './img/2.Enemy/2 Jelly fish/Dead/green/g1.png',
+            './img/2.Enemy/2 Jelly fish/Dead/green/g2.png',
+            './img/2.Enemy/2 Jelly fish/Dead/green/g3.png',
+            './img/2.Enemy/2 Jelly fish/Dead/green/g4.png'
+        ]
+    }
 
     constructor(x, y, direction) {
         super();
@@ -16,14 +48,22 @@ class Bubble extends MovableObject {
         this.y = y;
         this.direction = direction;
         this.loadImage(this.IMG);
+        this.loadImages(this.IMAGES['lila']);
+        this.loadImages(this.IMAGES['yellow']);
+        this.loadImages(this.IMAGES['pink']);
+        this.loadImages(this.IMAGES['green']);
         this.animate();
     }
 
-
-    withJelly(classname) { }
+    withJelly(color) {
+        this.withTrappedJelly = true;
+        this.TRAPPED_IMAGES = this.IMAGES[color];
+        this.width = 105;
+        this.height = 150;
+    }
 
     animate() {
-        this.animationInterval = setInterval(() => {
+        this.animationIntervalMove = setInterval(() => {
             if (this.direction == 'right') {
                 this.x += this.speed;
                 this.y += this.speedY;
@@ -32,5 +72,19 @@ class Bubble extends MovableObject {
                 this.y += this.speedY;
             }
         }, 1000 / 60);
+
+        this.animationIntervalImg = setInterval(() => {
+            if (this.withTrappedJelly) {
+                this.animateImages(this.TRAPPED_IMAGES);
+            }
+        }, 1000 / 5);
+    }
+
+    /**
+     * stops the animation intervals for movement and images
+     */
+    stopAnimation() {
+        clearInterval(this.animationIntervalMove);
+        clearInterval(this.animationIntervalImg);
     }
 }
