@@ -12,16 +12,14 @@ class LifeBar extends StatusBar {
 
     constructor() {
         super();
-        let factor = 1 + coinsCollectedinLevels[currentLevel - 1] / 20;
-        this.width = this.width * factor;
+        this.width = 150 * (1 + healthImprovement);
         this.loadImages(this.IMAGES);
         this.showStatus(100);
     }
 
-    
+
     reset() {
-        let factor = 1 + coinsCollectedinLevels[currentLevel - 1] / 20;
-        this.width = this.width * factor;
+        this.width = 150  * (1 + healthImprovement);
         this.showStatus(100);
     }
 }

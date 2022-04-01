@@ -13,6 +13,7 @@ class LifeBarEndboss extends LifeBar{
 
     constructor() {
         super();
+        this.width=150;
         this.loadImages(this.IMAGES);
         this.showStatus(100);
     }

@@ -4,7 +4,7 @@ let keyboard = new Keyboard();
 let currentLevel = 1;
 let level;//level object
 let levelFunctions = [level1, level2];
-let coinsCollectedinLevels = [0];
+let healthImprovement = 0;
 let endOfGame = false;
 let soundOn = true;
 
@@ -51,6 +51,8 @@ function finishGame(playerWins) {
         background_sound.pause();
         if (playerWins) {
             showWinScreen();
+            //collecting all coins improves health in next game by 50%
+            healthImprovement = world.character.collectedCoins / world.level.totalCoins / 2;
             if (soundOn) { world.win_sound.play(); }
             if (currentLevel == levelFunctions.length) {
                 getId('next-btn').style.display = "none";
@@ -60,7 +62,8 @@ function finishGame(playerWins) {
 
         } else {
             showLooseScreen();
-            if (soundOn) {world.loose_sound.play();}
+            if (soundOn) { world.loose_sound.play(); }
+            healthImprovement = 0;
         }
     }
 }
@@ -92,8 +95,7 @@ function showInstructions(levelNumber) {
 
 function showWinScreen() {
     getId('win-screen').style.display = "flex";
-    getId('coin-text').innerHTML = `You have collected ${world.character.collectedCoins} coins.<br> Each coin will strengthen your health in the next level.`;
-    coinsCollectedinLevels[currentLevel] = world.character.collectedCoins;
+    getId('coin-text').innerHTML = `You have collected ${world.character.collectedCoins} of ${world.level.totalCoins} coins.<br> Each coin will improve your health in the next level.`;
     getId('restart-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
     getId('next-btn').setAttribute('onclick', `showStartScreen(${currentLevel + 1})`);
 }
@@ -104,65 +106,16 @@ function showLooseScreen() {
     getId('again-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
 }
 
-function toggleFullscreen() {
-
-    var elem = document.getElementById("wrapper");
-   
-        if (elem.requestFullscreen) {
-            elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) { /* Safari */
-            elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) { /* IE11 */
-            elem.msRequestFullscreen();
-        }
-    
-    // div.webkitRequestFullscreen(Element.ALLOW_KEYBOARD_INPUT);
-    // div.mozRequestFullScreen();
-    // div.msRequestFullscreen();
-    // div.requestFullscreen(); // standard
-
-    // document.webkitExitFullscreen();
-    // document.mozCancelFullScreen();
-    // document.msExitFullscreen();
-    // document.exitFullscreen();
-
-    // window.onload = function () {
-
-    //     // object containing configuration options
-    //     let gameConfig = {
-    //         type: Phaser.AUTO,
-    //         scale: {
-    //             mode: Phaser.Scale.FIT,
-    //             autoCenter: Phaser.Scale.CENTER_BOTH,
-    //             parent: "thegame",
-    //             width: 1334,
-    //             height: 750
-    //         },
-    //         scene: [preloadGame, playGame],
-    //         backgroundColor: 0x0c88c7,
-
-    //         // physics settings
-    //         physics: {
-    //             default: "arcade"
-    //         }
-    //     }
-    //     game = new Phaser.Game(gameConfig);
-    //     window.focus();
-    // }
-
-    // if (!this.scale.isFullscreen) {
-    //     this.scale.startFullscreen();
-}
 
 function toggleVolume() {
     soundOn = !soundOn;
     volume = getId('volume');
     if (soundOn) {
-        volume.src = "img/volume-off.png";
+        volume.src = "./img/volume-off.png";
         volume.alt = "sound off";
         volume.title = "sound off";
     } else {
-        volume.src = "img/volume-on.png";
+        volume.src = "./img/volume-on.png";
         volume.alt = "sound on";
         volume.title = "sound on";
     }

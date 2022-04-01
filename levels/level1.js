@@ -4,6 +4,8 @@ function level1() {
             new PufferfishGreen(320, 190),
             new PufferfishOrange(420, 70),
             new PufferfishRed(500, 260),
+            new PufferfishRed(800, 320),
+            new PufferfishOrange(1000, 280),
             new PufferfishGreen(1320, 190),
             new PufferfishOrange(1120, 70),
             new PufferfishRed(1800, 260),

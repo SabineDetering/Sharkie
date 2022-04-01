@@ -176,8 +176,7 @@ class Character extends MovableObject {
     constructor() {
         super();
         //collected coins from previous level increase energy
-        let factor = 1 + coinsCollectedinLevels[currentLevel - 1] / 20;
-        this.energy = 100 * factor;
+        this.energy = 100 * (1 + healthImprovement);
         this.loadImage('./img/1.Sharkie/3.Swim/1.png');
         this.loadImages(this.IMAGES_IDLE);
         this.loadImages(this.IMAGES_LONG_IDLE);
@@ -201,8 +200,7 @@ class Character extends MovableObject {
         this.x = 0;
         this.y = 100;
         this.img = this.imageCache['./img/1.Sharkie/3.Swim/1.png'];
-        let factor = 1 + coinsCollectedinLevels[currentLevel - 1] / 20;
-        this.energy = 100 * factor;
+        this.energy = 100 * (1 + healthImprovement);
         this.isSlapping = false;
         this.isBubbling = false;
         this.isBubblingPoison = false;
