@@ -11,6 +11,7 @@ class Coin extends CollectableObject{
         super();
         this.x = x;
         this.y = y;
+        this.calculateCollisionCoordinates();
         this.loadImage(this.IMG);  
     }
 }

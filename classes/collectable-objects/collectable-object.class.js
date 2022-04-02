@@ -7,6 +7,5 @@ class CollectableObject extends MovableObject {
 
     constructor(x, y) {
         super();
-        this.calculateCollisionCoordinates();
     }
 }

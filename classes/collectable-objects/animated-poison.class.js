@@ -20,6 +20,7 @@ class AnimatedPoison extends CollectableObject {
         super();
         this.x = x;
         this.y = y;
+        this.calculateCollisionCoordinates();
         this.loadImage(this.IMAGES[0]);
         this.loadImages(this.IMAGES);
         this.animate();
