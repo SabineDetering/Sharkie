@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 let currentLevel = 1;
 let level;//level object
 let levelFunctions = [level1, level2];
+let endX;
 let healthImprovement = 0;
 let endOfGame = false;
 let soundOn = true;
@@ -16,6 +17,7 @@ function initGame() {
     canvas = getId('canvas');
     ctx = canvas.getContext('2d');
     level = levelFunctions[0]();
+    endX = level.endX;
     world = new World(canvas, keyboard, level);
     background_sound = new Audio('./audio/under_water.mp3');
     background_sound.loop = true;
@@ -26,8 +28,8 @@ function initLevel(levelNumber) {
     endOfGame = false;
     level = levelFunctions[levelNumber - 1]();
     world.level = level;
-    world.reset();
- 
+    endX = level.endX;
+    world.reset(); 
 }
 
 

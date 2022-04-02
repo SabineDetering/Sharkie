@@ -4,7 +4,7 @@ class Endboss extends MovableObject {
 
     height = 440;
     width = 380;
-    x = 1900;
+    //x calculated in constructor
     y = 0;
     collisionOffsetX = 35;
     collisionOffsetY = 220;
@@ -105,6 +105,7 @@ class Endboss extends MovableObject {
         super();
         // this.id = Endboss.counter;
         // Endboss.counter++;
+        this.x = endX - 400;
         this.loadImage(this.IMAGES_INTRODUCE[0]);
         this.loadImages(this.IMAGES_INTRODUCE);
         this.loadImages(this.IMAGES_FLOATING);
@@ -118,7 +119,7 @@ class Endboss extends MovableObject {
      * resets all properties that could have been changed during previous game
      */
     reset() {
-        this.x = 900;
+        this.x = endX - 400;
         this.y = 0;
         this.energy = 100;
         this.wait = true;

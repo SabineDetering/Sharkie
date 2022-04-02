@@ -5,9 +5,9 @@ class Character extends MovableObject {
     y = 100;
 
     collisionOffsetX = 75;
-    collisionOffsetY = 160;
+    collisionOffsetY = 170;
     collisionWidth = 200;
-    collisionHeight = 100;
+    collisionHeight = 95;
 
     speed = 1;
     isSlapping = false;
