@@ -64,7 +64,7 @@ function level2() {
                 new BackgroundObject('./img/3.Background/Layers/2.Floor/D2.png', 3 * 780),
                 new BackgroundObject('./img/3.Background/Layers/1.Light/2.png', 3 * 780),
 
-                // new Barrier('./img/3.Background/Barrier/2.png', 400)
+                new Barrier('./img/3.Background/Barrier/2.png', 400)
             ]
     }
     return new Level(levelObjects.enemies,

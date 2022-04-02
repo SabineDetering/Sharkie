@@ -7,7 +7,7 @@ class Character extends MovableObject {
     collisionOffsetX = 75;
     collisionOffsetY = 170;
     collisionWidth = 200;
-    collisionHeight = 95;
+    collisionHeight = 90;
 
     speed = 1;
     isSlapping = false;
@@ -344,7 +344,11 @@ class Character extends MovableObject {
                     finishGame(false);
                 }
             } else if (this.isHurt()) {
-                this.animateImages(this.IMAGES_HURT_POISONED);
+                if (this.lastHitBy instanceof Pufferfish) {
+                    this.animateImages(this.IMAGES_HURT_POISONED);
+                } else {
+                    this.animateImages(this.IMAGES_HURT_SHOCK);
+                }
             } else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
                 this.animateImages(this.IMAGES_SWIM);
             } else if (this.isSlapping) {
