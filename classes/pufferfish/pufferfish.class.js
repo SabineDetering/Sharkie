@@ -7,6 +7,15 @@ class Pufferfish extends MovableObject {
     collisionHeight = 62;
     hitSpeedX = -5;
     hitSpeedY = -3;
+    otherDirection = false;
+    pointOfReturnLeft = -670;
+    pointOfReturnRight = endX - 100;
+
+    slapped = false;
+    slappedNormal = false;
+    slappedInverse = false;
+    wait = false;
+
     animationIntervalMove;
     animationIntervalImg;
 
@@ -15,27 +24,33 @@ class Pufferfish extends MovableObject {
 
     constructor() {
         super();
-        this.slapped = false;
-        this.slappedNormal = false;
-        this.slappedInverse = false;
-        this.wait = false;
         this.speed = 0.15 + Math.random() * 0.4;
     }
 
-    
+
+
     animate() {
         this.animationIntervalMove = setInterval(() => {
             // console.log('wait ', this.wait, 'slappedNormal ', this.slappedNormal, 'slappedInverse ', this.slappedInverse);
-            if (this.wait) {//normal move
-                this.x -= this.speed;
-            } else {//slapped move
+            if ((this.slappedNormal || this.slappedInverse) && !this.wait) {//slapped move
                 if (this.slappedNormal) {
                     this.x += this.hitSpeedX;
                     this.y += this.hitSpeedY;
                 } else if (this.slappedInverse) {
                     this.x -= this.hitSpeedX;
                     this.y += this.hitSpeedY;
-                } else {//normal move
+                }
+            } else {//normal move
+                //change direction
+                console.log('otherdirection', this.otherDirection, 'pointOfReturnLeft', this.pointOfReturnLeft);
+                console.log('collisionMinX', this.collisionMinX);
+                console.log('collisionMaxX', this.collisionMaxX);
+                if (!this.otherDirection && this.collisionMinX < this.pointOfReturnLeft || this.otherDirection && this.collisionMaxX > this.pointOfReturnRight) {
+                    this.otherDirection = !this.otherDirection;
+                }
+                if (this.otherDirection) {
+                    this.x += this.speed;
+                } else {
                     this.x -= this.speed;
                 }
             }

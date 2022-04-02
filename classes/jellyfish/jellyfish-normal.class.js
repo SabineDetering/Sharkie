@@ -26,20 +26,4 @@ class JellyfishNormal extends Jellyfish {
         this.loadImages(this.IMAGES[color]);
     }
 
-    animate() {
-        this.animationIntervalMove = setInterval(() => {
-            this.animateImages(this.IMAGES[this.color]);
-
-            //change direction
-            if (this.otherDirection && this.collisionMinY < 10 || !this.otherDirection && this.collisionMaxY > 470) { 
-                this.otherDirection = !this.otherDirection;
-            }         
-
-            if (this.otherDirection){
-                this.y -=  this.speedY;
-            } else {
-                this.y += this.speedY;
-            }
-        }, 1000 / 10);
-    }
 }

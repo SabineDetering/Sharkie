@@ -17,7 +17,7 @@ class MovableObject extends DrawableObject {
 
     //draws a rectangle around character, pufferfish and endboss
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Jellyfish || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof Pufferfish || this instanceof Endboss) {
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "blue";

@@ -28,12 +28,18 @@ class PufferfishOrange extends Pufferfish {
     IMG_DEAD = './img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/2.1.png';
 
 
-    constructor(x,y) {
+    constructor(x, y, pointOfReturnLeft, pointOfReturnRight) {
         super();
         this.loadImage(this.IMAGES_SWIM[0]);
         this.loadImages(this.IMAGES_SWIM);
         this.loadImages([this.IMG_DEAD]);
         this.x = x + Math.random() * 250;
         this.y = y + Math.random() * 50;
+        if (pointOfReturnLeft) {
+            this.pointOfReturnLeft = pointOfReturnLeft;
+        }
+        if (pointOfReturnRight) {
+            this.pointOfReturnRight = pointOfReturnRight;
+        }
     }
 }

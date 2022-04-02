@@ -116,6 +116,13 @@ class World {
                     }
                 }
 
+            //barrier
+            this.level.backgroundObjects.filter(o=> o instanceof Barrier).forEach(barrier => {
+                if (this.character.isColliding(barrier)) {
+                    
+                }
+            });
+
                 //collect items
                 this.level.collectableObjects.forEach((object) => {
                     if (this.character.isColliding(object)) {
