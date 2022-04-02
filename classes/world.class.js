@@ -141,7 +141,7 @@ class World {
                     if (bubble.collisionMaxY < 0) {
                         bubble.delete(this.bubbles, bubble);
                     } else if (this.endboss.isColliding(bubble)) {//bubble meets endboss
-                        if (bubble instanceof PoisonedBubble) {
+                        if (bubble.type=='poisoned') {
                             this.endboss.hit();
                             if (soundOn) { this.character.bubble_sound.play(); }
                         }

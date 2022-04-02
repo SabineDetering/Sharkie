@@ -8,12 +8,18 @@ class Bubble extends MovableObject {
     speed = 1.4;
     speedY = -0.3;
     direction;
-    IMG = './img/1.Sharkie/4.Attack/Bubble trap/Bubble.png';
     TRAPPED_IMAGES = [];
+    type = '';
     withTrappedJelly = false;
 
     animationIntervalMove;
     animationIntervalImg;
+
+
+    IMG = {
+        poisoned: './img/1.Sharkie/4.Attack/Bubble trap/Poisoned_Bubble.png',
+        normal: './img/1.Sharkie/4.Attack/Bubble trap/Bubble.png'
+    } ;
 
     IMAGES = {
         'lila': [
@@ -42,12 +48,13 @@ class Bubble extends MovableObject {
         ]
     }
 
-    constructor(x, y, direction) {
+    constructor(x, y,type, direction) {
         super();
         this.x = x;
         this.y = y;
+        this.type = type;
         this.direction = direction;
-        this.loadImage(this.IMG);
+        this.loadImage(this.IMG[type]);
         this.loadImages(this.IMAGES['lila']);
         this.loadImages(this.IMAGES['yellow']);
         this.loadImages(this.IMAGES['pink']);

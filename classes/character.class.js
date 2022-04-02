@@ -117,16 +117,16 @@ class Character extends MovableObject {
         './img/1.Sharkie/4.Attack/Bubble trap/For Whale/7.png',
         './img/1.Sharkie/4.Attack/Bubble trap/For Whale/8.png'
     ];
-    IMAGES_ATTACK_WITHOUT_BUBBLE = [
-        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/1.png',
-        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/3.png',
-        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/4.png',
-        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/2.png',
-        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/5.png',
-        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/6.png',
-        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/7.png',
-        './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/8.png'
-    ];
+    // IMAGES_ATTACK_WITHOUT_BUBBLE = [
+    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/1.png',
+    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/3.png',
+    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/4.png',
+    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/2.png',
+    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/5.png',
+    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/6.png',
+    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/7.png',
+    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/8.png'
+    // ];
 
     IMAGES_ATTACK_FIN = [
         './img/1.Sharkie/4.Attack/Fin slap/1.png',
@@ -187,7 +187,7 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_HURT_SHOCK);
         this.loadImages(this.IMAGES_ATTACK_BUBBLE);
         this.loadImages(this.IMAGES_ATTACK_POISONED_BUBBLE);
-        this.loadImages(this.IMAGES_ATTACK_WITHOUT_BUBBLE);
+        // this.loadImages(this.IMAGES_ATTACK_WITHOUT_BUBBLE);
         this.loadImages(this.IMAGES_ATTACK_FIN);
         this.loadImages(this.IMAGES_DEAD_POISONED);
         this.loadImages(this.IMAGES_DEAD_SHOCK);
@@ -357,9 +357,9 @@ class Character extends MovableObject {
             } else if (this.isLongIdle()) {
                 this.animateImages(this.IMAGES_LONG_IDLE);
             } else if (this.isBubbling) {
-                this.animateBubbling();
+                this.animateBubbling('normal');
             } else if (this.isBubblingPoison) {
-                this.animateBubblingPoison();
+                this.animateBubbling('poisoned');
             } else {
                 this.animateImages(this.IMAGES_IDLE);
             }
@@ -373,41 +373,26 @@ class Character extends MovableObject {
      * then a new instance of poisoned bubble is created with position dependent on direction of character
      * number of collected poisons and status bar is updated
      */
-    animateBubblingPoison() {
+    animateBubbling(type) {
         let bubble;
-        this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubblingPoison');
-        //when bubble producing animation is done
-        if (!this.isBubblingPoison) {
-            if (soundOn) { this.bubble_sound.play(); }
-            if (this.otherDirection) {
-                bubble = new PoisonedBubble(this.collisionMinX - 70, this.collisionMinY + 20, 'left');
-            } else {
-                bubble = new PoisonedBubble(this.collisionMaxX + 10, this.collisionMinY + 20, 'right');
-            }
-            this.world.bubbles.push(bubble);
-            this.collectedPoisons--;
-            this.world.poisonBar.showStatus(this.collectedPoisons / this.world.level.totalCoins * 100);
+        if (type == 'poisoned') {
+            this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubblingPoison');
+        } else {
+            this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubbling');
         }
-    }
-
-
-    /**
-     * shows images for producing bubble once (while isBubbling is true)
-     * and sets isBubbling to false
-     * then a new instance of bubble is created with position dependent on direction of character
-     */
-    animateBubbling() {
-        let bubble;
-        this.animateImagesOnce(this.IMAGES_ATTACK_BUBBLE, 'isBubbling');
         //when bubble producing animation is done
-        if (!this.isBubbling) {
+        if (!this.isBubblingPoison && !this.isBubbling) {
             if (soundOn) { this.bubble_sound.play(); }
             if (this.otherDirection) {
-                bubble = new Bubble(this.collisionMinX - 80, this.collisionMinY + 20, 'left');
+                bubble = new Bubble(this.collisionMinX - 70, this.collisionMinY + 20, type, 'left');
             } else {
-                bubble = new Bubble(this.collisionMaxX + 20, this.collisionMinY + 20, 'right');
+                bubble = new Bubble(this.collisionMaxX + 10, this.collisionMinY + 20, type, 'right');
             }
             this.world.bubbles.push(bubble);
+            if (type == 'poisoned') {
+                this.collectedPoisons--;
+                this.world.poisonBar.showStatus(this.collectedPoisons / this.world.level.totalCoins * 100);
+            }
         }
     }
 
