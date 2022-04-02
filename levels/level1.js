@@ -26,7 +26,7 @@ function level1() {
                 new Poison(440, 300, 'img/4.Marcadores/Posión/Dark - Left.png'),
                 new AnimatedPoison(1300, 320),
                 new Poison(750, 430, 'img/4.Marcadores/Posión/Dark - Right.png'),
-                new Poison(1400, 400, 'img/4.Marcadores/Posión/Dark - Right.png')
+                new Poison(1700, 400, 'img/4.Marcadores/Posión/Dark - Right.png')
             ],
         startX: -680,
         endX: 3 * 780,

@@ -118,7 +118,6 @@ class World {
 
                 //collect items
                 this.level.collectableObjects.forEach((object) => {
-                    object.calculateCollisionCoordinates();
                     if (this.character.isColliding(object)) {
                         this.character.collect(object);
                         object.delete(this.level.collectableObjects, object);

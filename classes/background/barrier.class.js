@@ -5,5 +5,6 @@ class Barrier extends BackgroundObject {
 
     constructor(imgPath, x) {
         super(imgPath, x);
+        this.calculateCollisionCoordinates();
     }
 }
