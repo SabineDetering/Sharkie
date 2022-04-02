@@ -20,7 +20,6 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.level = level;
-        this.endOfGame = endOfGame;
         this.draw();
         this.setWorld();
         this.run();
@@ -50,7 +49,6 @@ class World {
 
     reset() {
         this.camera_x = 0;
-        this.endOfGame = endOfGame;
         this.character.reset();
         this.endboss.reset();
         this.lifeBar.reset();
@@ -60,7 +58,6 @@ class World {
 
     run() {
         this.animationInterval = setInterval(() => {
-            if (!this.endOfGame) {
                 //character can only act if it is not dead or hurt
                 if (!this.character.isDead() && !this.character.isHurt()) {
 
@@ -165,7 +162,6 @@ class World {
                     }
 
                 });
-            }
         }, 1000 / 60);
     }
 

@@ -6,7 +6,6 @@ let level;//level object
 let levelFunctions = [level1, level2];
 let endX;
 let healthImprovement = 0;
-let endOfGame = false;
 let soundOn = true;
 
 function getId(id) {
@@ -25,11 +24,10 @@ function initGame() {
 
 function initLevel(levelNumber) {
     currentLevel = levelNumber;
-    endOfGame = false;
     level = levelFunctions[levelNumber - 1]();
     world.level = level;
     endX = level.endX;
-    world.reset(); 
+    world.reset();
 }
 
 
@@ -47,27 +45,23 @@ function startLevel(levelNumber) {
 
 
 function finishGame(playerWins) {
-    if (!world.endOfGame) {
-        // console.log('finish executed');
-        world.endOfGame = true;
-        world.stopAnimation();
-        background_sound.pause();
-        if (playerWins) {
-            showWinScreen();
-            //collecting all coins improves health in next game by 50%
-            healthImprovement = world.character.collectedCoins / world.level.totalCoins / 2;
-            if (soundOn) { world.win_sound.play(); }
-            if (currentLevel == levelFunctions.length) {
-                getId('next-btn').style.display = "none";
-            } else {
-                getId('next-btn').style.display = "block";
-            }
-
+    console.log('finish executed');
+    world.stopAnimation();
+    background_sound.pause();
+    if (playerWins) {
+        showWinScreen();
+        //collecting all coins improves health in next game by 50%
+        healthImprovement = world.character.collectedCoins / world.level.totalCoins / 2;
+        if (soundOn) { world.win_sound.play(); }
+        if (currentLevel == levelFunctions.length) {
+            getId('next-btn').style.display = "none";
         } else {
-            showLooseScreen();
-            if (soundOn) { world.loose_sound.play(); }
-            healthImprovement = 0;
+            getId('next-btn').style.display = "block";
         }
+    } else {
+        showLooseScreen();
+        if (soundOn) { world.loose_sound.play(); }
+        healthImprovement = 0;
     }
 }
 
