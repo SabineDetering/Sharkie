@@ -24,9 +24,10 @@ function initGame() {
 function initLevel(levelNumber) {
     currentLevel = levelNumber;
     endOfGame = false;
-    world.reset();
     level = levelFunctions[levelNumber - 1]();
     world.level = level;
+    world.reset();
+ 
 }
 
 
@@ -96,6 +97,8 @@ function showInstructions(levelNumber) {
 function showWinScreen() {
     getId('win-screen').style.display = "flex";
     getId('coin-text').innerHTML = `You have collected ${world.character.collectedCoins} of ${world.level.totalCoins} coins.<br> Each coin will improve your health in the next level.`;
+    delete this.level;
+    console.log('world after deleting level', this);
     getId('restart-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
     getId('next-btn').setAttribute('onclick', `showStartScreen(${currentLevel + 1})`);
 }

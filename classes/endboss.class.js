@@ -152,7 +152,7 @@ class Endboss extends MovableObject {
         this.energy -= 33.4;
         if (this.energy < 0) {
             this.energy = 0;
-            console.log('energy ', this.energy);
+            // console.log('energy ', this.energy);
         } else {
             this.lastHit = new Date().getTime();//in milliseconds
         }
@@ -190,7 +190,7 @@ class Endboss extends MovableObject {
                 this.animateImagesDeath(this.IMAGES_DEAD);
                 if (this.currentImage >= this.IMAGES_DEAD.length + 25) {
                     //short timeout after dead animation
-                    console.log('finish function called');
+                    // console.log('finish function called');
                     finishGame(true);
                 }
             } else if (this.attack && !this.attackFinished) {

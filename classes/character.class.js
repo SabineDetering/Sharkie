@@ -297,12 +297,12 @@ class Character extends MovableObject {
             }
 
             this.swim_sound.pause();
-            if (this.world.keyboard.right && this.x < this.world.background.endX) {
+            if (this.world.keyboard.right && this.x < this.world.level.endX) {
                 this.x += this.speed;
                 this.otherDirection = false;
                 if (soundOn) { this.swim_sound.play(); }
             }
-            if (this.world.keyboard.left && this.x > this.world.background.startX) {
+            if (this.world.keyboard.left && this.x > this.world.level.startX) {
                 this.x -= this.speed;
                 this.otherDirection = true;
                 if (soundOn) { this.swim_sound.play(); }

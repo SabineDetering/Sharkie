@@ -31,7 +31,45 @@ function level2() {
                 new AnimatedPoison(1300, 320),
                 new Poison(750, 430, 'img/4.Marcadores/Posión/Dark - Right.png'),
                 new Poison(1400, 400, 'img/4.Marcadores/Posión/Dark - Right.png')
+            ],
+        startX: -680,
+        endX: 3 * 780,
+        backgroundObjects:
+            [
+                new BackgroundObject('./img/3.Background/Layers/5.Water/D2.png', -780),
+                new BackgroundObject('./img/3.Background/Layers/4.Fondo_2/D2.png', -780),
+                new BackgroundObject('./img/3.Background/Layers/3.Fondo_1/D2.png', -780),
+                new BackgroundObject('./img/3.Background/Layers/2.Floor/D2.png', -780),
+                new BackgroundObject('./img/3.Background/Layers/1.Light/2.png', -780),
+
+                new BackgroundObject('./img/3.Background/Layers/5.Water/D1.png', 0),
+                new BackgroundObject('./img/3.Background/Layers/4.Fondo_2/D1.png', 0),
+                new BackgroundObject('./img/3.Background/Layers/3.Fondo_1/D1.png', 0),
+                new BackgroundObject('./img/3.Background/Layers/2.Floor/D1.png', 0),
+                new BackgroundObject('./img/3.Background/Layers/1.Light/1.png', 0),
+                new BackgroundObject('./img/3.Background/Layers/5.Water/D2.png', 780),
+                new BackgroundObject('./img/3.Background/Layers/4.Fondo_2/D2.png', 780),
+                new BackgroundObject('./img/3.Background/Layers/3.Fondo_1/D2.png', 780),
+                new BackgroundObject('./img/3.Background/Layers/2.Floor/D2.png', 780),
+                new BackgroundObject('./img/3.Background/Layers/1.Light/2.png', 780),
+
+                new BackgroundObject('./img/3.Background/Layers/5.Water/D1.png', 2 * 780),
+                new BackgroundObject('./img/3.Background/Layers/4.Fondo_2/D1.png', 2 * 780),
+                new BackgroundObject('./img/3.Background/Layers/3.Fondo_1/D1.png', 2 * 780),
+                new BackgroundObject('./img/3.Background/Layers/2.Floor/D1.png', 2 * 780),
+                new BackgroundObject('./img/3.Background/Layers/1.Light/1.png', 2 * 780),
+                new BackgroundObject('./img/3.Background/Layers/5.Water/D2.png', 3 * 780),
+                new BackgroundObject('./img/3.Background/Layers/4.Fondo_2/D2.png', 3 * 780),
+                new BackgroundObject('./img/3.Background/Layers/3.Fondo_1/D2.png', 3 * 780),
+                new BackgroundObject('./img/3.Background/Layers/2.Floor/D2.png', 3 * 780),
+                new BackgroundObject('./img/3.Background/Layers/1.Light/2.png', 3 * 780),
+
+                // new Barrier('./img/3.Background/Barrier/2.png', 400)
             ]
     }
-    return new Level(levelObjects.enemies, levelObjects.collectableObjects);
+    return new Level(levelObjects.enemies,
+        levelObjects.collectableObjects,
+        levelObjects.startX,
+        levelObjects.endX,
+        levelObjects.backgroundObjects);
 };

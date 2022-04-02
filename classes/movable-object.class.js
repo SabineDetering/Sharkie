@@ -59,8 +59,8 @@ class MovableObject extends DrawableObject {
         return (this instanceof Pufferfish
             && (c.collisionMinY + c.collisionMaxY) / 2 < this.collisionMaxY + 20
             && (c.collisionMinY + c.collisionMaxY) / 2 > this.collisionMinY - 20
-            && (c.otherDirection == false && Math.abs(c.collisionMaxX - this.collisionMinX) < 20
-                || c.otherDirection == true && Math.abs(c.collisionMinX - this.collisionMaxX) < 20)
+            && (c.otherDirection == false && Math.abs(c.collisionMaxX - this.collisionMinX) < 25
+                || c.otherDirection == true && Math.abs(c.collisionMinX - this.collisionMaxX) < 25)
         );
     }
 
