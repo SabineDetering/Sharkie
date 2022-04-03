@@ -1,10 +1,5 @@
 class AnimatedPoison extends CollectableObject {
-    width = 40;
-    height = 40;
-    collisionOffsetX = 0;
-    collisionOffsetY = 0;
-    collisionWidth = this.width;
-    collisionHeight = this.height;
+   
     IMAGES = [
         './img/4.Marcadores/Posión/Animada/1.png',
         './img/4.Marcadores/Posión/Animada/2.png',

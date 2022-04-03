@@ -3,6 +3,7 @@ function level1() {
         enemies: [
             new PufferfishGreen(-600, 360),
             new PufferfishRed(-200, 160),
+            new PufferfishOrange(-100, 290),
             new PufferfishGreen(320, 190),
             new PufferfishOrange(420, 70),
             new PufferfishRed(500, 260),
@@ -27,12 +28,13 @@ function level1() {
                 new Coin(1300, 180),
                 new Coin(1400, 220),
                 new Coin(1500, 300),
+                new Coin(1800, 200),
                 new AnimatedPoison(-15, 380),
-                new Poison(230, 430, 'img/4.Marcadores/Posión/Dark - Left.png'),
                 new Poison(440, 300, 'img/4.Marcadores/Posión/Dark - Left.png'),
-                new AnimatedPoison(1300, 320),
-                new Poison(750, 430, 'img/4.Marcadores/Posión/Dark - Right.png'),
-                new Poison(1700, 400, 'img/4.Marcadores/Posión/Dark - Right.png')
+                new Poison(700, 430, 'img/4.Marcadores/Posión/Dark - Left.png'),
+                new AnimatedPoison(1310, 325),
+                new Poison(1700, 400, 'img/4.Marcadores/Posión/Dark - Right.png'),
+                new AnimatedPoison(2110, 310)
             ],
         startX: -680,
         endX: 4 * 780,

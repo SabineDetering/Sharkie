@@ -1,11 +1,13 @@
 class CollectableObject extends MovableObject {
-    collisionOffsetX = 0;
-    collisionOffsetY = 0;
+    
+    //this is executed after super() !
+    width = 40;
+    height = 40;
     collisionWidth = this.width;
     collisionHeight = this.height;
     IMG;
 
-    constructor(x, y) {
+    constructor() {
         super();
     }
 }
