@@ -5,7 +5,6 @@ class DrawableObject {
     y;
     img;
     imageCache = {};
-    // otherDirection = false;
 
     loadImage(path) {
         this.img = new Image();
@@ -27,6 +26,5 @@ class DrawableObject {
             console.warn('Error loading image: ', e);
             console.log('Could not load: ', this.img.src);
         }
-    }
-    
+    }    
 }

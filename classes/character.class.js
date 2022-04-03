@@ -22,7 +22,8 @@ class Character extends MovableObject {
     collectedCoins = 0;
     collectedPoisons = 0;
 
-    world; // to get access to keyboard
+    world; // to get access to keyboard and other objects
+
     swim_sound = new Audio('./audio/silent_swim.mp3');
     collectCoin_sound = new Audio('./audio/coin.mp3');
     collectPoison_sound = new Audio('./audio/glass.mp3');
@@ -179,7 +180,6 @@ class Character extends MovableObject {
         this.loadImages(this.IMAGES_HURT_SHOCK);
         this.loadImages(this.IMAGES_ATTACK_BUBBLE);
         this.loadImages(this.IMAGES_ATTACK_POISONED_BUBBLE);
-        // this.loadImages(this.IMAGES_ATTACK_WITHOUT_BUBBLE);
         this.loadImages(this.IMAGES_ATTACK_FIN);
         this.loadImages(this.IMAGES_DEAD_POISONED);
         this.loadImages(this.IMAGES_DEAD_SHOCK);
@@ -200,7 +200,6 @@ class Character extends MovableObject {
         this.isSlapping = false;
         this.isBubbling = false;
         this.isBubblingPoison = false;
-
         this.collectedCoins = 0;
         this.collectedPoisons = 0;
         this.killedByEndboss = false;
@@ -217,9 +216,13 @@ class Character extends MovableObject {
 
 
     /**
-     * reduces energy and indirectly starts "isHurt"-interval
+     * reduces energy dependent on enemy
+     * indirectly starts "isHurt"-interval by saving timestamp of hit
      * currentImage set to 0 to start hurt animation with first image
+     * lastHitBy saves attacker to use hurt images according to type of hurt
+     * sound dependent on type of hurt/death
      * lifeBar is updated
+     * @param {object} o - enemy that hit character
      */
     hit(o) {
         if (o instanceof JellyfishDangerous) {
@@ -251,6 +254,7 @@ class Character extends MovableObject {
 
     /**
      * updates number of collected items and status bar
+     * plays sound dependent on type of collected object
      * @param {object} o - collectable object
      */
     collect(o) {
@@ -268,6 +272,7 @@ class Character extends MovableObject {
 
     /**
      * horizontal distance to swim before barrier is left behind completely
+     * used to allow downward movement at the end of barrier
      * @param {object} o - barrier
      */
     calcDistanceToBarrierEnd(o) {
@@ -280,7 +285,7 @@ class Character extends MovableObject {
 
 
     /**
-     * movement,images and sound for character
+     * movement,images and sounds for character
      */
     animate() {
         this.animateMovement();
@@ -291,11 +296,9 @@ class Character extends MovableObject {
     /**
      * animation of movement for character
      */
-
-    // animate() {
     animateMovement() {
         this.animationIntervalMove = setInterval(() => {
-            //if killed by endboss or jellyfish final image (bones) are positioned too high
+            //if killed by endboss or jellyfish and final image (bones) are positioned too high
             if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 300
                 || this.isDead() && this.lastHitBy instanceof Jellyfish && this.currentImage >= this.IMAGES_DEAD_SHOCK.length && this.collisionMaxY < 300) {
                 //let bones fall to ground
@@ -323,25 +326,32 @@ class Character extends MovableObject {
                 if (soundOn) { this.swim_sound.play(); }
             }
             if (this.barrierCollision) {
-                console.log('barrierCollision', this.collisionMaxX, this.collisionMaxY);
-                console.log('distance', this.distanceToBarrierEnd);
-                if (this.world.keyboard.left || this.world.keyboard.right) {
-                    this.y -= this.speed;
-                } else if (this.world.keyboard.down) {
-                    if (this.otherDirection && this.distanceToBarrierEnd < 170) {
-                        this.y -= this.speed * 0.5;
-                        this.x -= this.speed;
-                    } else if (!this.otherDirection && this.distanceToBarrierEnd < 150) {
-                        this.y -= this.speed * 0.5;
-                        this.x += this.speed;
-                    } else {
-                        this.y -= this.speed;
-                    }
-                }
-                this.barrierCollision = false;
+                animateAvoidingBarrier();
             }
             this.world.camera_x = -this.x + 30;
         }, 1000 / 60);
+    }
+
+    animateAvoidingBarrier() {
+        // console.log('barrierCollision', this.collisionMaxX, this.collisionMaxY);
+        // console.log('distance', this.distanceToBarrierEnd);
+        //when blocked by barrier move upwards instead of sideways
+        if (this.world.keyboard.left || this.world.keyboard.right) {
+            this.y -= this.speed;
+        } else if (this.world.keyboard.down) {
+            //allow slightly moving downwards when character is at the and of the barrier but mainly moving sideways
+            if (this.otherDirection && this.distanceToBarrierEnd < 170) {
+                this.y -= this.speed * 0.5;
+                this.x -= this.speed;
+            } else if (!this.otherDirection && this.distanceToBarrierEnd < 150) {
+                this.y -= this.speed * 0.5;
+                this.x += this.speed;
+            } else {
+                //downward move is completely compensated
+                this.y -= this.speed;
+            }
+        }
+        this.barrierCollision = false;
     }
 
 
@@ -371,12 +381,12 @@ class Character extends MovableObject {
             } else if (this.isHurt()) {
                 if (this.lastHitBy instanceof Pufferfish) {
                     this.animateImages(this.IMAGES_HURT_POISONED);
-                } else {
+                } else {//hit by jellyfish
                     this.animateImages(this.IMAGES_HURT_SHOCK);
                 }
             } else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
                 this.animateImages(this.IMAGES_SWIM);
-            } else if (this.isSlapping) {
+            } else if (this.isSlapping) {//slapping move is only shown once
                 this.animateImagesOnce(this.IMAGES_ATTACK_FIN, 'isSlapping');
                 if (soundOn) { this.slap_sound.play(); }
             } else if (this.isLongIdle()) {

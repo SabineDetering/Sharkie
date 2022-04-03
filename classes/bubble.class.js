@@ -62,6 +62,11 @@ class Bubble extends MovableObject {
         this.animate();
     }
 
+
+    /**
+     * marks that jellyfish was trapped so that animation with images according to the color of the trapped jellyfish is started
+     * @param {string} color - color of trapped jellyfish
+     */
     withJelly(color) {
         this.withTrappedJelly = true;
         this.TRAPPED_IMAGES = this.IMAGES[color];

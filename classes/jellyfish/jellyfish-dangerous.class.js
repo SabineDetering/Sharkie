@@ -24,6 +24,7 @@ class JellyfishDangerous extends Jellyfish{
         super();
         this.x = x;
         this.y = y;
+        //individual lower turning point e.g. at barrier top
         if (pointofReturnLower) {
             this.pointofReturnLower = pointofReturnLower;
         } else {
@@ -38,9 +39,10 @@ class JellyfishDangerous extends Jellyfish{
     animate() {
         this.animationIntervalMove = setInterval(() => {
             this.animateImages(this.IMAGES[this.color]);
+            //random horizontal deviation
             this.x += (Math.random() - 0.5) * this.maxSpeedX;
 
-            //change direction
+            //change direction at top and bottom of canvas or individual turning point
             if (this.otherDirection && this.collisionMinY < 10 || !this.otherDirection && this.collisionMaxY > this.pointofReturnLower) {
                 this.otherDirection = !this.otherDirection;
             }

@@ -1,7 +1,4 @@
 class Endboss extends MovableObject {
-    static counter = 0;
-    id;
-
     height = 440;
     width = 380;
     //x calculated in constructor
@@ -11,11 +8,12 @@ class Endboss extends MovableObject {
     collisionWidth = 300;
     collisionHeight = 130;
     speed = -0.8;
+
     startEnergy = 100;
     energy = 100;
 
-    wait = true;
-    isIntroduced = false;
+    wait = true;//true before introduction
+    isIntroduced = false; //true after introduction
     attack = false;
     attackFinished = false;
 
@@ -103,8 +101,6 @@ class Endboss extends MovableObject {
 
     constructor() {
         super();
-        // this.id = Endboss.counter;
-        // Endboss.counter++;
         this.x = endX - 800;
         this.loadImage(this.IMAGES_INTRODUCE[0]);
         this.loadImages(this.IMAGES_INTRODUCE);
@@ -119,7 +115,7 @@ class Endboss extends MovableObject {
      * resets all properties that could have been changed during previous game
      */
     reset() {
-        this.x = endX - 400;
+        this.x = endX - 800;
         this.y = 0;
         this.energy = 100;
         this.wait = true;
@@ -168,7 +164,7 @@ class Endboss extends MovableObject {
 
     /**
      * sets flag to true in order to start attacking animation
-     * attackSpeedy is calculated to overcome the vertical distance to the attacked character
+     * attackSpeedY is calculated to overcome the vertical distance to the attacked character
      * @param {object} c -character
      */
     isAttacking(c) {
@@ -191,7 +187,6 @@ class Endboss extends MovableObject {
                 this.animateImagesDeath(this.IMAGES_DEAD);
                 if (this.currentImage >= this.IMAGES_DEAD.length + 25) {
                     //short timeout after dead animation
-                    // console.log('finish function called');
                     finishGame(true);
                 }
             } else if (this.attack && !this.attackFinished) {

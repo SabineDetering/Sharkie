@@ -29,8 +29,8 @@ class Pufferfish extends MovableObject {
 
     animate() {
         this.animationIntervalMove = setInterval(() => {
-            // console.log('wait ', this.wait, 'slappedNormal ', this.slappedNormal, 'slappedInverse ', this.slappedInverse);
-            if ((this.slappedNormal || this.slappedInverse) && !this.wait) {//slapped move
+            //slapped move shown after slap animation of character (during slap animation wait=true)
+            if ((this.slappedNormal || this.slappedInverse) && !this.wait) {
                 if (this.slappedNormal) {
                     this.x += this.hitSpeedX;
                     this.y += this.hitSpeedY;
@@ -39,10 +39,7 @@ class Pufferfish extends MovableObject {
                     this.y += this.hitSpeedY;
                 }
             } else {//normal move
-                //change direction
-                // console.log('otherdirection', this.otherDirection, 'pointOfReturnLeft', this.pointOfReturnLeft);
-                // console.log('collisionMinX', this.collisionMinX);
-                // console.log('collisionMaxX', this.collisionMaxX);
+                //change direction at horizontal ends of canvas (as standard)
                 if (!this.otherDirection && this.collisionMinX < this.pointOfReturnLeft || this.otherDirection && this.collisionMaxX > this.pointOfReturnRight) {
                     this.otherDirection = !this.otherDirection;
                 }
