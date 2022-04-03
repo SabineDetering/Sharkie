@@ -105,7 +105,7 @@ class Endboss extends MovableObject {
         super();
         // this.id = Endboss.counter;
         // Endboss.counter++;
-        this.x = endX - 400;
+        this.x = endX - 800;
         this.loadImage(this.IMAGES_INTRODUCE[0]);
         this.loadImages(this.IMAGES_INTRODUCE);
         this.loadImages(this.IMAGES_FLOATING);

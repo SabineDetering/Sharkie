@@ -42,9 +42,9 @@ class Pufferfish extends MovableObject {
                 }
             } else {//normal move
                 //change direction
-                console.log('otherdirection', this.otherDirection, 'pointOfReturnLeft', this.pointOfReturnLeft);
-                console.log('collisionMinX', this.collisionMinX);
-                console.log('collisionMaxX', this.collisionMaxX);
+                // console.log('otherdirection', this.otherDirection, 'pointOfReturnLeft', this.pointOfReturnLeft);
+                // console.log('collisionMinX', this.collisionMinX);
+                // console.log('collisionMaxX', this.collisionMaxX);
                 if (!this.otherDirection && this.collisionMinX < this.pointOfReturnLeft || this.otherDirection && this.collisionMaxX > this.pointOfReturnRight) {
                     this.otherDirection = !this.otherDirection;
                 }

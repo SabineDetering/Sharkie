@@ -117,16 +117,6 @@ class Character extends MovableObject {
         './img/1.Sharkie/4.Attack/Bubble trap/For Whale/7.png',
         './img/1.Sharkie/4.Attack/Bubble trap/For Whale/8.png'
     ];
-    // IMAGES_ATTACK_WITHOUT_BUBBLE = [
-    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/1.png',
-    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/3.png',
-    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/4.png',
-    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/2.png',
-    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/5.png',
-    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/6.png',
-    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/7.png',
-    //     './img/1.Sharkie/4.Attack/Bubble trap/For Whale/Whitout bubbles/8.png'
-    // ];
 
     IMAGES_ATTACK_FIN = [
         './img/1.Sharkie/4.Attack/Fin slap/1.png',
@@ -252,6 +242,7 @@ class Character extends MovableObject {
             this.hurt_sound.play();
             if (this.isDead()) { this.dead_sound.play(); }
         }
+        console.log('hit', this.lastHitBy, this.energy);
     }
 
 

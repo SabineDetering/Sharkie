@@ -1,16 +1,22 @@
 function level1() {
     const levelObjects = {
         enemies: [
+            new PufferfishGreen(-600, 360),
+            new PufferfishRed(-200, 160),
             new PufferfishGreen(320, 190),
             new PufferfishOrange(420, 70),
             new PufferfishRed(500, 260),
             new PufferfishRed(800, 320),
             new PufferfishOrange(1000, 280),
-            new PufferfishGreen(1320, 190),
             new PufferfishOrange(1120, 70),
-            new PufferfishRed(1800, 260),
-            new PufferfishOrange(2400, 120),
-            new PufferfishGreen(2600, 180)
+            new PufferfishGreen(1320, 190),
+            new PufferfishRed(1600, 280),
+            new PufferfishRed(1950, 90),
+            new PufferfishOrange(2400, 130),
+            new PufferfishGreen(2600, 180),
+            new PufferfishRed(3000, 80),
+            new PufferfishOrange(3400, 240),
+            new PufferfishGreen(3600, 320)
         ],
         collectableObjects:
             [
@@ -29,7 +35,7 @@ function level1() {
                 new Poison(1700, 400, 'img/4.Marcadores/Posión/Dark - Right.png')
             ],
         startX: -680,
-        endX: 3 * 780,
+        endX: 4 * 780,
         backgroundObjects:
             [
                 new BackgroundObject('./img/3.Background/Layers/5.Water/D2.png', -780),

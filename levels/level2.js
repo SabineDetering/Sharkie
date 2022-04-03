@@ -11,10 +11,10 @@ function level2() {
             new PufferfishRed(1800, 260),
             new PufferfishOrange(2400, 120),
             new PufferfishGreen(2600, 180),
-            new JellyfishNormal('lila', -15, 400),
-            new JellyfishNormal('yellow', 680, 100)
-            // new Jellyfish('./img/2.Enemy/2 Jelly fish/Súper dangerous/Green 1.png'),
-            // new Jellyfish('./img/2.Enemy/2 Jelly fish/Súper dangerous/Pink 1.png')
+            new JellyfishNormal('lila', -20, 400),
+            new JellyfishNormal('yellow', 800, 100),
+            new JellyfishDangerous('green', 500, 200),
+            new JellyfishDangerous('pink', 1300, 100)
         ],
         collectableObjects:
             [
@@ -33,7 +33,7 @@ function level2() {
                 new Poison(1400, 400, 'img/4.Marcadores/Posión/Dark - Right.png')
             ],
         startX: -680,
-        endX: 3 * 780,
+        endX: 5 * 780,
         backgroundObjects:
             [
                 new BackgroundObject('./img/3.Background/Layers/5.Water/D2.png', -780),
@@ -63,6 +63,12 @@ function level2() {
                 new BackgroundObject('./img/3.Background/Layers/3.Fondo_1/D2.png', 3 * 780),
                 new BackgroundObject('./img/3.Background/Layers/2.Floor/D2.png', 3 * 780),
                 new BackgroundObject('./img/3.Background/Layers/1.Light/2.png', 3 * 780),
+
+                new BackgroundObject('./img/3.Background/Layers/5.Water/D1.png', 4 * 780),
+                new BackgroundObject('./img/3.Background/Layers/4.Fondo_2/D1.png', 4 * 780),
+                new BackgroundObject('./img/3.Background/Layers/3.Fondo_1/D1.png', 4 * 780),
+                new BackgroundObject('./img/3.Background/Layers/2.Floor/D1.png', 4 * 780),
+                new BackgroundObject('./img/3.Background/Layers/1.Light/1.png', 4 * 780),
 
                 new Barrier('./img/3.Background/Barrier/2.png', 400)
             ]

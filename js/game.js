@@ -75,6 +75,7 @@ function showStartScreen(levelNumber, onload = false) {
     getId('loose-screen').style.display = "none";
     getId('win-screen').style.display = "none";
     getId(`level${levelNumber}-screen`).style.display = "flex";
+    setVolumeIcon(levelNumber);
     if (onload) {
         initGame();
     } else {
@@ -106,9 +107,15 @@ function showLooseScreen() {
 }
 
 
-function toggleVolume() {
+function toggleVolume(number) {
     soundOn = !soundOn;
-    volume = getId('volume');
+    setVolumeIcon(number);
+}
+
+
+function setVolumeIcon(number) {
+    volume = getId('volume'+number);
+    // volume = getId(`volume${number}`);
     if (soundOn) {
         volume.src = "./img/volume-off.png";
         volume.alt = "sound off";
