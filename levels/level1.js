@@ -1,9 +1,9 @@
 function level1() {
     const levelObjects = {
         enemies: [
-            new PufferfishGreen(-600, 360),
-            new PufferfishRed(-200, 160),
-            new PufferfishOrange(-100, 290),
+            new PufferfishGreen(-400, 360, true),
+            new PufferfishRed(-300, 160, true),
+            new PufferfishOrange(0, 100,true),
             new PufferfishGreen(320, 190),
             new PufferfishOrange(420, 70),
             new PufferfishRed(500, 260),

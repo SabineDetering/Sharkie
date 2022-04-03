@@ -22,7 +22,7 @@ class World {
         this.level = level;
         this.draw();
         this.setWorld();
-        this.run();
+        // this.run();
     }
 
     setWorld() {

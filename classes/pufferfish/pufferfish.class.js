@@ -22,12 +22,10 @@ class Pufferfish extends MovableObject {
     IMG_DEAD;
     IMAGES_SWIM = [];
 
-    constructor() {
+    constructor( ) {
         super();
         this.speed = 0.15 + Math.random() * 0.4;
     }
-
-
 
     animate() {
         this.animationIntervalMove = setInterval(() => {
