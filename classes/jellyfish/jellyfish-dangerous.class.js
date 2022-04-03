@@ -1,7 +1,7 @@
 class JellyfishDangerous extends Jellyfish{
 
-    speedY = 10;
-    maxSpeedX=40;
+    speedY = 12;
+    maxSpeedX=30;
 
     IMAGES = {
         'green':
@@ -20,10 +20,15 @@ class JellyfishDangerous extends Jellyfish{
             ]
     };
 
-    constructor(color, x, y) {
+    constructor(color, x, y, pointofReturnLower) {
         super();
         this.x = x;
         this.y = y;
+        if (pointofReturnLower) {
+            this.pointofReturnLower = pointofReturnLower;
+        } else {
+            pointofReturnLower = 460;
+        }
         this.color = color;
         this.loadImage(this.IMAGES[color][0]);
         this.loadImages(this.IMAGES[color]);
@@ -36,7 +41,7 @@ class JellyfishDangerous extends Jellyfish{
             this.x += (Math.random() - 0.5) * this.maxSpeedX;
 
             //change direction
-            if (this.otherDirection && this.collisionMinY < 10 || !this.otherDirection && this.collisionMaxY > 470) {
+            if (this.otherDirection && this.collisionMinY < 10 || !this.otherDirection && this.collisionMaxY > this.pointofReturnLower) {
                 this.otherDirection = !this.otherDirection;
             }
 

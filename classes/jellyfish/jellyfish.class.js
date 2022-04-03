@@ -1,19 +1,19 @@
 class Jellyfish extends MovableObject {
     height = 80;
     width = 120;
-    collisionOffsetX = 20;
+    collisionOffsetX = 25;
     collisionOffsetY = 10;
-    collisionWidth = 85;
-    collisionHeight = 62;
-    speedY = 5;
-    animationInterval;
+    collisionWidth = 75;
+    collisionHeight = 45;
+    speedY = 7;
+        animationInterval;
 
     animate() {
         this.animationIntervalMove = setInterval(() => {
             this.animateImages(this.IMAGES[this.color]);
 
             //change direction
-            if (this.otherDirection && this.collisionMinY < 10 || !this.otherDirection && this.collisionMaxY > 470) {
+            if (this.otherDirection && this.collisionMinY < 20 || !this.otherDirection && this.collisionMaxY > 460) {
                 this.otherDirection = !this.otherDirection;
             }
 

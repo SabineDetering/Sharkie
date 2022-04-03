@@ -15,9 +15,9 @@ class MovableObject extends DrawableObject {
     energy = 100;
     lastHit;
 
-    //draws a rectangle around character, pufferfish and endboss
+    //draws a rectangle around the named instances to mark the area that is relevant for collisions
     drawFrame(ctx) {
-        if (this instanceof Character || this instanceof Pufferfish || this instanceof Endboss) {
+        if (this instanceof Character || this instanceof Jellyfish || this instanceof Endboss) {
             ctx.beginPath();
             ctx.lineWidth = "2";
             ctx.strokeStyle = "blue";

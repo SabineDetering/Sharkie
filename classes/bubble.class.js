@@ -6,7 +6,7 @@ class Bubble extends MovableObject {
     collisionWidth = this.width;
     collisionHeight = this.height;
     speed = 1.4;
-    speedY = -0.3;
+    speedY = -1;
     direction;
     TRAPPED_IMAGES = [];
     type = '';

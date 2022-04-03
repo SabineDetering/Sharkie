@@ -24,7 +24,7 @@ class Pufferfish extends MovableObject {
 
     constructor( ) {
         super();
-        this.speed = 0.15 + Math.random() * 0.4;
+        this.speed = 0.3 + Math.random() * 0.4;
     }
 
     animate() {

@@ -10,6 +10,8 @@ class Character extends MovableObject {
     collisionHeight = 90;
 
     speed = 1;
+    barrierCollision = false;
+    distanceToBarrierEnd;
     isSlapping = false;
     isBubbling = false;
     isBubblingPoison = false;
@@ -194,6 +196,7 @@ class Character extends MovableObject {
         this.img = this.imageCache['./img/1.Sharkie/3.Swim/1.png'];
         this.startEnergy = 100 * (1 + healthImprovement);
         this.energy = 100 * (1 + healthImprovement);
+        this.barrierCollision = false;
         this.isSlapping = false;
         this.isBubbling = false;
         this.isBubblingPoison = false;
@@ -264,6 +267,19 @@ class Character extends MovableObject {
 
 
     /**
+     * horizontal distance to swim before barrier is left behind completely
+     * @param {object} o - barrier
+     */
+    calcDistanceToBarrierEnd(o) {
+        if (this.otherDirection) {
+            this.distanceToBarrierEnd = this.collisionMaxX - o.collisionMinX;
+        } else {
+            this.distanceToBarrierEnd = o.collisionMaxX - this.collisionMinX;
+        }
+    }
+
+
+    /**
      * movement,images and sound for character
      */
     animate() {
@@ -305,6 +321,24 @@ class Character extends MovableObject {
             if (this.world.keyboard.down && this.collisionMaxY < 460) {
                 this.y += this.speed;
                 if (soundOn) { this.swim_sound.play(); }
+            }
+            if (this.barrierCollision) {
+                console.log('barrierCollision', this.collisionMaxX, this.collisionMaxY);
+                console.log('distance', this.distanceToBarrierEnd);
+                if (this.world.keyboard.left || this.world.keyboard.right) {
+                    this.y -= this.speed;
+                } else if (this.world.keyboard.down) {
+                    if (this.otherDirection && this.distanceToBarrierEnd < 170) {
+                        this.y -= this.speed * 0.5;
+                        this.x -= this.speed;
+                    } else if (!this.otherDirection && this.distanceToBarrierEnd < 150) {
+                        this.y -= this.speed * 0.5;
+                        this.x += this.speed;
+                    } else {
+                        this.y -= this.speed;
+                    }
+                }
+                this.barrierCollision = false;
             }
             this.world.camera_x = -this.x + 30;
         }, 1000 / 60);

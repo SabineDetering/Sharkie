@@ -119,7 +119,8 @@ class World {
             //barrier
             this.level.backgroundObjects.filter(o=> o instanceof Barrier).forEach(barrier => {
                 if (this.character.isColliding(barrier)) {
-                    
+                    this.character.barrierCollision = true;     
+                    this.character.calcDistanceToBarrierEnd(barrier);
                 }
             });
 

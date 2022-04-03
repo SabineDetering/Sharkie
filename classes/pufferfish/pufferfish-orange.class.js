@@ -35,7 +35,7 @@ class PufferfishOrange extends Pufferfish {
         this.loadImages([this.IMG_DEAD]);
         this.x = x + Math.random() * 250;
         this.y = y + Math.random() * 50;
-        this.otherDirection = otherDirection;
+        if (otherDirection) { this.otherDirection = otherDirection; }
         if (pointOfReturnLeft) {
             this.pointOfReturnLeft = pointOfReturnLeft;
         }
