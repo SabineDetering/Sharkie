@@ -7,7 +7,6 @@ body {
     background-image: url(./img/Screen-Background.png);
     background-repeat: no-repeat;
     background-size: cover;
-    /* filter:blur(4px); */
 }
 
 .blur {
@@ -36,7 +35,9 @@ button {
     cursor: pointer;
 }
 
-
+button:hover {
+    background-color: #1e709f;
+}
 
 .d-none {
     display: none;
@@ -50,7 +51,10 @@ button {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
 
+#canvas{
+    display: none;
 }
 
 .wrapper {
@@ -63,14 +67,15 @@ button {
     display: none;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    position: absolute;
-    width: 720px;
-    min-height: 480px;
-    height: 480px;
+    justify-content: space-between;
+    /* gap: 10px; */
+    /* position: absolute; */
+    width: 100%;
+    min-height:480px;
+    height: 100%;
     box-sizing: border-box;
-    top: 0;
-    left: 0;
+    /* top: 0;
+    left: 0; */
     background-image: url('./img/startscreen-background.png');
 }
 
@@ -92,8 +97,8 @@ button {
 
 .endscreen {
     position: absolute;
-    width: 720px;
-    height: 480px;
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
     background-color: #2e2771b7;
@@ -106,13 +111,16 @@ button {
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 16px 32px 16px 32px;
+    padding: 16px ;
     align-self: flex-start;
+    /* justify-self:end; */
     width: fit-content;
     background-color: #2e2771b7;
 }
 
 .small-instructions {
+    width: 720px;
+    box-sizing: border-box;
     padding: 4px;
     margin: 0;
     display: flex;

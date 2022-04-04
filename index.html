@@ -17,7 +17,7 @@
 
     <script src="./classes/drawable-object.class.js"></script>
     <script src="./classes/movable-object.class.js"></script>
-    
+
     <script src="./classes/background/background-object.class.js"></script>
     <script src="./classes/background/barrier.class.js"></script>
 
@@ -61,6 +61,8 @@
         <h1>SharKie</h1>
         <div id="wrapper" class="wrapper">
 
+            <canvas id="canvas" width="720" height="480"></canvas>
+
             <div id="level1-screen" class="startscreen">
                 <p>Sharkie is the friendliest shark ever, but he lives in a hostile environment. <br><br>All the other
                     animals he encounters are deathly dangerous for him. Luckily, he found out how to take advantage of
@@ -73,8 +75,10 @@
                 </div>
                 <div class="settings">
                     <button class="instruction-btn">
-                        <img id="volume1" src="img/volume-off.png" alt="sound off" title="sound off"
-                            onclick="toggleVolume(1)" style="display: block;">
+                        <img id="fullscreen1" onclick="toggleFullscreen(1)" style="display: block;">
+                    </button>
+                    <button class="instruction-btn">
+                        <img id="volume1" onclick="toggleVolume(1)" style="display: block;">
                     </button>
                 </div>
             </div>
@@ -95,8 +99,10 @@
                 </div>
                 <div class="settings">
                     <button class="instruction-btn">
-                        <img id="volume2" src="./img/volume-off.png" alt="sound off" title="sound off"
-                            onclick="toggleVolume(2)" style="display: block;">
+                        <img id="fullscreen2" onclick="toggleFullscreen(2)" style="display: block;">
+                    </button>
+                    <button class="instruction-btn">
+                        <img id="volume2" onclick="toggleVolume(2)" style="display: block;">
                     </button>
                 </div>
             </div>
@@ -127,18 +133,18 @@
                     </div>
                 </div>
 
-                <button id="start-btn" class="endscreen-btn">
+                <button id="start-btn" class="startscreen-btn">
                     Start level
                 </button>
 
-            </div>
-
-            <canvas id="canvas" width="720" height="480"></canvas>
-            <div class="small-instructions">
-                <span> arrows: move Sharkie</span>
-                <span> space: fin slap</span>
-                <span> b: bubble</span>
-                <span> v: poisoned bubble</span>
+                <div class="settings">
+                    <button class="instruction-btn">
+                        <img id="fullscreen0" onclick="toggleFullscreen(0)" style="display: block;">
+                    </button>
+                    <button class="instruction-btn">
+                        <img id="volume0" onclick="toggleVolume(0)" style="display: block;">
+                    </button>
+                </div>
             </div>
 
 
@@ -158,6 +164,12 @@
                 <img id="img-loose" src="./img/6.Botones/Tittles/Game Over/Recurso 13.png">
                 <button id="again-btn" class="endscreen-btn" onclick="">Try again</button>
             </div>
+        </div>
+        <div class="small-instructions">
+            <span> arrows: move Sharkie</span>
+            <span> space: fin slap</span>
+            <span> b: bubble</span>
+            <span> v: poisoned bubble</span>
         </div>
     </div>
 

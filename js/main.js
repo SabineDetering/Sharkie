@@ -7,6 +7,7 @@ let levelFunctions = [level1, level2];
 let endX;
 let healthImprovement = 0;
 let soundOn = true;
+let fullscreenOn = false;
 
 //helper function
 function getId(id) {
@@ -22,7 +23,9 @@ function getId(id) {
 function showStartScreen(levelNumber, onload = false) {
     getId('loose-screen').style.display = "none";
     getId('win-screen').style.display = "none";
+    getId('canvas').style.display = "none";
     getId(`level${levelNumber}-screen`).style.display = "flex";
+    setFullscreenIcon(levelNumber);
     setVolumeIcon(levelNumber);
     if (onload) {
         initGame();
@@ -59,11 +62,12 @@ function initLevel(levelNumber) {
 }
 
 
-
 function showInstructions(levelNumber) {
-    getId('instruction-screen').style.display = "block";
+    getId('instruction-screen').style.display = "flex";
     getId(`level${levelNumber}-screen`).style.display = "none";
     getId('start-btn').setAttribute('onclick', `startLevel(${levelNumber})`);
+    setFullscreenIcon(0);
+    setVolumeIcon(0);
 }
 
 
@@ -75,9 +79,15 @@ function startLevel(levelNumber) {
     // console.log('Level ', levelNumber, ' started');
     getId(`level${levelNumber}-screen`).style.display = "none";
     getId('instruction-screen').style.display = "none";
-    getId('canvas').style.display = "block";
+    canvas = getId('canvas');
+    canvas.style.display = "block";
+    if (fullscreenOn) {
+        canvas.requestFullscreen();
+    }
+    if (soundOn) {
+        background_sound.play();
+    }
     world.startAnimation();
-    if (soundOn) { background_sound.play(); }
 }
 
 
@@ -89,8 +99,12 @@ function startLevel(levelNumber) {
  */
 function finishGame(playerWins) {
     console.log('finish executed');
+    if (fullscreenOn) {
+        document.exitFullscreen(); 
+    }
     world.stopAnimation();
-    background_sound.pause();
+    background_sound.pause(); 
+
     if (playerWins) {
         showWinScreen();
         //collecting all coins improves health in next game by 50%
@@ -141,5 +155,25 @@ function setVolumeIcon(number) {
         volume.src = "./img/volume-on.png";
         volume.alt = "sound on";
         volume.title = "sound on";
+    }
+}
+
+
+function toggleFullscreen(number) {
+    fullscreenOn = !fullscreenOn;
+    setFullscreenIcon(number);
+}
+
+
+function setFullscreenIcon(number) {
+    fullscreen = getId('fullscreen' + number);
+    if (fullscreenOn) {
+        fullscreen.src = "./img/fullscreen-exit.png";
+        fullscreen.alt = "play game on small screen";
+        fullscreen.title = "play game on small screen";
+    } else {
+        fullscreen.src = "./img/fullscreen.png";
+        fullscreen.alt = "play game on full screen";
+        fullscreen.title = "play game on full screen";
     }
 }
