@@ -83,39 +83,14 @@ class World {
 
                 this.character.calculateCollisionCoordinates();
 
-                if (this.endboss.attackFinished && !this.character.killedByEndboss) {
-                    this.character.killedByEndboss = true;
-                    if (soundOn) { this.character.dead_sound.play(); }
-                    this.character.currentImage = 0;
-                    this.character.energy = 0;
-                    this.lifeBar.showStatus(0);
-                }
+                this.characterMeetsEndboss();
 
                 this.level.enemies.forEach((enemy) => {
                     enemy.calculateCollisionCoordinates();
-
                     if (enemy instanceof Pufferfish) {
-
-                        if (this.character.isColliding(enemy) && !enemy.slappedNormal && !enemy.slappedInverse) {//slapped enemies don't hurt 
-                            // console.log('collision', enemy, this.character.energy);
-                            this.character.hit(enemy);
-                        } else if (this.keyboard.space && enemy.isSlapped(this.character)) {
-                            //slapping is only possible if character is not colliding
-                            // console.log('slapped');
-                            enemy.wait = true;
-                            if (this.character.otherDirection) {
-                                enemy.slappedInverse = true;
-                            } else {
-                                enemy.slappedNormal = true;
-                            }
-                        } else if (enemy.collisionMaxY < 0) {//slapped out of sight
-                            enemy.delete(this.level.enemies, enemy)
-                        }
+                        this.characterMeetsPufferfish(enemy);
                     } else {//Jellyfish
-                        if (this.character.isColliding(enemy)) {
-                            console.log('collision', enemy, this.character.energy);
-                            this.character.hit(enemy);
-                        }
+                        this.characterMeetsJellyfish(enemy);
                     }
                 });
             }
@@ -192,6 +167,54 @@ class World {
         }, 1000 / 60);
     }
 
+
+    /**
+     * after attack by endboss parameters of character are set to initiate death
+     */
+    characterMeetsEndboss() {
+        if (this.endboss.attackFinished && !this.character.killedByEndboss) {
+            this.character.killedByEndboss = true;
+            if (soundOn) { this.character.dead_sound.play(); }
+            this.character.currentImage = 0;
+            this.character.energy = 0;
+            this.lifeBar.showStatus(0);
+        }
+    }
+
+
+    /**
+     * collisions with pufferfish that were not slapped hit character (and hurt him)
+     * 
+     * @param {object} pufferfish 
+     */
+    characterMeetsPufferfish(pufferfish) {
+        if (this.character.isColliding(pufferfish) && !pufferfish.slappedNormal && !pufferfish.slappedInverse) {//slapped enemies don't hurt
+            this.character.hit(pufferfish);
+        } else if (this.keyboard.space && pufferfish.isSlapped(this.character)) {
+            //slapping is only possible if character is not colliding
+            pufferfish.wait = true;
+            if (this.character.otherDirection) {
+                pufferfish.slappedInverse = true;
+            } else {
+                pufferfish.slappedNormal = true;
+            }
+        } else if (pufferfish.collisionMaxY < 0) {
+            //slapped out of sight
+            pufferfish.delete(this.level.enemies, pufferfish)
+        }
+    }
+
+
+    /**
+     * 
+     * @param {object} jellyfish - jellyfish
+     */
+    characterMeetsJellyfish(jellyfish){
+        if (this.character.isColliding(jellyfish)) {
+            console.log('collision', jellyfish, this.character.energy);
+            this.character.hit(jellyfish);
+        }
+}
 
     /**
      * main function for drawing objects
