@@ -8,10 +8,32 @@ let endX;
 let healthImprovement = 0;
 let soundOn = true;
 
+//helper function
 function getId(id) {
     return document.getElementById(id);
 }
 
+
+/**
+ * displays screen with story according to level
+ * preloads level objects (no animation)
+ * @param {integer} levelNumber 
+ */
+function showStartScreen(levelNumber, onload = false) {
+    getId('loose-screen').style.display = "none";
+    getId('win-screen').style.display = "none";
+    getId(`level${levelNumber}-screen`).style.display = "flex";
+    setVolumeIcon(levelNumber);
+    if (onload) {
+        initGame();
+    } else {
+        initLevel(levelNumber);
+    }
+}
+
+/**
+ * initialises game
+ */
 function initGame() {
     canvas = getId('canvas');
     ctx = canvas.getContext('2d');
@@ -22,6 +44,11 @@ function initGame() {
     background_sound.loop = true;
 }
 
+
+/**
+ * adds a new instance of level to the world with all level specific objects
+ * @param {integer} levelNumber 
+ */
 function initLevel(levelNumber) {
     currentLevel = levelNumber;
     level = levelFunctions[levelNumber - 1]();
@@ -31,19 +58,34 @@ function initLevel(levelNumber) {
 }
 
 
+
+function showInstructions(levelNumber) {
+    getId('instruction-screen').style.display = "block";
+    getId(`level${levelNumber}-screen`).style.display = "none";
+    getId('start-btn').setAttribute('onclick', `startLevel(${levelNumber})`);
+}
+
+
 /**
- * starts the animation of all visible movable objects in the world
+ * starts the animation of all visible movable objects in the world and shows canvas
  * @param {integer} levelNumber 
  */
 function startLevel(levelNumber) {
     // console.log('Level ', levelNumber, ' started');
     getId(`level${levelNumber}-screen`).style.display = "none";
     getId('instruction-screen').style.display = "none";
+    getId('canvas').style.display = "block";
     world.startAnimation();
     if (soundOn) { background_sound.play(); }
 }
 
 
+/**
+ * when game is finished
+ * all animations are stopped
+ * dependent on the outcome, either win screen or loose screen is shown
+ * @param {boolean} playerWins - true if Sharkie survived endboss
+ */
 function finishGame(playerWins) {
     console.log('finish executed');
     world.stopAnimation();
@@ -66,44 +108,19 @@ function finishGame(playerWins) {
 }
 
 
-/**
- * displays screen with story according to level
- * preloads level objects (no animation)
- * @param {integer} levelNumber 
- */
-function showStartScreen(levelNumber, onload = false) {
-    getId('loose-screen').style.display = "none";
-    getId('win-screen').style.display = "none";
-    getId(`level${levelNumber}-screen`).style.display = "flex";
-    setVolumeIcon(levelNumber);
-    if (onload) {
-        initGame();
-    } else {
-        initLevel(levelNumber);
-    }
-}
-
-
-function showInstructions(levelNumber) {
-    getId('instruction-screen').style.display = "block";
-    getId(`level${levelNumber}-screen`).style.display = "none";
-    getId('start-btn').setAttribute('onclick', `startLevel(${levelNumber})`);
-}
-
-
 function showWinScreen() {
     getId('win-screen').style.display = "flex";
     getId('coin-text').innerHTML = `You have collected ${world.character.collectedCoins} of ${world.level.totalCoins} coins.<br> Each coin will improve your health in the next level.`;
-    delete this.level;
     getId('restart-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
     getId('next-btn').setAttribute('onclick', `showStartScreen(${currentLevel + 1})`);
+    delete this.level;
 }
 
 
 function showLooseScreen() {
     getId('loose-screen').style.display = "flex";
     getId('again-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
-    // delete this.level;
+    delete this.level;
 }
 
 
@@ -114,7 +131,7 @@ function toggleVolume(number) {
 
 
 function setVolumeIcon(number) {
-    volume = getId('volume'+number);
+    volume = getId('volume' + number);
     if (soundOn) {
         volume.src = "./img/volume-off.png";
         volume.alt = "sound off";

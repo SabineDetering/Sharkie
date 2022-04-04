@@ -305,7 +305,7 @@ class Character extends MovableObject {
                 this.y += 5;
                 this.calculateCollisionCoordinates();
             }
-
+            //swimming movements
             this.swim_sound.pause();
             if (this.world.keyboard.right && this.x < this.world.level.endX) {
                 this.x += this.speed;
