@@ -14,7 +14,7 @@ class Endboss extends MovableObject {
 
     wait = true;//true before introduction
     isIntroduced = false; //true after introduction
-    attack = false;
+    attacking = false;
     attackFinished = false;
 
     lifeBarEndboss = new LifeBarEndboss();
@@ -120,7 +120,7 @@ class Endboss extends MovableObject {
         this.energy = 100;
         this.wait = true;
         this.isIntroduced = false;
-        this.attack = false;
+        this.attacking = false;
         this.attackFinished = false;
         this.loadImage(this.IMAGES_INTRODUCE[0]);
         this.currentImage = 0;
@@ -168,7 +168,7 @@ class Endboss extends MovableObject {
      * @param {object} c -character
      */
     isAttacking(c) {
-        this.attack = true;
+        this.attacking = true;
         this.attackSpeedY = (c.collisionMinY + 0.5 * c.collisionHeight - (this.collisionMinY + 0.5 * this.collisionHeight)) / 10;
     }
 
@@ -189,7 +189,7 @@ class Endboss extends MovableObject {
                     //short timeout after dead animation
                     finishGame(true);
                 }
-            } else if (this.attack && !this.attackFinished) {
+            } else if (this.attacking && !this.attackFinished) {
                 // attack animation is shown only once, enboss moves to the attacked character
                 this.animateImagesOnce(this.IMAGES_ATTACK, 'attackFinished');
                 this.x += this.attackSpeedX;

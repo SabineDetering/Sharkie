@@ -78,13 +78,12 @@ class World {
      */
     run() {
         this.animationInterval = setInterval(() => {
-            //character can only act if it is not dead or hurt
+            //character can only collect, attack or be hurt if he is not dead or hurt
             if (!this.character.isDead() && !this.character.isHurt()) {
 
                 this.character.calculateCollisionCoordinates();
 
-                this.characterMeetsEndboss();
-
+                //contact with enemies
                 this.level.enemies.forEach((enemy) => {
                     enemy.calculateCollisionCoordinates();
                     if (enemy instanceof Pufferfish) {
@@ -93,98 +92,42 @@ class World {
                         this.characterMeetsJellyfish(enemy);
                     }
                 });
-            }
 
-            // starting bubble attack
-            if (this.keyboard.b) {
-                if (!this.character.isBubbling && !this.character.isBubblingPoison) {
-                    this.character.isBubbling = true;
-                    this.character.currentImage = 0;
+                // starting bubble attack
+                if (this.keyboard.b) {
+                    this.normalBubbleAttack();
                 }
-            }
-            if (this.keyboard.v) {
-                if (!this.character.isBubbling && !this.character.isBubblingPoison) {
-                    if (this.character.collectedPoisons > 0) {
-                        this.character.isBubblingPoison = true;
-                    } else { this.character.isBubbling = true; }
-                    this.character.currentImage = 0;
+                if (this.keyboard.v) {
+                    this.poisonedBubbleAttack();
                 }
+
+                //collect items
+                this.level.collectableObjects.forEach((object) => {
+                    this.characterMeetsCollectableObject(object);
+                });
             }
 
             //barrier
             this.level.backgroundObjects.filter(o => o instanceof Barrier).forEach(barrier => {
-                if (this.character.isColliding(barrier)) {
-                    this.character.barrierCollision = true;
-                    this.character.calcDistanceToBarrierEnd(barrier);
-                }
-            });
-
-            //collect items
-            this.level.collectableObjects.forEach((object) => {
-                if (this.character.isColliding(object)) {
-                    this.character.collect(object);
-                    object.delete(this.level.collectableObjects, object);
-                }
+                this.characterAvoidsBarrier(barrier);
             });
 
             //endboss
-            if (this.character.collisionMaxX >= this.endboss.x - 250) {
-                this.endboss.startAnimation(); //endboss is introduced                  
-            }
-            this.endboss.calculateCollisionCoordinates();
-            if (this.character.collisionMaxX > this.endboss.collisionMinX - 70 && !this.endboss.attack) {
-                this.endboss.currentImage = 0;
-                this.endboss.isAttacking(this.character);
-                if (soundOn) { this.endboss.attack_sound.play(); }
-            }
+            this.characterMeetsEndboss();
 
             //bubbles
             this.bubbles.forEach(bubble => {
-                bubble.calculateCollisionCoordinates();
-                if (bubble.collisionMaxY < 0) {
-                    bubble.delete(this.bubbles, bubble);
-                } else if (this.endboss.isColliding(bubble)) {//bubble meets endboss
-                    if (bubble.type == 'poisoned') {
-                        this.endboss.hit();
-                        if (soundOn) { this.character.bubble_sound.play(); }
-                    }
-                    bubble.delete(this.bubbles, bubble);
-                } else {
-                    this.level.enemies.forEach(enemy => {
-                        if (bubble.isColliding(enemy)) {//bubble meets enemy
-                            if (enemy instanceof Pufferfish) {
-                                bubble.delete(this.bubbles, bubble);
-                            } else {//bubble meets jellyfish
-                                bubble.withJelly(enemy.color);
-                                enemy.delete(this.level.enemies, enemy);
-                            }
-                            if (soundOn) { this.character.bubble_sound.play(); }
-                        }
-                    });
-                }
-
+                this.bubbleContacts(bubble);
             });
         }, 1000 / 60);
     }
 
 
-    /**
-     * after attack by endboss parameters of character are set to initiate death
-     */
-    characterMeetsEndboss() {
-        if (this.endboss.attackFinished && !this.character.killedByEndboss) {
-            this.character.killedByEndboss = true;
-            if (soundOn) { this.character.dead_sound.play(); }
-            this.character.currentImage = 0;
-            this.character.energy = 0;
-            this.lifeBar.showStatus(0);
-        }
-    }
-
 
     /**
      * collisions with pufferfish that were not slapped hit character (and hurt him)
-     * 
+     * if pufferfish is in a good position for slapping and space-key is pressed, it is slapped
+     * 'flight' direction depends on swimming direction of character
      * @param {object} pufferfish 
      */
     characterMeetsPufferfish(pufferfish) {
@@ -192,6 +135,7 @@ class World {
             this.character.hit(pufferfish);
         } else if (this.keyboard.space && pufferfish.isSlapped(this.character)) {
             //slapping is only possible if character is not colliding
+            //wait is true until slapping animation of character is done
             pufferfish.wait = true;
             if (this.character.otherDirection) {
                 pufferfish.slappedInverse = true;
@@ -209,12 +153,160 @@ class World {
      * 
      * @param {object} jellyfish - jellyfish
      */
-    characterMeetsJellyfish(jellyfish){
+    characterMeetsJellyfish(jellyfish) {
         if (this.character.isColliding(jellyfish)) {
             console.log('collision', jellyfish, this.character.energy);
             this.character.hit(jellyfish);
         }
-}
+    }
+
+    /**
+     * causes starting a normal bubble attack if character is not in progress of producing a bubble     * 
+     * sets character.currentImage to 0 to start animation with first image
+     */
+    normalBubbleAttack() {
+        if (!this.character.isBubbling && !this.character.isBubblingPoison) {
+            this.character.isBubbling = true;
+            this.character.currentImage = 0;
+        }
+    }
+
+
+    /**
+     * causes starting a poisoned bubble attack if character is not in progress of producing a bubble
+     * poisoned bubbles are only possible if character has poison available
+     * otherwise a normal bubbling is started
+     * sets character.currentImage to 0 to start animation with first image
+     */
+    poisonedBubbleAttack() {
+        if (!this.character.isBubbling && !this.character.isBubblingPoison) {
+            if (this.character.collectedPoisons > 0) {
+                this.character.isBubblingPoison = true;
+            } else { this.character.isBubbling = true; }
+            this.character.currentImage = 0;
+        }
+    }
+
+
+    /**
+     * if character collides with object it is counted as collected and deleted from collectable objects
+     * @param {object} object - collectable object
+     */
+    characterMeetsCollectableObject(object) {
+        if (this.character.isColliding(object)) {
+            this.character.collect(object);
+            object.delete(this.level.collectableObjects, object);
+        }
+    }
+
+
+    /**
+     * lets character swim around barrier
+     * @param {object} barrier 
+     */
+    characterAvoidsBarrier(barrier) {
+        if (this.character.isColliding(barrier)) {
+            this.character.barrierCollision = true;
+            this.character.calcDistanceToBarrierEnd(barrier);
+        }
+    }
+
+
+    /**
+     * endboss animation is started when character approaches his position
+     * endboss attack is started when character comes too close 
+     * after endboss attack, character death animation is started
+     */
+    characterMeetsEndboss() {
+        if (this.character.collisionMaxX >= this.endboss.x - 250) {
+            this.endboss.startAnimation(); //endboss is introduced                  
+        }
+
+        this.endboss.calculateCollisionCoordinates();
+
+        if (this.character.collisionMaxX > this.endboss.collisionMinX - 70 && !this.endboss.attacking) {
+            this.endbossStartsAttack();
+        }
+
+        this.characterAfterEndbossAttack();
+    }
+
+
+    /**
+     * lets endboss start attacking character
+     * sets endboss.currentImage to 0 to start animation with first image
+     */
+    endbossStartsAttack() {
+        this.endboss.currentImage = 0;
+        this.endboss.isAttacking(this.character);
+        if (soundOn) { this.endboss.attack_sound.play(); }
+    }
+
+
+    /**
+     * after attack by endboss parameters of character are set to initiate death
+     * sets character.currentImage to 0 to start animation with first image
+     */
+    characterAfterEndbossAttack() {
+        if (this.endboss.attackFinished && !this.character.killedByEndboss) {
+            this.character.killedByEndboss = true;
+            if (soundOn) { this.character.dead_sound.play(); }
+            this.character.currentImage = 0;
+            this.character.energy = 0;
+            this.lifeBar.showStatus(0);
+        }
+    }
+
+
+    /**
+     * deletes bubble when vertically out of sight
+     * checks for bubble collisions with endboss or enemies
+     * @param {object} bubble 
+     */
+    bubbleContacts(bubble) {
+        bubble.calculateCollisionCoordinates();
+        if (bubble.collisionMaxY < 0) {
+            bubble.delete(this.bubbles, bubble);
+        } else if (this.endboss.isColliding(bubble)) {
+            this.bubbleMeetsEndboss(bubble);
+        } else {
+            this.level.enemies.forEach(enemy => {
+                this.bubbleMeetsEnemy(bubble, enemy);
+            });
+        }
+    }
+
+
+    /**
+     * when bubble meets endboss, only poisoned bubbles hurt him (by calling endboss.hit())
+     * bubble is deleted
+     * @param {*} bubble 
+     */
+    bubbleMeetsEndboss(bubble) {
+        if (bubble.type == 'poisoned') {
+            this.endboss.hit();
+            if (soundOn) { this.character.bubble_sound.play(); }
+        }
+        bubble.delete(this.bubbles, bubble);
+    }
+
+    /**
+     * when colliding with pufferfish, bubble is deleted
+     * when colliding with jellyfish, jellyfish is trapped so that appearance of bubble changes and jellyfish is deleted
+     * @param {object} bubble 
+     * @param {object} enemy 
+     */
+    bubbleMeetsEnemy(bubble, enemy) {
+        if (bubble.isColliding(enemy)) {
+            if (enemy instanceof Pufferfish) {
+                bubble.delete(this.bubbles, bubble);
+            } else {//bubble meets jellyfish
+                bubble.withJelly(enemy.color);
+                enemy.delete(this.level.enemies, enemy);
+            }
+            if (soundOn) { this.character.bubble_sound.play(); }
+        }
+    }
 
     /**
      * main function for drawing objects
