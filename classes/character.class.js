@@ -326,7 +326,7 @@ class Character extends MovableObject {
                 if (soundOn) { this.swim_sound.play(); }
             }
             if (this.barrierCollision) {
-                animateAvoidingBarrier();
+                this.animateAvoidingBarrier();
             }
             this.world.camera_x = -this.x + 30;
         }, 1000 / 60);

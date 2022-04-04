@@ -29,10 +29,10 @@ function level2() {
                 new Coin(2000, 220),
                 new Coin(2000, 320),
                 new AnimatedPoison(2455, 415),
-                new Poison(2540, 220, 'img/4.Marcadores/Posión/Dark - Left.png')
+                new Poison(2890, 270, 'img/4.Marcadores/Posión/Dark - Left.png')
             ],
         startX: -680,
-        endX: 4 * 780,
+        endX: 5 * 780,
         backgroundObjects:
             [
                 new BackgroundObject('./img/3.Background/Layers/5.Water/D2.png', -780),
@@ -62,6 +62,11 @@ function level2() {
                 new BackgroundObject('./img/3.Background/Layers/3.Fondo_1/D2.png', 3 * 780),
                 new BackgroundObject('./img/3.Background/Layers/2.Floor/D2.png', 3 * 780),
                 new BackgroundObject('./img/3.Background/Layers/1.Light/2.png', 3 * 780),
+                new BackgroundObject('./img/3.Background/Layers/5.Water/D1.png', 4 * 780),
+                new BackgroundObject('./img/3.Background/Layers/4.Fondo_2/D1.png', 4 * 780),
+                new BackgroundObject('./img/3.Background/Layers/3.Fondo_1/D1.png', 4 * 780),
+                new BackgroundObject('./img/3.Background/Layers/2.Floor/D1.png', 4 * 780),
+                new BackgroundObject('./img/3.Background/Layers/1.Light/1.png', 4 * 780),
 
                 new Barrier('./img/3.Background/Barrier/2.png', 1000)
             ]

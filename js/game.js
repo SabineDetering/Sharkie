@@ -103,6 +103,7 @@ function showWinScreen() {
 function showLooseScreen() {
     getId('loose-screen').style.display = "flex";
     getId('again-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
+    // delete this.level;
 }
 
 
@@ -114,7 +115,6 @@ function toggleVolume(number) {
 
 function setVolumeIcon(number) {
     volume = getId('volume'+number);
-    // volume = getId(`volume${number}`);
     if (soundOn) {
         volume.src = "./img/volume-off.png";
         volume.alt = "sound off";
@@ -129,7 +129,6 @@ function setVolumeIcon(number) {
 
 window.addEventListener('keydown', (e) => {
     keyboard.lastKeyMove = new Date().getTime();
-    // console.log('keydown', keyboard.lastKeyMove);
     if (e.key == "ArrowLeft") {
         keyboard.left = true;
     }
@@ -156,7 +155,6 @@ window.addEventListener('keydown', (e) => {
 
 window.addEventListener('keyup', (e) => {
     keyboard.lastKeyMove = new Date().getTime();
-    // console.log('keyup', keyboard.lastKeyMove);
     if (e.key == "ArrowLeft") {
         keyboard.left = false;
     }

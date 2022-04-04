@@ -15,12 +15,14 @@ class World {
     win_sound = new Audio('./audio/win.mp3');
     loose_sound = new Audio('./audio/loose.mp3');
 
+    drawRepeat;
+
     constructor(canvas, keyboard, level) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.level = level;
-        this.draw();
+        // this.draw();
         this.setWorld();
         // this.run();
     }
@@ -33,6 +35,7 @@ class World {
         // console.log('animation started');
         this.character.animate();
         this.level.enemies.forEach(o => { o.animate(); });
+        this.draw();
         this.run();
     }
 
@@ -44,6 +47,7 @@ class World {
         this.level.collectableObjects.forEach(o => { o.delete(this.level.collectableObjects, o) });        
         this.bubbles.forEach(o => { o.delete(this.bubbles, o) });
         clearInterval(this.animationInterval);
+        cancelAnimationFrame(this.drawRepeat);
     }
 
 
@@ -198,7 +202,7 @@ class World {
         this.addStaticToCanvas(this.endboss.lifeBarEndboss);
 
         let self = this;
-        requestAnimationFrame(function () {
+        this.drawRepeat=requestAnimationFrame(function () {
             self.draw();
         });
     }
