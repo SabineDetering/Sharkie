@@ -27,7 +27,6 @@ class Character extends MovableObject {
     swim_sound = new Audio('./audio/silent_swim.mp3');
     collectCoin_sound = new Audio('./audio/coin.mp3');
     collectPoison_sound = new Audio('./audio/glass.mp3');
-    slap_sound = new Audio('./audio/slap.mp3');
     bubble_sound = new Audio('./audio/bubble.mp3');
     hurt_sound = new Audio('./audio/hurt.mp3');
     shocked_sound = new Audio('./audio/shock.mp3');
@@ -384,17 +383,16 @@ class Character extends MovableObject {
                 } else {//hit by jellyfish
                     this.animateImages(this.IMAGES_HURT_SHOCK);
                 }
-            } else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
-                this.animateImages(this.IMAGES_SWIM);
             } else if (this.isSlapping) {//slapping move is only shown once
                 this.animateImagesOnce(this.IMAGES_ATTACK_FIN, 'isSlapping');
-                if (soundOn) { this.slap_sound.play(); }
-            } else if (this.isLongIdle()) {
-                this.animateImages(this.IMAGES_LONG_IDLE);
             } else if (this.isBubbling) {
                 this.animateBubbling('normal');
             } else if (this.isBubblingPoison) {
                 this.animateBubbling('poisoned');
+            } else if (this.world.keyboard.right || this.world.keyboard.left || this.world.keyboard.up || this.world.keyboard.down) {
+                this.animateImages(this.IMAGES_SWIM);
+            } else if (this.isLongIdle()) {
+                this.animateImages(this.IMAGES_LONG_IDLE);
             } else {
                 this.animateImages(this.IMAGES_IDLE);
             }

@@ -15,6 +15,7 @@ class Pufferfish extends MovableObject {
     slappedNormal = false;
     slappedInverse = false;
     wait = false;
+    slap_sound = new Audio('./audio/slap.mp3');
 
     animationIntervalMove;
     animationIntervalImg;
@@ -53,6 +54,7 @@ class Pufferfish extends MovableObject {
         this.animationIntervalImg = setInterval(() => {
             if (this.wait) {//waiting for fin slap finalisation
                 this.animateImagesOnce(this.IMAGES_SWIM.slice(0, 8), 'wait');
+                if (!this.wait) { if (soundOn) { this.slap_sound.play(); }}
             } else if (this.slappedNormal || this.slappedInverse) {
                 this.img = this.imageCache[this.IMG_DEAD];
             } else {
