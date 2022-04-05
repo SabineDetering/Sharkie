@@ -80,31 +80,7 @@ class World {
         this.animationInterval = setInterval(() => {
             //character can only collect, attack or be hurt if he is not dead or hurt
             if (!this.character.isDead() && !this.character.isHurt()) {
-
-                this.character.calculateCollisionCoordinates();
-
-                //contact with enemies
-                this.level.enemies.forEach((enemy) => {
-                    enemy.calculateCollisionCoordinates();
-                    if (enemy instanceof Pufferfish) {
-                        this.characterMeetsPufferfish(enemy);
-                    } else {//Jellyfish
-                        this.characterMeetsJellyfish(enemy);
-                    }
-                });
-
-                // starting bubble attack
-                if (this.keyboard.b) {
-                    this.normalBubbleAttack();
-                }
-                if (this.keyboard.v) {
-                    this.poisonedBubbleAttack();
-                }
-
-                //collect items
-                this.level.collectableObjects.forEach((object) => {
-                    this.characterMeetsCollectableObject(object);
-                });
+                this.characterActivities();
             }
 
             //barrier
@@ -123,6 +99,38 @@ class World {
     }
 
 
+    /**
+     * character activities that are only possible when character is not hurt or dead
+     * colliding with enemies, slap attack, bubble attack, collecting items
+     */
+    characterActivities() {
+        this.character.calculateCollisionCoordinates();
+
+        //contact with enemies
+        this.level.enemies.forEach((enemy) => {
+            enemy.calculateCollisionCoordinates();
+            if (enemy instanceof Pufferfish) {
+                this.characterMeetsPufferfish(enemy);
+            } else {//Jellyfish
+                this.characterMeetsJellyfish(enemy);
+            }
+        });
+
+        // starting bubble attack
+        if (this.keyboard.b) {
+            this.normalBubbleAttack();
+        }
+        if (this.keyboard.v) {
+            this.poisonedBubbleAttack();
+        }
+
+        //collect items
+        this.level.collectableObjects.forEach((object) => {
+            this.characterMeetsCollectableObject(object);
+        });
+    }
+
+
 
     /**
      * collisions with pufferfish that were not slapped hit character (and hurt him)
@@ -131,7 +139,7 @@ class World {
      * @param {object} pufferfish 
      */
     characterMeetsPufferfish(pufferfish) {
-        if (this.character.isColliding(pufferfish) && !pufferfish.slappedNormal && !pufferfish.slappedInverse) {//slapped enemies don't hurt
+        if (this.hurtingCollisionWithPufferfish(pufferfish)) {
             this.character.hit(pufferfish);
         } else if (this.keyboard.space && pufferfish.isSlapped(this.character)) {
             //slapping is only possible if character is not colliding
@@ -146,6 +154,10 @@ class World {
             //slapped out of sight
             pufferfish.delete(this.level.enemies, pufferfish)
         }
+    }
+//slapped enemies don't hurt
+    hurtingCollisionWithPufferfish(pufferfish) {
+        return this.character.isColliding(pufferfish) && !pufferfish.slappedNormal && !pufferfish.slappedInverse;
     }
 
 
@@ -218,13 +230,13 @@ class World {
      * after endboss attack, character death animation is started
      */
     characterMeetsEndboss() {
-        if (this.character.collisionMaxX >= this.endboss.x - 250) {
+        if (this.character.collisionMaxX >= this.endboss.x - 280) {
             this.endboss.startAnimation(); //endboss is introduced                  
         }
 
         this.endboss.calculateCollisionCoordinates();
 
-        if (this.character.collisionMaxX > this.endboss.collisionMinX - 70 && !this.endboss.attacking) {
+        if (this.character.collisionMaxX > this.endboss.collisionMinX - 100 && !this.endboss.attacking) {
             this.endbossStartsAttack();
         }
 
@@ -283,7 +295,7 @@ class World {
      * @param {*} bubble 
      */
     bubbleMeetsEndboss(bubble) {
-        if (bubble.type == 'poisoned') {
+        if (bubble.type == 'poisoned' && !this.endboss.isDead()) {
             this.endboss.hit();
             if (soundOn) { this.character.bubble_sound.play(); }
         }
@@ -315,7 +327,8 @@ class World {
         //clear canvas completely to enable redrawing
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        this.ctx.translate(this.camera_x, 0);//move coordinates to position of character before drawing
+        //move coordinates to position of character before drawing
+        this.ctx.translate(this.camera_x, 0);
 
         this.addStaticObjectsToCanvas(this.level.backgroundObjects);
         this.addStaticObjectsToCanvas(this.level.collectableObjects);
@@ -324,7 +337,8 @@ class World {
         this.addObjectsToCanvas(this.level.enemies);
         this.addObjectsToCanvas(this.bubbles);
 
-        this.ctx.translate(- this.camera_x, 0);//move coordinates back to normal after drawing
+        //move coordinates back to normal after drawing
+        this.ctx.translate(- this.camera_x, 0);
 
         //static elements (foreground)
         this.addStaticToCanvas(this.sharkie);

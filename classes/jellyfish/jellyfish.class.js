@@ -1,10 +1,10 @@
 class Jellyfish extends MovableObject {
     height = 80;
     width = 120;
-    collisionOffsetX = 25;
-    collisionOffsetY = 10;
-    collisionWidth = 75;
-    collisionHeight = 45;
+    collisionOffsetX = 30;
+    collisionOffsetY = 15;
+    collisionWidth = 60;
+    collisionHeight = 35;
     speedY = 7;
     animationInterval;
 

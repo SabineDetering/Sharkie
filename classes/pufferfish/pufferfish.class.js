@@ -1,10 +1,10 @@
 class Pufferfish extends MovableObject {
     height = 80;
     width = 120;
-    collisionOffsetX = 5;
-    collisionOffsetY = 5;
-    collisionWidth = 100;
-    collisionHeight = 62;
+    collisionOffsetX = 10;
+    collisionOffsetY = 10;
+    collisionWidth = 85;
+    collisionHeight = 50;
     hitSpeedX = -5;
     hitSpeedY = -3;
     otherDirection = false;

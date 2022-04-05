@@ -4,10 +4,10 @@ class Character extends MovableObject {
     x = 0;
     y = 100;
 
-    collisionOffsetX = 75;
-    collisionOffsetY = 170;
-    collisionWidth = 200;
-    collisionHeight = 90;
+    collisionOffsetX = 95;
+    collisionOffsetY = 175;
+    collisionWidth = 160;
+    collisionHeight = 75;
 
     speed = 1;
     barrierCollision = false;
@@ -218,7 +218,7 @@ class Character extends MovableObject {
      * reduces energy dependent on enemy
      * indirectly starts "isHurt"-interval by saving timestamp of hit
      * currentImage set to 0 to start hurt animation with first image
-     * lastHitBy saves attacker to use hurt images according to type of hurt
+     * lastHitBy saves attacker to use hurt images according to type of enemy
      * sound dependent on type of hurt/death
      * lifeBar is updated
      * @param {object} o - enemy that hit character
@@ -298,8 +298,7 @@ class Character extends MovableObject {
     animateMovement() {
         this.animationIntervalMove = setInterval(() => {
             //if killed by endboss or jellyfish and final image (bones) are positioned too high
-            if (this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length && this.collisionMaxY < 350
-                || this.isDead() && this.lastHitBy instanceof Jellyfish && this.currentImage >= this.IMAGES_DEAD_SHOCK.length && this.collisionMaxY < 350) {
+            if (this.bonesAfterDeathPositionedTooHigh()) {
                 //let bones fall to ground
                 this.y += 5;
                 this.calculateCollisionCoordinates();
@@ -329,6 +328,20 @@ class Character extends MovableObject {
             }
             this.world.camera_x = -this.x + 30;
         }, 1000 / 60);
+    }
+
+
+    /**
+     * true, if last image after dying shows bones and is positioned above ground
+     * @returns boolean
+     */
+    bonesAfterDeathPositionedTooHigh() {
+        //conditionEndboss is true if character is killed by endboss and dying animation is finished
+        let conditionEndboss = this.killedByEndboss && this.currentImage >= this.IMAGES_DEAD_ENDBOSS.length;
+        //conditionEndboss is true if character is killed by jellyfish and dying animation is finished
+        let conditionJellyfish = this.isDead() && this.lastHitBy instanceof Jellyfish && this.currentImage >= this.IMAGES_DEAD_SHOCK.length;
+        //return is true if the image of the dead character (bones) is positioned too high 
+        return (conditionEndboss || conditionJellyfish) && this.collisionMaxY < 350;
     }
 
     animateAvoidingBarrier() {

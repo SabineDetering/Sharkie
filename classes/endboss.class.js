@@ -181,14 +181,14 @@ class Endboss extends MovableObject {
             if (!this.isIntroduced) {
                 //intro animation is only shown once when endboss appears
                 this.animateImagesOnce(this.IMAGES_INTRODUCE, 'isIntroduced');
-            } else if (this.isHurt()) {
-                this.animateImages(this.IMAGES_HURT);
             } else if (this.isDead()) {
                 this.animateImagesDeath(this.IMAGES_DEAD);
                 if (this.currentImage >= this.IMAGES_DEAD.length + 25) {
-                    //short timeout after dead animation
+                    //short timeout after death animation
                     finishGame(true);
                 }
+            } else if (this.isHurt()) {
+                this.animateImages(this.IMAGES_HURT);
             } else if (this.attacking && !this.attackFinished) {
                 // attack animation is shown only once, enboss moves to the attacked character
                 this.animateImagesOnce(this.IMAGES_ATTACK, 'attackFinished');
