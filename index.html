@@ -63,6 +63,7 @@
 
             <canvas id="canvas" width="720" height="480"></canvas>
 
+            <!-- startscreen level1 -->
             <div id="level1-screen" class="startscreen">
                 <p>Sharkie is the friendliest shark ever, but he lives in a hostile environment. <br><br>All the other
                     animals he encounters are deathly dangerous for him. Luckily, he found out how to take advantage of
@@ -83,6 +84,7 @@
                 </div>
             </div>
 
+            <!-- startscreen level2 -->
             <div id="level2-screen" class="startscreen">
                 <p><br>
                     In this level, Sharkie meets even more dangerous animals. Be careful, to stay away from them and
@@ -107,6 +109,7 @@
                 </div>
             </div>
 
+            <!-- instruction screen  -->
             <div id="instruction-screen" class="startscreen t-center">
                 <div class="key-wrapper">
 
@@ -133,10 +136,14 @@
                     </div>
                 </div>
 
-                <button id="start-btn" class="startscreen-btn">
-                    Start level
-                </button>
-
+                <div class="vertical-btn-group">
+                    <button class="startscreen-btn" onclick="showHelp()">
+                        Help
+                    </button>
+                    <button id="start-btn" class="startscreen-btn">
+                        Start level
+                    </button>
+                </div>
                 <div class="settings">
                     <button class="instruction-btn">
                         <img id="fullscreen0" onclick="toggleFullscreen(0)" style="display: block;">
@@ -147,7 +154,39 @@
                 </div>
             </div>
 
+            <div id="help-screen" class="helpscreen">
+                <div class="overlay">
+                    <h2 class="t-center">How can Sharkie fight his enemies?</h2>
+                    <div class="d-flex align-center">
+                        <img src="./img/cut-pufferfish.png" width="70px" display="block">
+                        <p> Slap pufferfish with Sharkie's fin to get rid of them. Sharkie must be directly in front of
+                            or
+                            behind the enemey to hit it.
+                        </p>
+                    </div>
+                    <div class="d-flex align-center">
+                        <img src="./img/cut-2-jellyfish.png" width="70px" display="block">
+                        <p> Jellyfish are really dangerous, so keep your distance! The only way to fight them is to trap
+                            them in a bubble (no poison needed).
+                        </p>
+                    </div>
+                    <div class="d-flex align-center">
+                        <img src="./img/cut-endboss.png" width="70px" display="block">
+                        <p> It will take 3 poisoned bubbles to kill the killer whale. Be careful not to waste poison on
+                            other enemies or to bubble from far away!
+                        </p>
+                    </div>
+                </div>
+                <div class="t-center">
+                    <button class="endscreen-btn" onclick="hideHelp()">
+                        Back
+                    </button>
+                </div>
 
+
+            </div>
+
+            <!-- win screen -->
             <div id="win-screen" class="endscreen">
                 <img id="img-win" src="./img/win-screen-resized.png">
                 <div id="collected-coins">
@@ -160,11 +199,14 @@
                 </div>
             </div>
 
+            <!-- loose screen -->
             <div id="loose-screen" class="endscreen">
                 <img id="img-loose" src="./img/6.Botones/Tittles/Game Over/Recurso 13.png">
                 <button id="again-btn" class="endscreen-btn" onclick="">Try again</button>
             </div>
         </div>
+
+        <!-- undertitel instructions -->
         <div class="small-instructions">
             <span> arrows: move Sharkie</span>
             <span> space: fin slap</span>

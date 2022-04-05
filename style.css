@@ -26,6 +26,15 @@ h1 {
     color: #2F2771;
 }
 
+h2 {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-size: 28px;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+
 button {
     background-color: #388fc3;
     color: white;
@@ -43,8 +52,16 @@ button:hover {
     display: none;
 }
 
+.d-flex {
+    display: flex;
+}
+
 .t-center {
     text-align: center;
+}
+
+.align-center {
+    align-items: center;
 }
 
 .flex-center {
@@ -69,7 +86,7 @@ canvas {
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    min-height: 480px;
+    /* min-height: 480px; */
     height: 100%;
     box-sizing: border-box;
     background-image: url('./img/startscreen-background.png');
@@ -103,6 +120,42 @@ canvas {
     display: none;
     flex-direction: column;
     align-items: center;
+}
+
+.helpscreen {
+    display: none;
+    flex-direction: column;
+    /* align-items: center; */
+    /* justify-content: space-between; */
+    /* min-height: 480px; */
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    box-sizing: border-box;
+    background-image: url('./img/startscreen-background.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.overlay {
+    background-color: #564e9a6f;
+    padding: 16px;
+}
+
+
+.helpscreen p {
+    color: white;
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    /* padding: 32px; */
+    margin: 8px;
+}
+
+.helpscreen img {
+    width: 80px;
+    object-fit: contain;
 }
 
 .settings {
@@ -228,6 +281,6 @@ canvas {
     }
 
     .small-instructions {
-       display:none;
+        display: none;
     }
 }

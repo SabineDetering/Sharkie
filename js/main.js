@@ -71,6 +71,16 @@ function showInstructions(levelNumber) {
 }
 
 
+function showHelp() {
+    getId('help-screen').style.display = "flex";
+}
+
+
+function hideHelp() {
+    getId('help-screen').style.display = "none";
+}
+
+
 /**
  * starts the animation of all visible movable objects in the world and shows canvas
  * @param {integer} levelNumber 
