@@ -344,15 +344,28 @@ class Character extends MovableObject {
         return (conditionEndboss || conditionJellyfish) && this.collisionMaxY < 350;
     }
 
+
+    /**
+     * function is called when character collides with barrier
+     * when moving horizontally towards the barrier, an upwards movement is added to result in a diagonal movement
+     * downward movements are compensated completely in the beginning and middle part of barrier
+     * at the end of the barrier (measured by distanceToBarrierEnd) a diagonal downward movement is allowed
+     */
+
     animateAvoidingBarrier() {
-        // console.log('barrierCollision', this.collisionMaxX, this.collisionMaxY);
-        // console.log('distance', this.distanceToBarrierEnd);
-        //when blocked by barrier move upwards instead of sideways
-        if (this.world.keyboard.left || this.world.keyboard.right) {
+        //normal direction and beginning of barrier (no collision in the middle part) and move towards barrier
+        if (!this.otherDirection && this.distanceToBarrierEnd >= 150 && this.world.keyboard.right) {
+            //right + upwards = diagonal move
             this.y -= this.speed;
-        } else if (this.world.keyboard.down) {
+        }
+        //other direction and beginning of barrier (no collision in the middle part) and move towards barrier
+        else if (this.otherDirection && this.distanceToBarrierEnd >= 210 && this.world.keyboard.left) {
+            //left + upwards = diagonal move
+            this.y -= this.speed;
+        }
+        else if (this.world.keyboard.down) {
             //allow slightly moving downwards when character is at the and of the barrier but mainly moving sideways
-            if (this.otherDirection && this.distanceToBarrierEnd < 170) {
+            if (this.otherDirection && this.distanceToBarrierEnd < 210) {
                 this.y -= this.speed * 0.5;
                 this.x -= this.speed;
             } else if (!this.otherDirection && this.distanceToBarrierEnd < 150) {
