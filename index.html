@@ -65,20 +65,21 @@
 
             <!-- startscreen level1 -->
             <div id="level1-screen" class="startscreen">
-                <p>Sharkie is the friendliest shark ever, but he lives in a hostile environment. <br><br>All the other
+                <p class="p-32 m-0">Sharkie is the friendliest shark ever, but he lives in a hostile environment.
+                    <br><br>All the other
                     animals he encounters are deathly dangerous for him. Luckily, he found out how to take advantage of
                     the pollution of the sea to defend himself. <br><br>
                     Help Sharkie to fight his enemies and survive!
                 </p>
                 <div class="vertical-btn-group">
-                    <button class="startscreen-btn" onclick="showInstructions(1)">Instructions</button>
-                    <button class="startscreen-btn" onclick="startLevel(1)">Start game</button>
+                    <button class="btn w-240" onclick="showInstructions(1)">Instructions</button>
+                    <button class="btn w-240" onclick="startLevel(1)">Start game</button>
                 </div>
                 <div class="settings">
-                    <button class="instruction-btn">
+                    <button class="btn w-60">
                         <img id="fullscreen1" onclick="toggleFullscreen(1)" style="display: block;">
                     </button>
-                    <button class="instruction-btn">
+                    <button class="btn w-60">
                         <img id="volume1" onclick="toggleVolume(1)" style="display: block;">
                     </button>
                 </div>
@@ -86,24 +87,24 @@
 
             <!-- startscreen level2 -->
             <div id="level2-screen" class="startscreen">
-                <p><br>
+                <p class="p-32 m-0">
                     In this level, Sharkie meets even more dangerous animals. Be careful, to stay away from them and
                     fight them from a safe distance! <br><br>
                     With the coins collected in the previous level, Sharkie got some cures to improve his health.
                 </p>
                 <div class="vertical-btn-group">
-                    <button class="startscreen-btn" onclick="showInstructions(2)">
+                    <button class="btn w-240" onclick="showInstructions(2)">
                         Instructions
                     </button>
-                    <button class="startscreen-btn" onclick="startLevel(2)">
+                    <button class="btn w-240" onclick="startLevel(2)">
                         Start level
                     </button>
                 </div>
                 <div class="settings">
-                    <button class="instruction-btn">
+                    <button class="btn w-60">
                         <img id="fullscreen2" onclick="toggleFullscreen(2)" style="display: block;">
                     </button>
-                    <button class="instruction-btn">
+                    <button class="btn w-60">
                         <img id="volume2" onclick="toggleVolume(2)" style="display: block;">
                     </button>
                 </div>
@@ -115,40 +116,40 @@
 
                     <div class="flex-center">
                         <div class="t-center" style="width:190px">
-                            <button class="instruction-btn">&#5123;</button><br>
-                            <button class="instruction-btn">&#5130;</button>
-                            <button class="instruction-btn">&#5121;</button>
-                            <button class="instruction-btn">&#5125;</button>
+                            <button class="w-60">&#5123;</button><br>
+                            <button class="w-60">&#5130;</button>
+                            <button class="w-60">&#5121;</button>
+                            <button class="w-60">&#5125;</button>
                         </div>
-                        <span>move Sharkie</span><br>
+                        <span class="pt-8 m-0">move Sharkie</span><br>
                     </div>
                     <div class="flex-center">
-                        <button class="startscreen-btn" style="width:120px;">space</button> <span class="t-center"> fin
-                            slap</span><br>
+                        <button class="w-120">space</button>
+                        <span class="t-center pt-8 m-0">fin slap</span><br>
                     </div>
                     <div class="flex-center">
-                        <button class="instruction-btn">b</button>
-                        <span class="t-center">blow bubbles</span>
+                        <button class="w-60">b</button>
+                        <span class="t-center pt-8 m-0">blow bubbles</span>
                     </div>
                     <div class="flex-center">
-                        <button class="instruction-btn">v</button>
-                        <span class="t-center">blow poisoned bubbles</span>
+                        <button class="w-60">v</button>
+                        <span class="t-center pt-8 m-0">blow poisoned bubbles</span>
                     </div>
                 </div>
 
                 <div class="vertical-btn-group">
-                    <button class="startscreen-btn" onclick="showHelp()">
+                    <button class="btn w-240" onclick="showHelp()">
                         Help
                     </button>
-                    <button id="start-btn" class="startscreen-btn">
+                    <button id="start-btn" class="btn w-240">
                         Start level
                     </button>
                 </div>
                 <div class="settings">
-                    <button class="instruction-btn">
+                    <button class="btn w-60">
                         <img id="fullscreen0" onclick="toggleFullscreen(0)" style="display: block;">
                     </button>
-                    <button class="instruction-btn">
+                    <button class="btn w-60">
                         <img id="volume0" onclick="toggleVolume(0)" style="display: block;">
                     </button>
                 </div>
@@ -159,26 +160,26 @@
                     <h2 class="t-center">How can Sharkie fight his enemies?</h2>
                     <div class="d-flex align-center">
                         <img src="./img/cut-pufferfish.png" width="70px" display="block">
-                        <p> Slap pufferfish with Sharkie's fin to get rid of them. Sharkie must be directly in front of
+                        <p class="m-12"> Slap pufferfish with Sharkie's fin to get rid of them. Sharkie must be directly in front of
                             or
                             behind the enemey to hit it.
                         </p>
                     </div>
                     <div class="d-flex align-center">
                         <img src="./img/cut-2-jellyfish.png" width="70px" display="block">
-                        <p> Jellyfish are really dangerous, so keep your distance! The only way to fight them is to trap
+                        <p class="m-12"> Jellyfish are really dangerous, so keep your distance! The only way to fight them is to trap
                             them in a bubble (no poison needed).
                         </p>
                     </div>
                     <div class="d-flex align-center">
                         <img src="./img/cut-endboss.png" width="70px" display="block">
-                        <p> It will take 3 poisoned bubbles to kill the killer whale. Be careful not to waste poison on
+                        <p class="m-12"> It will take 3 poisoned bubbles to kill the killer whale. Be careful not to waste poison on
                             other enemies or to bubble from far away!
                         </p>
                     </div>
                 </div>
                 <div class="t-center">
-                    <button class="endscreen-btn" onclick="hideHelp()">
+                    <button class="btn w-240 mt-40" onclick="hideHelp()">
                         Back
                     </button>
                 </div>
@@ -190,19 +191,19 @@
             <div id="win-screen" class="endscreen">
                 <img id="img-win" src="./img/win-screen-resized.png">
                 <div id="collected-coins">
-                    <p id="coin-text"></p>
+                    <p id="coin-text" class="p-16 m-0"></p>
                     <img src="./img/4.Marcadores/1. Coins/1.png" style="width:50px;height:50px;">
                 </div>
                 <div class="btn-group">
-                    <button id="restart-btn" class="endscreen-btn">Restart level</button>
-                    <button id="next-btn" class="endscreen-btn">Next level</button>
+                    <button id="restart-btn" class="btn w-240 mt-40">Restart level</button>
+                    <button id="next-btn" class="btn w-240 mt-40">Next level</button>
                 </div>
             </div>
 
             <!-- loose screen -->
             <div id="loose-screen" class="endscreen">
                 <img id="img-loose" src="./img/6.Botones/Tittles/Game Over/Recurso 13.png">
-                <button id="again-btn" class="endscreen-btn" onclick="">Try again</button>
+                <button id="again-btn" class="btn w-240 mt-40" onclick="">Try again</button>
             </div>
         </div>
 

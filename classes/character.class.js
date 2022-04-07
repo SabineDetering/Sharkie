@@ -9,7 +9,7 @@ class Character extends MovableObject {
     collisionWidth = 160;
     collisionHeight = 75;
 
-    speed = 1;
+    speed = 1.8;
     barrierCollision = false;
     distanceToBarrierEnd;
     isSlapping = false;
@@ -305,26 +305,28 @@ class Character extends MovableObject {
             }
             //swimming movements
             this.swim_sound.pause();
-            if (this.world.keyboard.right && this.x < this.world.level.endX) {
-                this.x += this.speed;
-                this.otherDirection = false;
-                if (soundOn) { this.swim_sound.play(); }
-            }
-            if (this.world.keyboard.left && this.x > this.world.level.startX) {
-                this.x -= this.speed;
-                this.otherDirection = true;
-                if (soundOn) { this.swim_sound.play(); }
-            }
-            if (this.world.keyboard.up && this.collisionMinY > 0) {
-                this.y -= this.speed;
-                if (soundOn) { this.swim_sound.play(); }
-            }
-            if (this.world.keyboard.down && this.collisionMaxY < 460) {
-                this.y += this.speed;
-                if (soundOn) { this.swim_sound.play(); }
-            }
-            if (this.barrierCollision) {
-                this.animateAvoidingBarrier();
+            if (!this.isDead()) {
+                if (this.world.keyboard.right && this.x < this.world.level.endX) {
+                    this.x += this.speed;
+                    this.otherDirection = false;
+                    if (soundOn) { this.swim_sound.play(); }
+                }
+                if (this.world.keyboard.left && this.x > this.world.level.startX) {
+                    this.x -= this.speed;
+                    this.otherDirection = true;
+                    if (soundOn) { this.swim_sound.play(); }
+                }
+                if (this.world.keyboard.up && this.collisionMinY > 0) {
+                    this.y -= this.speed;
+                    if (soundOn) { this.swim_sound.play(); }
+                }
+                if (this.world.keyboard.down && this.collisionMaxY < 460) {
+                    this.y += this.speed;
+                    if (soundOn) { this.swim_sound.play(); }
+                }
+                if (this.barrierCollision) {
+                    this.animateAvoidingBarrier();
+                }
             }
             this.world.camera_x = -this.x + 30;
         }, 1000 / 60);
