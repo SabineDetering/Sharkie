@@ -2,10 +2,13 @@ class World {
     character = new Character();
     endboss = new Endboss();
     sharkie = new Picture(15, -25, 80, 90, './img/1.Sharkie/1.IDLE/1.png');
+
     lifeBar = new LifeBar();
     coinBar = new CoinBar();
     poisonBar = new PoisonBar();
-    whale = new Picture(555, -20, 70, 80, './img/2.Enemy/3 Final Enemy/2.floating/1.png');
+
+    lifeBar = new DynamicStatusBar(15, 35, 'life',100);
+
     bubbles = [];
     canvas;
     ctx;
@@ -155,7 +158,7 @@ class World {
             pufferfish.delete(this.level.enemies, pufferfish)
         }
     }
-//slapped enemies don't hurt
+    //slapped enemies don't hurt
     hurtingCollisionWithPufferfish(pufferfish) {
         return this.character.isColliding(pufferfish) && !pufferfish.slappedNormal && !pufferfish.slappedInverse;
     }
@@ -345,8 +348,10 @@ class World {
         this.addStaticToCanvas(this.lifeBar);
         this.addStaticToCanvas(this.coinBar);
         this.addStaticToCanvas(this.poisonBar);
-        this.addStaticToCanvas(this.whale);
-        this.addStaticToCanvas(this.endboss.lifeBarEndboss);
+        if (!this.endboss.wait) {
+            this.addStaticToCanvas(this.endboss.whale);
+            this.addStaticToCanvas(this.endboss.lifeBarEndboss);
+        }
 
         let self = this;
         this.drawRepeat = requestAnimationFrame(function () {
