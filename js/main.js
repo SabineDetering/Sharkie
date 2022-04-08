@@ -8,6 +8,7 @@ let endX;
 let healthImprovement = 0;
 let soundOn = true;
 let fullscreenOn = false;
+let gameRunning = false;
 
 //helper function
 function getId(id) {
@@ -24,6 +25,8 @@ function showStartScreen(levelNumber, onload = false) {
     getId('loose-screen').style.display = "none";
     getId('win-screen').style.display = "none";
     getId('canvas').style.display = "none";
+    getId('small-instructions').style.display = "none";
+    getId('settings-on-canvas').style.display = "none"; 
     getId(`level${levelNumber}-screen`).style.display = "flex";
     setFullscreenIcon(levelNumber);
     setVolumeIcon(levelNumber);
@@ -31,7 +34,7 @@ function showStartScreen(levelNumber, onload = false) {
         initGame();
     } else {
         initLevel(levelNumber);
-    }
+    } 
 }
 
 /**
@@ -89,14 +92,19 @@ function startLevel(levelNumber) {
     // console.log('Level ', levelNumber, ' started');
     getId(`level${levelNumber}-screen`).style.display = "none";
     getId('instruction-screen').style.display = "none";
+    setFullscreenIcon(-1);
+    setVolumeIcon(-1);
+    getId('small-instructions').style.display = "flex";
+    getId('settings-on-canvas').style.display = "flex"; 
     canvas = getId('canvas');
     canvas.style.display = "block";
     if (fullscreenOn) {
         canvas.requestFullscreen();
     }
-    if (soundOn) {
+        if (soundOn) {
         background_sound.play();
     }
+    gameRunning = true;
     world.startAnimation();
 }
 
@@ -109,6 +117,8 @@ function startLevel(levelNumber) {
  */
 function finishGame(playerWins) {
     console.log('finish executed');
+
+    gameRunning = false;
     if (fullscreenOn) {
         document.exitFullscreen(); 
     }
@@ -117,33 +127,39 @@ function finishGame(playerWins) {
 
     if (playerWins) {
         showWinScreen();
-        //collecting all coins improves health in next game by 50%
-        healthImprovement = world.character.collectedCoins / world.level.totalCoins / 2;
-        if (soundOn) { world.win_sound.play(); }
-        if (currentLevel == levelFunctions.length) {
-            getId('next-btn').style.display = "none";
-        } else {
-            getId('next-btn').style.display = "block";
-        }
     } else {
         showLooseScreen();
-        if (soundOn) { world.loose_sound.play(); }
-        healthImprovement = 0;
     }
 }
 
 
 function showWinScreen() {
+    if (soundOn) { world.win_sound.play(); }
+    getId('small-instructions').style.display = "none";
+    getId('settings-on-canvas').style.display = "none"; 
     getId('win-screen').style.display = "flex";
     getId('coin-text').innerHTML = `You have collected ${world.character.collectedCoins} of ${world.level.totalCoins} coins.<br> Each coin will improve your health in the next level.`;
+    //collecting all coins improves health in next game by 50%
+    healthImprovement = world.character.collectedCoins / world.level.totalCoins / 2;
+
+    if (currentLevel == levelFunctions.length) {
+        getId('next-btn').style.display = "none";
+    } else {
+        getId('next-btn').style.display = "block";
+        getId('next-btn').setAttribute('onclick', `showStartScreen(${currentLevel + 1})`);
+    }
     getId('restart-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
-    getId('next-btn').setAttribute('onclick', `showStartScreen(${currentLevel + 1})`);
     delete this.level;
 }
 
 
 function showLooseScreen() {
+    if (soundOn) { world.loose_sound.play(); }
+    getId('small-instructions').style.display = "none";
+    getId('settings-on-canvas').style.display = "none"; 
     getId('loose-screen').style.display = "flex";
+    healthImprovement = 0;
+
     getId('again-btn').setAttribute('onclick', `showStartScreen(${currentLevel})`);
     delete this.level;
 }
@@ -152,6 +168,12 @@ function showLooseScreen() {
 function toggleVolume(number) {
     soundOn = !soundOn;
     setVolumeIcon(number);
+    if (number == -1 && soundOn) {
+        background_sound.play();
+    }
+    if (number == -1 && !soundOn) {
+        background_sound.pause();
+    }
 }
 
 
@@ -169,9 +191,26 @@ function setVolumeIcon(number) {
 }
 
 
+document.addEventListener('fullscreenchange', checkFullscreen);
+
+function checkFullscreen() {
+    if (document.fullscreenElement) {
+        console.log(`Element: ${document.fullscreenElement.id} entered fullscreen mode.`);
+    } else {
+        console.log('Leaving fullscreen mode.');
+        if (fullscreenOn && gameRunning) {
+            toggleFullscreen(-1);
+        }
+    }
+}
+
+
 function toggleFullscreen(number) {
     fullscreenOn = !fullscreenOn;
     setFullscreenIcon(number);
+    if (fullscreenOn && gameRunning) {
+        canvas.requestFullscreen();
+    }
 }
 
 

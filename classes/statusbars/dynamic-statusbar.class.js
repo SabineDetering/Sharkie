@@ -8,7 +8,6 @@ class DynamicStatusBar extends DrawableObject {
     icon;
     emptyBar;
     filledBar;
-    factor;
     color;
 
     constructor(x, y, type, startvalue, color = 'green') {
@@ -31,10 +30,12 @@ class DynamicStatusBar extends DrawableObject {
     }
 
 
+    /**
+     * only relevant for lifebar
+     */
     reset() {
         this.barWidth = 130 * (1 + healthImprovement);
         this.emptyBar.width = this.barWidth;
         this.showStatus(100);
     }
-
 }

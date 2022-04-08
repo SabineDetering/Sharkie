@@ -186,13 +186,29 @@ button {
     background-color: #2e2771b7;
 }
 
-.small-instructions {
+#settings-on-canvas {
+    display: none;
+    align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: #2e2771b7;
+}
+
+#settings-on-canvas button {
+    border: none;
+    background-color: unset;
+    height: 50px;
+}
+
+#small-instructions {
     width: 720px;
     box-sizing: border-box;
     padding: 4px;
     margin: 0;
-    display: flex;
+    display: none;
     justify-content: space-between;
+    align-items: center;
 }
 
 #loose-screen {
@@ -249,7 +265,7 @@ button {
         width: 100%;
     }
 
-    .small-instructions {
+    #small-instructions {
         width: 100%;
 
     }
@@ -264,7 +280,7 @@ button {
         height: 100%;
     }
 
-    .small-instructions {
+    #small-instructions {
         display: none;
     }
 }

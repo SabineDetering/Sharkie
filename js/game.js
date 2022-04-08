@@ -49,5 +49,4 @@ window.addEventListener('keyup', (e) => {
     if (e.key == "v") {
         keyboard.v = false;
     }
-    // console.log(e);
 });

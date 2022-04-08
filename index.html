@@ -37,11 +37,6 @@
 
     <script src="./classes/statusbars/picture.class.js"></script>
     <script src="./classes/statusbars/dynamic-statusbar.class.js"></script>
-    <script src="./classes/statusbars/statusbar.class.js"></script>
-    <script src="./classes/statusbars/lifebar.class.js"></script>
-    <script src="./classes/statusbars/lifebar-endboss.class.js"></script>
-    <script src="./classes/statusbars/coinbar.class.js"></script>
-    <script src="./classes/statusbars/poisonbar.class.js"></script>
 
     <script src="./classes/collectable-objects/collectable-object.class.js"></script>
     <script src="./classes/collectable-objects/coin.class.js"></script>
@@ -62,7 +57,16 @@
         <h1>SharKie</h1>
         <div id="wrapper" class="wrapper">
 
+            <!-- canvas -->
             <canvas id="canvas" width="720" height="480"></canvas>
+            <div id="settings-on-canvas">
+                <button class="btn">
+                    <img id="fullscreen-1" onclick="toggleFullscreen(-1)" style="display: block;">
+                </button>
+                <button class="btn">
+                    <img id="volume-1" onclick="toggleVolume(-1)" style="display: block;">
+                </button>
+            </div>
 
             <!-- startscreen level1 -->
             <div id="level1-screen" class="startscreen">
@@ -209,7 +213,7 @@
         </div>
 
         <!-- undertitel instructions -->
-        <div class="small-instructions">
+        <div id="small-instructions">
             <span> arrows: move Sharkie</span>
             <span> space: fin slap</span>
             <span> b: bubble</span>
