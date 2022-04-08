@@ -7,7 +7,7 @@ class Endboss extends MovableObject {
     collisionOffsetY = 220;
     collisionWidth = 300;
     collisionHeight = 130;
-    speed = -0.8;
+    speed = -1;
 
     startEnergy = 100;
     energy = 100;
@@ -20,7 +20,8 @@ class Endboss extends MovableObject {
     whale ;
     lifeBarEndboss ;
 
-    attackSpeedX = -8;
+    attackDistance = 150;
+    attackSpeedX = -20;
     attackSpeedY;
 
     intro_sound = new Audio('./audio/endboss_intro.mp3');

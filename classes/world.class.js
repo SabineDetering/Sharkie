@@ -237,7 +237,7 @@ class World {
 
         this.endboss.calculateCollisionCoordinates();
 
-        if (this.character.collisionMaxX > this.endboss.collisionMinX - 100 && !this.endboss.attacking) {
+        if (this.character.collisionMaxX > this.endboss.collisionMinX - this.endboss.attackDistance && !this.endboss.attacking) {
             this.endbossStartsAttack();
         }
 

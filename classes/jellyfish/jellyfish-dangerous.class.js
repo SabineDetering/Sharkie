@@ -1,7 +1,7 @@
 class JellyfishDangerous extends Jellyfish{
 
-    speedY = 12;
-    maxSpeedX=30;
+    speedY = 17;
+    maxSpeedX=20;
 
     IMAGES = {
         'green':
