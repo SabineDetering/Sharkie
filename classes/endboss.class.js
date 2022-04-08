@@ -136,7 +136,7 @@ class Endboss extends MovableObject {
         if (this.wait) {
             this.wait = false;
             this.whale = new Picture(555, -20, 70, 80, './img/2.Enemy/3 Final Enemy/2.floating/1.png');
-            this.lifeBarEndboss = new LifeBarEndboss();
+            this.lifeBarEndboss = new DynamicStatusBar(555,35,'life',100,'orange');
             this.animate();
             if (soundOn) { this.intro_sound.play(); }
         }

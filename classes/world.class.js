@@ -1,13 +1,11 @@
 class World {
     character = new Character();
     endboss = new Endboss();
+
     sharkie = new Picture(15, -25, 80, 90, './img/1.Sharkie/1.IDLE/1.png');
-
-    lifeBar = new LifeBar();
-    coinBar = new CoinBar();
-    poisonBar = new PoisonBar();
-
-    lifeBar = new DynamicStatusBar(15, 35, 'life',100);
+    lifeBar = new DynamicStatusBar(15, 35, 'life', 100);
+    poisonBar = new DynamicStatusBar(15, 65, 'poison', 0);
+    coinBar = new DynamicStatusBar(15, 95, 'coin', 0);
 
     bubbles = [];
     canvas;
