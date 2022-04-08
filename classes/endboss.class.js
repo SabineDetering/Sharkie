@@ -126,7 +126,9 @@ class Endboss extends MovableObject {
         this.attackFinished = false;
         this.loadImage(this.IMAGES_INTRODUCE[0]);
         this.currentImage = 0;
-        this.lifeBarEndboss.showStatus(100);
+        if (this.lifeBarEndboss){
+            this.lifeBarEndboss.showStatus(100);
+        }
     }
 
 

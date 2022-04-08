@@ -1,23 +1,23 @@
 function level1() {
     const levelObjects = {
         enemies: [
-            new PufferfishGreen(-400, 360, true),
-            new PufferfishRed(-300, 160, true),
-            new PufferfishOrange(0, 100,true),
-            new PufferfishGreen(320, 190),
-            new PufferfishOrange(420, 70),
-            new PufferfishRed(500, 260),
-            new PufferfishRed(800, 320),
-            new PufferfishOrange(1000, 280),
-            new PufferfishOrange(1120, 70),
-            new PufferfishGreen(1320, 190),
-            new PufferfishRed(1600, 280),
-            new PufferfishRed(1950, 90),
-            new PufferfishOrange(2400, 130),
-            new PufferfishGreen(2600, 180),
-            new PufferfishRed(3000, 80),
-            new PufferfishOrange(3400, 240),
-            new PufferfishGreen(3600, 320)
+            new Pufferfish('green',-400, 360, true),
+            new Pufferfish('red',-300, 160, true),
+            new Pufferfish('orange',0, 100,true),
+            new Pufferfish('green',320, 190),
+            new Pufferfish('orange',420, 70),
+            new Pufferfish('red',500, 260),
+            new Pufferfish('red',800, 320),
+            new Pufferfish('orange',1000, 280),
+            new Pufferfish('orange',1120, 70),
+            new Pufferfish('green',1320, 190),
+            new Pufferfish('red',1600, 280),
+            new Pufferfish('red',1950, 90),
+            new Pufferfish('orange',2400, 130),
+            new Pufferfish('green',2600, 180),
+            new Pufferfish('red',3000, 80),
+            new Pufferfish('orange',3400, 240),
+            new Pufferfish('green',3600, 320)
         ],
         collectableObjects:
             [
