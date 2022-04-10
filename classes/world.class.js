@@ -384,14 +384,24 @@ class World {
     }
 
 
-    addBackgroundObjectsToCanvas(objects){
+    /**
+     * draws all background objects of an array
+     * @param {array} objects -array of background objects
+     */
+    addBackgroundObjectsToCanvas(objects) {
         objects.forEach(o => {
-        this.addBackgroundToCanvas(o);
+            this.addBackgroundToCanvas(o);
         })
     }
 
+
+    /**
+     * draws a single background object
+     * x-position of background object is calculated relative to x-position of character (=camera_x) to make an illusion of perspective
+     * @param {object} o - background object
+     */
     addBackgroundToCanvas(o) {
-         let x = o.x + this.camera_x * o.relativeSpeed;
+        let x = o.x + this.camera_x * o.relativeSpeed;
         this.ctx.drawImage(o.img, x, o.y, o.width, o.height);
     }
 
