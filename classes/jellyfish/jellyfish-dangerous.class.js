@@ -20,6 +20,7 @@ class JellyfishDangerous extends Jellyfish{
             ]
     };
 
+    
     constructor(color, x, y, pointofReturnLower) {
         super();
         this.x = x;

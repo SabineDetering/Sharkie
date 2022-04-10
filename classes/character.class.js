@@ -215,7 +215,7 @@ class Character extends MovableObject {
 
 
     /**
-     * reduces energy dependent on enemy
+     * reduces energy dependent on enemy type
      * indirectly starts "isHurt"-interval by saving timestamp of hit
      * currentImage set to 0 to start hurt animation with first image
      * lastHitBy saves attacker to use hurt images according to type of enemy
@@ -224,14 +224,7 @@ class Character extends MovableObject {
      * @param {object} o - enemy that hit character
      */
     hit(o) {
-        if (o instanceof JellyfishDangerous) {
-            this.energy -= 20;
-        } else if (o instanceof JellyfishNormal) {
-            this.energy -= 10;
-        } else {//pufferfish
-            this.energy -= 5;
-        }
-
+        this.reduceEnergy(o);    
         if (this.energy < 0) {
             this.energy = 0;
         } else {
@@ -248,6 +241,21 @@ class Character extends MovableObject {
             if (this.isDead()) { this.dead_sound.play(); }
         }
         console.log('hit', this.lastHitBy, this.energy);
+    }
+
+
+    /**
+     * reduces energy dependent on enemy type
+     * @param {object} o - object by which the character was hit
+     */
+    reduceEnergy(o) {
+        if (o instanceof JellyfishDangerous) {
+            this.energy -= 20;
+        } else if (o instanceof JellyfishNormal) {
+            this.energy -= 10;
+        } else {//pufferfish
+            this.energy -= 5;
+        }
     }
 
 
@@ -316,7 +324,7 @@ class Character extends MovableObject {
                     this.otherDirection = true;
                     if (soundOn) { this.swim_sound.play(); }
                 }
-                if (this.world.keyboard.up && this.collisionMinY > 0) {
+                if (this.world.keyboard.up && this.collisionMinY > 10) {
                     this.y -= this.speed;
                     if (soundOn) { this.swim_sound.play(); }
                 }
@@ -329,6 +337,7 @@ class Character extends MovableObject {
                 }
             }
             this.world.camera_x = -this.x + 30;
+            this.world.camera_y = this.y -100;
         }, 1000 / 60);
     }
 
@@ -353,14 +362,13 @@ class Character extends MovableObject {
      * downward movements are compensated completely in the beginning and middle part of barrier
      * at the end of the barrier (measured by distanceToBarrierEnd) a diagonal downward movement is allowed
      */
-
     animateAvoidingBarrier() {
-        //normal direction and beginning of barrier (no collision in the middle part) and move towards barrier
+        //normal direction and beginning of barrier and move towards barrier
         if (!this.otherDirection && this.distanceToBarrierEnd >= 150 && this.world.keyboard.right) {
             //right + upwards = diagonal move
             this.y -= this.speed;
         }
-        //other direction and beginning of barrier (no collision in the middle part) and move towards barrier
+        //other direction and beginning of barrier and move towards barrier
         else if (this.otherDirection && this.distanceToBarrierEnd >= 210 && this.world.keyboard.left) {
             //left + upwards = diagonal move
             this.y -= this.speed;

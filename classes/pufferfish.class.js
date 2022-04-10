@@ -90,8 +90,8 @@ class Pufferfish extends MovableObject {
             './img/2.Enemy/1.Puffer fish (3 color options)/2.transition/3.transition3.png',
             './img/2.Enemy/1.Puffer fish (3 color options)/2.transition/3.transition2.png',
             './img/2.Enemy/1.Puffer fish (3 color options)/2.transition/3.transition1.png'
-        ] 
-      }
+        ]
+    }
 
     IMG_DEAD = {
         'green': ['./img/2.Enemy/1.Puffer fish (3 color options)/4.DIE/1.1.png'],
@@ -118,27 +118,15 @@ class Pufferfish extends MovableObject {
         }
     }
 
+
     animate() {
         this.animationIntervalMove = setInterval(() => {
-            //slapped move shown after slap animation of character (during slap animation wait=true)
+            //slapped move shown after slap animation of character (during slap animation wait==true)
             if ((this.slappedNormal || this.slappedInverse) && !this.wait) {
-                if (this.slappedNormal) {
-                    this.x += this.hitSpeedX;
-                    this.y += this.hitSpeedY;
-                } else if (this.slappedInverse) {
-                    this.x -= this.hitSpeedX;
-                    this.y += this.hitSpeedY;
-                }
+                this.slappedMove();
             } else {//normal move
-                //change direction at horizontal ends of canvas (as standard)
-                if (!this.otherDirection && this.collisionMinX < this.pointOfReturnLeft || this.otherDirection && this.collisionMaxX > this.pointOfReturnRight) {
-                    this.otherDirection = !this.otherDirection;
-                }
-                if (this.otherDirection) {
-                    this.x += this.speed;
-                } else {
-                    this.x -= this.speed;
-                }
+                this.checkDirection();
+                this.normalMove();
             }
         }, 1000 / 60);
         this.animationIntervalImg = setInterval(() => {
@@ -151,6 +139,44 @@ class Pufferfish extends MovableObject {
                 this.animateImages(this.IMAGES_SWIM[this.color]);
             }
         }, 1000 / 10);
+    }
+
+
+    /**
+     * slapped pufferfish is "shot" diagonally upwards
+     * x-direction of movement depends on the direction of slapping
+     */
+    slappedMove() {
+        if (this.slappedNormal) {
+            this.x += this.hitSpeedX;
+            this.y += this.hitSpeedY;
+        } else if (this.slappedInverse) {
+            this.x -= this.hitSpeedX;
+            this.y += this.hitSpeedY;
+        }
+    }
+
+
+    /**
+     * swimming direction is changed on points of return
+     */
+    checkDirection() {
+        if (!this.otherDirection && this.collisionMinX < this.pointOfReturnLeft
+            || this.otherDirection && this.collisionMaxX > this.pointOfReturnRight) {
+            this.otherDirection = !this.otherDirection;
+        }
+    }
+
+
+    /**
+     * pufferfish normally move only horizontally
+     */
+    normalMove() {
+        if (this.otherDirection) {
+            this.x += this.speed;
+        } else {
+            this.x -= this.speed;
+        }
     }
 
 

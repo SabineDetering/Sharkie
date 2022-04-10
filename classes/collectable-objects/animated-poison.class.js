@@ -11,13 +11,15 @@ class AnimatedPoison extends CollectableObject {
         './img/4.Marcadores/Posión/Animada/8.png'
     ];
 
-    constructor(x, y) {
+    constructor(x, y, relativeSpeedX = 1, relativeSpeedY = 0) {
         super();
         this.x = x;
         this.y = y;
         this.calculateCollisionCoordinates();
         this.loadImage(this.IMAGES[0]);
         this.loadImages(this.IMAGES);
+        this.relativeSpeedX = relativeSpeedX;
+        this.relativeSpeedY = relativeSpeedY;
         this.animate();
     }
     animate() {

@@ -11,11 +11,13 @@ class Poison extends CollectableObject {
         './img/4.Marcadores/Posión/Animada/8.png'
     ];
 
-    constructor(x, y,image) {
+    constructor(x, y, image, relativeSpeedX = 1, relativeSpeedY = 0) {
         super();
         this.x = x;
         this.y = y;
         this.calculateCollisionCoordinates();
         this.loadImage(image);
+        this.relativeSpeedX = relativeSpeedX;
+        this.relativeSpeedY = relativeSpeedY;
     }
 }

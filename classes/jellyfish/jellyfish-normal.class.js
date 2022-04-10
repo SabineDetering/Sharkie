@@ -17,6 +17,7 @@ class JellyfishNormal extends Jellyfish {
             ]
     };
 
+    
     constructor(color, x, y) {
         super();
         this.x = x;
@@ -25,5 +26,4 @@ class JellyfishNormal extends Jellyfish {
         this.loadImage(this.IMAGES[color][0]);
         this.loadImages(this.IMAGES[color]);
     }
-
 }

@@ -6,6 +6,8 @@ class CollectableObject extends MovableObject {
     collisionWidth = this.width;
     collisionHeight = this.height;
     IMG;
+    relativeSpeedX;
+    relativeSpeedY;
 
     constructor() {
         super();

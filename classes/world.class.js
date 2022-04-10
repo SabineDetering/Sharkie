@@ -12,6 +12,7 @@ class World {
     ctx;
     keyboard;
     camera_x = 0;
+    camera_y = 0;
 
     win_sound = new Audio('./audio/win.mp3');
     loose_sound = new Audio('./audio/loose.mp3');
@@ -24,13 +25,15 @@ class World {
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.level = level;
-        // this.draw();
         this.setWorld();
-        // this.run();
     }
 
+
+    /**
+     * allows character to access the properties of all objects in the world
+     */
     setWorld() {
-        this.character.world = this;//allows character to use all variables of world
+        this.character.world = this;
     }
 
 
@@ -66,6 +69,7 @@ class World {
      */
     reset() {
         this.camera_x = 0;
+        this.camera_y = 0;
         this.character.reset();
         this.endboss.reset();
         this.lifeBar.reset();
@@ -303,6 +307,7 @@ class World {
         bubble.delete(this.bubbles, bubble);
     }
 
+
     /**
      * when colliding with pufferfish, bubble is deleted
      * when colliding with jellyfish, jellyfish is trapped so that appearance of bubble changes and jellyfish is deleted
@@ -321,6 +326,7 @@ class World {
         }
     }
 
+
     /**
      * main function for drawing objects
      */
@@ -328,11 +334,11 @@ class World {
         //clear canvas completely to enable redrawing
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.addBackgroundObjectsToCanvas(this.level.backgroundObjects);
+        this.addBackgroundObjectsToCanvas(this.level.collectableObjects);
 
         //move coordinates to position of character before drawing
         this.ctx.translate(this.camera_x, 0);
 
-        this.addStaticObjectsToCanvas(this.level.collectableObjects);
         this.addToCanvas(this.character);
         this.addToCanvas(this.endboss);
         this.addObjectsToCanvas(this.level.enemies);
@@ -346,6 +352,7 @@ class World {
         this.addStaticToCanvas(this.lifeBar);
         this.addStaticToCanvas(this.coinBar);
         this.addStaticToCanvas(this.poisonBar);
+        // statusbar for endboss is first shown when he is introduced
         if (!this.endboss.wait) {
             this.addStaticToCanvas(this.endboss.whale);
             this.addStaticToCanvas(this.endboss.lifeBarEndboss);
@@ -357,6 +364,7 @@ class World {
         });
     }
 
+
     /**
      * draws all (movable) objects of an array
      * @param {array} objects - array of movable objects
@@ -366,6 +374,7 @@ class World {
             this.addToCanvas(o);
         })
     }
+
 
     /**
      * draws a single movable object
@@ -385,8 +394,8 @@ class World {
 
 
     /**
-     * draws all background objects of an array
-     * @param {array} objects -array of background objects
+     * draws all (background) objects of an array
+     * @param {array} objects -array of (background) objects
      */
     addBackgroundObjectsToCanvas(objects) {
         objects.forEach(o => {
@@ -396,13 +405,14 @@ class World {
 
 
     /**
-     * draws a single background object
-     * x-position of background object is calculated relative to x-position of character (=camera_x) to make an illusion of perspective
-     * @param {object} o - background object
+     * draws a single (background) object
+     * position of object is calculated relative to position of character (=camera_x, camera_y) to create an illusion of perspective
+     * @param {object} o - (background) object
      */
     addBackgroundToCanvas(o) {
-        let x = o.x + this.camera_x * o.relativeSpeed;
-        this.ctx.drawImage(o.img, x, o.y, o.width, o.height);
+        let x = o.x + this.camera_x * o.relativeSpeedX;
+        let y = o.y + this.camera_y * o.relativeSpeedY;
+        this.ctx.drawImage(o.img, x, y, o.width, o.height);
     }
 
 
@@ -425,5 +435,4 @@ class World {
     addStaticToCanvas(o) {
         o.draw(this.ctx);
     }
-
 }
