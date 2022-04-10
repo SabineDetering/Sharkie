@@ -327,11 +327,11 @@ class World {
     draw() {
         //clear canvas completely to enable redrawing
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.addBackgroundObjectsToCanvas(this.level.backgroundObjects);
 
         //move coordinates to position of character before drawing
         this.ctx.translate(this.camera_x, 0);
 
-        this.addStaticObjectsToCanvas(this.level.backgroundObjects);
         this.addStaticObjectsToCanvas(this.level.collectableObjects);
         this.addToCanvas(this.character);
         this.addToCanvas(this.endboss);
@@ -381,6 +381,18 @@ class World {
         if (mo.otherDirection) {
             mo.flipImageBack(ctx);
         }
+    }
+
+
+    addBackgroundObjectsToCanvas(objects){
+        objects.forEach(o => {
+        this.addBackgroundToCanvas(o);
+        })
+    }
+
+    addBackgroundToCanvas(o) {
+         let x = o.x + this.camera_x * o.relativeSpeed;
+        this.ctx.drawImage(o.img, x, o.y, o.width, o.height);
     }
 
 
