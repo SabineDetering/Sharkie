@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let background;
 let currentLevel = 1;
 let level;//level object
 let levelFunctions = [level1, level2];
@@ -26,7 +27,7 @@ function showStartScreen(levelNumber, onload = false) {
     getId('win-screen').style.display = "none";
     getId('canvas').style.display = "none";
     getId('small-instructions').style.display = "none";
-    getId('settings-on-canvas').style.display = "none"; 
+    getId('settings-on-canvas').style.display = "none";
     getId(`level${levelNumber}-screen`).style.display = "flex";
     setFullscreenIcon(levelNumber);
     setVolumeIcon(levelNumber);
@@ -34,7 +35,7 @@ function showStartScreen(levelNumber, onload = false) {
         initGame();
     } else {
         initLevel(levelNumber);
-    } 
+    }
 }
 
 /**
@@ -43,9 +44,10 @@ function showStartScreen(levelNumber, onload = false) {
 function initGame() {
     canvas = getId('canvas');
     ctx = canvas.getContext('2d');
+    background = new Background();
     level = levelFunctions[0]();
     endX = level.endX;
-    world = new World(canvas, keyboard, level);
+    world = new World(canvas, keyboard, background, level);
     background_sound = new Audio('./audio/under_water.mp3');
     background_sound.loop = true;
 }
@@ -53,6 +55,7 @@ function initGame() {
 
 /**
  * adds a new instance of level to the world with all level specific objects
+ * level specific background objects are added to the standard background 
  * all other objects remain from the level before and are only reset
  * @param {integer} levelNumber 
  */
@@ -62,6 +65,7 @@ function initLevel(levelNumber) {
     world.level = level;
     endX = level.endX;
     world.reset();
+    world.backgroundObjects = background.backgroundObjects.concat(world.level.backgroundObjects);
 }
 
 
@@ -95,13 +99,13 @@ function startLevel(levelNumber) {
     setFullscreenIcon(-1);
     setVolumeIcon(-1);
     getId('small-instructions').style.display = "flex";
-    getId('settings-on-canvas').style.display = "flex"; 
+    getId('settings-on-canvas').style.display = "flex";
     canvas = getId('canvas');
     canvas.style.display = "block";
     if (fullscreenOn) {
         canvas.requestFullscreen();
     }
-        if (soundOn) {
+    if (soundOn) {
         background_sound.play();
     }
     gameRunning = true;
@@ -120,10 +124,10 @@ function finishGame(playerWins) {
 
     gameRunning = false;
     if (fullscreenOn) {
-        document.exitFullscreen(); 
+        document.exitFullscreen();
     }
     world.stopAnimation();
-    background_sound.pause(); 
+    background_sound.pause();
 
     if (playerWins) {
         showWinScreen();
@@ -136,7 +140,7 @@ function finishGame(playerWins) {
 function showWinScreen() {
     if (soundOn) { world.win_sound.play(); }
     getId('small-instructions').style.display = "none";
-    getId('settings-on-canvas').style.display = "none"; 
+    getId('settings-on-canvas').style.display = "none";
     getId('win-screen').style.display = "flex";
     getId('coin-text').innerHTML = `You have collected ${world.character.collectedCoins} of ${world.level.totalCoins} coins.<br> Each coin will improve your health in the next level.`;
     //collecting all coins improves health in next game by 50%
@@ -156,7 +160,7 @@ function showWinScreen() {
 function showLooseScreen() {
     if (soundOn) { world.loose_sound.play(); }
     getId('small-instructions').style.display = "none";
-    getId('settings-on-canvas').style.display = "none"; 
+    getId('settings-on-canvas').style.display = "none";
     getId('loose-screen').style.display = "flex";
     healthImprovement = 0;
 

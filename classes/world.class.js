@@ -11,6 +11,7 @@ class World {
     canvas;
     ctx;
     keyboard;
+    backgroundObjects;
     camera_x = 0;
     camera_y = 0;
 
@@ -20,11 +21,13 @@ class World {
     animationInterval;
     drawRepeat;
 
-    constructor(canvas, keyboard, level) {
+    constructor(canvas, keyboard,background, level) {
         this.ctx = canvas.getContext('2d');
         this.canvas = canvas;
         this.keyboard = keyboard;
         this.level = level;
+        //World backgroundObjects pools objects from background and from level
+        this.backgroundObjects= background.backgroundObjects.concat(this.level.backgroundObjects);
         this.setWorld();
     }
 
@@ -89,7 +92,7 @@ class World {
             }
 
             //barrier
-            this.level.backgroundObjects.filter(o => o instanceof Barrier).forEach(barrier => {
+            this.backgroundObjects.filter(o => o instanceof Barrier).forEach(barrier => {
                 this.characterAvoidsBarrier(barrier);
             });
 
@@ -333,7 +336,7 @@ class World {
     draw() {
         //clear canvas completely to enable redrawing
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.addBackgroundObjectsToCanvas(this.level.backgroundObjects);
+        this.addBackgroundObjectsToCanvas(this.backgroundObjects);
         this.addBackgroundObjectsToCanvas(this.level.collectableObjects);
 
         //move coordinates to position of character before drawing
