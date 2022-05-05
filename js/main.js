@@ -87,6 +87,16 @@ function hideHelp() {
     getId('help-screen').style.display = "none";
 }
 
+function showLegal() {
+    hideHelp();
+    getId('legal-screen').style.display = "flex";
+}
+
+
+function hideLegal() {
+    getId('legal-screen').style.display = "none";
+}
+
 
 /**
  * starts the animation of all visible movable objects in the world and shows canvas

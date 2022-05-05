@@ -158,35 +158,80 @@
                 </div>
             </div>
 
+            <!-- help screen -->
             <div id="help-screen" class="helpscreen">
                 <div class="overlay">
                     <h2 class="t-center">How can Sharkie fight his enemies?</h2>
                     <div class="d-flex align-center">
                         <img src="./img/cut-pufferfish.png" width="70px" display="block">
-                        <p class="m-12"> Slap pufferfish with Sharkie's fin to get rid of them. Sharkie must be directly in front of
+                        <p class="m-12"> Slap pufferfish with Sharkie's fin to get rid of them. Sharkie must be directly
+                            in front of
                             or
                             behind the enemey to hit it.
                         </p>
                     </div>
                     <div class="d-flex align-center">
                         <img src="./img/cut-2-jellyfish.png" width="70px" display="block">
-                        <p class="m-12"> Jellyfish are really dangerous, so keep your distance! The only way to fight them is to trap
+                        <p class="m-12"> Jellyfish are really dangerous, so keep your distance! The only way to fight
+                            them is to trap
                             them in a bubble (no poison needed).
                         </p>
                     </div>
                     <div class="d-flex align-center">
                         <img src="./img/cut-endboss.png" width="70px" display="block">
-                        <p class="m-12"> It will take 3 poisoned bubbles to kill the killer whale. Be careful not to waste poison on
+                        <p class="m-12"> It will take 3 poisoned bubbles to kill the killer whale. Be careful not to
+                            waste poison on
                             other enemies or to bubble from far away!
                         </p>
                     </div>
-                </div>
-                <div class="t-center">
-                    <button class="btn w-240 mt-40" onclick="hideHelp()">
-                        Back
-                    </button>
-                </div>
 
+                    <div class="btn-group">
+                        <div class="t-center">
+                            <button class="btn w-240 mt-40" onclick="hideHelp()">
+                                Back
+                            </button>
+                        </div>
+                        <div class="t-center">
+                            <button class="btn w-240 mt-40" onclick="showLegal()">
+                                About
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- legal screen -->
+            <div id="legal-screen" class="helpscreen">
+                <div class="overlay">
+                    <h2 class="t-center">Impressum</h2>
+                    <div class="d-flex justify-space">
+                        <div>
+                            <p>Angaben gemäß § 5 TMG</p>
+                            <p>Sabine Detering <br>
+                                Heideweg 14A<br>
+                                76149 Karlsruhe <br>
+                            </p>
+                        </div>
+                        <div>
+                            <p> <strong> Vertreten durch:</strong> <br>
+                                Sabine Detering<br>
+                            </p>
+                            <p><strong>Kontakt: </strong><br>
+                                Telefon: 0152-53458810<br>
+                                E-Mail: <a href='mailto:sabine.detering@web.de'>sabine.detering@web.de</a></p>
+                        </div>
+                    </div>
+                    <p> Website Impressum erstellt durch <a
+                            href="https://www.impressum-generator.de">impressum-generator.de</a> von der <a
+                            href="https://www.kanzlei-hasselbach.de/" rel="nofollow">Kanzlei Hasselbach</a></p>
+
+
+                    <div class="t-center">
+                        <button class="btn w-240 mt-40" onclick="hideLegal()">
+                            Back
+                        </button>
+                    </div>
+                </div>
 
             </div>
 
